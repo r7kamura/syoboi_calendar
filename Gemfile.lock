@@ -1,0 +1,39 @@
+GEM
+  remote: http://rubygems.org/
+  specs:
+    awesome_print (1.0.2)
+    coderay (1.0.5)
+    domain_name (0.5.2)
+      unf (~> 0.0.3)
+    mechanize (2.3)
+      domain_name (~> 0.5, >= 0.5.1)
+      mime-types (~> 1.17, >= 1.17.2)
+      net-http-digest_auth (~> 1.1, >= 1.1.1)
+      net-http-persistent (~> 2.5, >= 2.5.2)
+      nokogiri (~> 1.4)
+      ntlm-http (~> 0.1, >= 0.1.1)
+      webrobots (~> 0.0, >= 0.0.9)
+    method_source (0.7.0)
+    mime-types (1.18)
+    net-http-digest_auth (1.2)
+    net-http-persistent (2.6)
+    nokogiri (1.5.2)
+    ntlm-http (0.1.1)
+    pry (0.9.8.2)
+      coderay (~> 1.0.5)
+      method_source (~> 0.7)
+      slop (>= 2.4.4, < 3)
+    slop (2.4.4)
+    unf (0.0.5)
+      unf_ext
+    unf_ext (0.0.4)
+    webrobots (0.0.13)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  awesome_print
+  mechanize
+  pry
+  slop
