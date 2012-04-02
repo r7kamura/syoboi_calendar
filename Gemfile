@@ -3,7 +3,7 @@ source "http://rubygems.org"
 gem "mechanize"
 gem "slop"
 
-group :development do
+group :debug do
   gem "pry"
   gem "awesome_print"
 end
