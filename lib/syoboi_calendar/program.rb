@@ -1,7 +1,5 @@
 module SyoboiCalendar
   class Program
-    JSON_URL = "http://cal.syoboi.jp/json.php"
-
     EXT_PROGRAM_PARAM_MAP = {
       :channel_epd_url => "ChEPGURL",
       :channel_id      => "ChID",
@@ -38,6 +36,11 @@ module SyoboiCalendar
       :title
     )
 
+    # NOTICE: @blob is empty hash at first
+    # For example,
+    #   When self.channel_name is called,
+    #   update_detail is called automatically
+    #   and @blob is updated to fill up @blob[:channel_name]
     def initialize(args)
       @pid   = args[:pid] or return
       @tid   = args[:tid] or return
@@ -47,7 +50,7 @@ module SyoboiCalendar
 
     private
 
-    # call update_detail when matched method is called
+    # call update_detail if method name matches param name
     def method_missing(name, *args)
       if EXT_PROGRAM_PARAM_MAP[name]
         unless @has_ext_program_params
@@ -66,7 +69,7 @@ module SyoboiCalendar
       end
     end
 
-    # get json and update @blob
+    # get more detail of the program and update @blob
     def update_detail(type)
       case type
       when :program
@@ -78,7 +81,7 @@ module SyoboiCalendar
       end
     end
 
-    # request content to JSON API
+    # adjust query and get parsed json data
     def get_json(opts)
       Agent.json({
         :Req => "ProgramByPID",

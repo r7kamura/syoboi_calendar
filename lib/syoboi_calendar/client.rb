@@ -1,9 +1,6 @@
 module SyoboiCalendar
   class Client
-    BASE_URL   = "http://cal.syoboi.jp"
-    LOGIN_URL  = BASE_URL + "/usr"
-    SEARCH_URL = BASE_URL + "/find"
-
+    # initialize client and login if possible
     def initialize(args)
       @is_login = false
       @user = args[:user]
