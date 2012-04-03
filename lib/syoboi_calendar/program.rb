@@ -64,6 +64,10 @@ module SyoboiCalendar
       end
     end
 
+    def is_saisoku?
+      channel_name.match(first_channel) or first_channel.match(channel_name)
+    end
+
     private
 
     # call update_detail if method name matches param name
