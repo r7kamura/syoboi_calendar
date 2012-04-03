@@ -14,7 +14,7 @@ module SyoboiCalendar
     EXT_TITLE_PARAM_MAP = {
       :cat              => "Cat",
       :comment          => "Comment",
-      :first_ch         => "FirstCh",
+      :first_channel    => "FirstCh",
       :first_end_month  => "FirstEndMonth",
       :first_end_year   => "FirstEndYear",
       :first_month      => "FirstMonth",
@@ -48,36 +48,34 @@ module SyoboiCalendar
       @blob  = {}
     end
 
+    # get more detail of the program and update @blob
+    def update_detail(type)
+      case type
+      when :program
+        return if @has_ext_program_params
+        hash = get_json(:Req => "ProgramByPID")["Programs"][@pid.to_s]
+        EXT_PROGRAM_PARAM_MAP.each { |k, v| @blob[k] = hash[v] }
+        @has_ext_program_params = true
+      when :title
+        return if @has_ext_title_params
+        hash = get_json(:Req => "TitleFull")["Titles"][@tid.to_s]
+        EXT_TITLE_PARAM_MAP.each { |k, v| @blob[k] = hash[v] }
+        @has_ext_title_params = true
+      end
+    end
+
     private
 
     # call update_detail if method name matches param name
     def method_missing(name, *args)
       if EXT_PROGRAM_PARAM_MAP[name]
-        unless @has_ext_program_params
-          update_detail(:program)
-          @has_ext_program_params = true
-        end
+        update_detail(:program)
         @blob[name]
       elsif EXT_TITLE_PARAM_MAP[name]
-        unless @has_ext_title_params
-          update_detail(:title)
-          @has_ext_title_params = true
-        end
+        update_detail(:title)
         @blob[name]
       else
         super
-      end
-    end
-
-    # get more detail of the program and update @blob
-    def update_detail(type)
-      case type
-      when :program
-        hash = get_json(:Req => "ProgramByPID")["Programs"][@pid.to_s]
-        EXT_PROGRAM_PARAM_MAP.each { |k, v| @blob[k] = hash[v] }
-      when :title
-        hash = get_json(:Req => "TitleFull")["Titles"][@tid.to_s]
-        EXT_TITLE_PARAM_MAP.each { |k, v| @blob[k] = hash[v] }
       end
     end
 
