@@ -38,10 +38,6 @@ module SyoboiCalendar
       :title
     )
 
-    def self.agent
-      @agent ||= Mechanize.new
-    end
-
     def initialize(args)
       @pid   = args[:pid] or return
       @tid   = args[:tid] or return
@@ -86,7 +82,7 @@ module SyoboiCalendar
 
     # request content to JSON API
     def get_json(url)
-      JSON.parse(self.class.agent.get(url).content)
+      JSON.parse(SyoboiCalendar.agent.get(url).content)
     end
 
     # create URL for get_json
