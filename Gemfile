@@ -6,4 +6,5 @@ gem "slop"
 group :debug do
   gem "pry"
   gem "awesome_print"
+  gem "tapp"
 end
