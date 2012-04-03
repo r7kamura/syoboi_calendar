@@ -14,18 +14,14 @@ module SyoboiCalendar
     # login to SyoboiCalendar
     def login
       return if @is_login || !@user || !@pass
-      page = SyoboiCalendar.agent.get(LOGIN_URL)
-      form = page.forms[1]
-      form.usr  = @user
-      form.pass = @pass
-      SyoboiCalendar.agent.submit(form)
+      Agent.login(:user => @user, :pass => @pass)
       @is_login = true
     end
 
     # search programs
     def search(opts)
-      url  = create_search_url(opts)
-      page = SyoboiCalendar.agent.get(url)
+      query = create_search_query(opts)
+      page  = Agent.search(query)
       extract_programs(page)
     end
 
@@ -52,7 +48,7 @@ module SyoboiCalendar
     #   v:   return list(0)
     #   r:   range type(0..3)
     #   rd:  range(str)
-    def create_search_url(opts)
+    def create_search_query(opts)
       hash = {}
 
       case opts[:mode]
@@ -79,10 +75,10 @@ module SyoboiCalendar
         :comment  => :cm,
       }.each { |k, v| hash[v] = opts[k] if opts[k] }
 
-      SEARCH_URL + "?" + {
+      {
         :uuc => 1,
         :v   => 0,
-      }.merge(hash).map { |k, v| "#{k}=#{v}" }.join("&")
+      }.merge(hash)
     end
   end
 end

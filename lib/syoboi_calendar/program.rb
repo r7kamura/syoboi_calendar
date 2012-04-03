@@ -3,15 +3,15 @@ module SyoboiCalendar
     JSON_URL = "http://cal.syoboi.jp/json.php"
 
     EXT_PROGRAM_PARAM_MAP = {
-      :channel_epd_url => "ChID",
-      :channel_id      => "ChName",
-      :channel_name    => "ChEPGURL",
-      :comment         => "Count",
-      :config_flag     => "StTime",
+      :channel_epd_url => "ChEPGURL",
+      :channel_id      => "ChID",
+      :channel_name    => "ChName",
+      :comment         => "ConfFlag",
+      :config_flag     => "Count",
       :count           => "EdTime",
-      :end_time        => "SubTitle2",
-      :start_time      => "ProgComment",
-      :subtitle        => "ConfFlag"
+      :end_time        => "ProgComment",
+      :start_time      => "StTime",
+      :subtitle        => "SubTitle2"
     }
     EXT_TITLE_PARAM_MAP = {
       :cat              => "Cat",
@@ -70,28 +70,21 @@ module SyoboiCalendar
     def update_detail(type)
       case type
       when :program
-        url  = create_json_url(:Req => "ProgramByPID")
-        hash = get_json(url)["Programs"][@pid.to_s]
+        hash = get_json(:Req => "ProgramByPID")["Programs"][@pid.to_s]
         EXT_PROGRAM_PARAM_MAP.each { |k, v| @blob[k] = hash[v] }
       when :title
-        url  = create_json_url(:Req => "TitleFull")
-        hash = get_json(url)["Titles"][@tid.to_s]
+        hash = get_json(:Req => "TitleFull")["Titles"][@tid.to_s]
         EXT_TITLE_PARAM_MAP.each { |k, v| @blob[k] = hash[v] }
       end
     end
 
     # request content to JSON API
-    def get_json(url)
-      JSON.parse(SyoboiCalendar.agent.get(url).content)
-    end
-
-    # create URL for get_json
-    def create_json_url(opts)
-      JSON_URL + "?" + {
+    def get_json(opts)
+      Agent.json({
         :Req => "ProgramByPID",
         :PID => @pid,
         :TID => @tid
-      }.merge(opts).map { |k, v| "#{k}=#{v}" }.join("&")
+      }.merge(opts))
     end
   end
 end
