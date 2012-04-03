@@ -5,15 +5,16 @@ module SyoboiCalendar
     SEARCH_URL = BASE_URL + "/find"
 
     def initialize(args)
-      @user     = args[:user]
-      @pass     = args[:pass]
       @agent    = Mechanize.new
       @is_login = false
+      @user = args[:user]
+      @pass = args[:pass]
+      login
     end
 
     # login to SyoboiCalendar
     def login
-      return if @is_login
+      return if @is_login || !@user || !@pass
       page = @agent.get(LOGIN_URL)
       form = page.forms[1]
       form.usr  = @user
@@ -48,7 +49,7 @@ module SyoboiCalendar
 
     # Adjust opts and create URL to search programs or titles
     #   sd:  program(2) or title(0)
-    #   uuc: narrow the search to channel(1; require login)
+    #   uuc: narrow the search to login user's channel setting
     #   v:   return list(0)
     #   r:   range type(0..3)
     #   rd:  range(str)
