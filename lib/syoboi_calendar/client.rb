@@ -1,7 +1,6 @@
 module SyoboiCalendar
   class Client
     BASE_URL   = "http://cal.syoboi.jp"
-    JSON_URL   = BASE_URL + "/json.php"
     LOGIN_URL  = BASE_URL + "/usr"
     SEARCH_URL = BASE_URL + "/find"
 
@@ -23,10 +22,7 @@ module SyoboiCalendar
       @is_login = true
     end
 
-    # return array of hash
-    #   :tid
-    #   :pid
-    #   :title
+    # search programs
     def search(opts)
       url  = create_search_url(opts)
       page = @agent.get(url)
@@ -35,6 +31,7 @@ module SyoboiCalendar
 
     private
 
+    # return Array of #<SyoboiCalendar::Program> by #<Mechanize::Page>
     def extract_programs(page)
       page.search(".tframe tr td:nth-child(2) a").map do |a|
         if match = a.attributes["href"].value.match(%r|/tid/(\d+)/time#(\d+)$|)
@@ -49,13 +46,32 @@ module SyoboiCalendar
       end.compact
     end
 
+    # Adjust opts and create URL to search programs or titles
+    #   sd:  program(2) or title(0)
+    #   uuc: narrow the search to channel(1; require login)
+    #   v:   return list(0)
+    #   r:   range type(0..3)
+    #   rd:  range(str)
     def create_search_url(opts)
+      hash = {}
+
+      case opts[:mode]
+      when :title then hash[:sd] = 0
+      else             hash[:sd] = 2
+      end
+
+      case opts[:range]
+      when :all, nil then hash[:r] = 0
+      when :past     then hash[:r] = 1
+      when :future   then hash[:r] = 2
+      else                hash[:r] = 3
+        hash[:rd] = opts[:range]
+      end
+
       SEARCH_URL + "?" + {
-        :sd  => 2, # program
-        :uuc => 1, # user setting
-        :v   => 0, # list
-        :r   => 0  # all range
-      }.merge(opts).map { |k, v| "#{k}=#{v}" }.join("&")
+        :uuc => 1,
+        :v   => 0,
+      }.merge(hash).map { |k, v| "#{k}=#{v}" }.join("&")
     end
   end
 end

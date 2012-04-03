@@ -18,7 +18,6 @@ client = SyoboiCalendar::Client.new(
 )
 client.login
 result = client.search(
-  :r => 3,
-  :rd => "2011/10/1-2011/10/31"
+  :range => "2011/10/1-2011/10/31"
 )
 require "pry"; binding.pry
