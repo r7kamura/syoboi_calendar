@@ -69,6 +69,17 @@ module SyoboiCalendar
         hash[:rd] = opts[:range]
       end
 
+      hash[:pfn] = 2 if opts[:first]   # first episode
+      hash[:pfl] = 4 if opts[:final]   # final episode
+      hash[:pfn] = 1 if opts[:special] # special program
+
+      {
+        :title    => :kw,
+        :channel  => :ch,
+        :subtitle => :st,
+        :comment  => :cm,
+      }.each { |k, v| hash[v] = opts[k] if opts[k] }
+
       SEARCH_URL + "?" + {
         :uuc => 1,
         :v   => 0,
