@@ -12,6 +12,7 @@ module SyoboiCalendar
       @is_login = false
     end
 
+    # login to SyoboiCalendar
     def login
       return if @is_login
       page = @agent.get(LOGIN_URL)
@@ -22,20 +23,39 @@ module SyoboiCalendar
       @is_login = true
     end
 
-    def search
-      url = create_search_url
-      @agent.get(url)
+    # return array of hash
+    #   :tid
+    #   :pid
+    #   :title
+    def search(opts)
+      url  = create_search_url(opts)
+      page = @agent.get(url)
+      extract_programs(page)
     end
 
     private
 
-    def create_search_url
+    def extract_programs(page)
+      page.search(".tframe tr td:nth-child(2) a").map do |a|
+        if match = a.attributes["href"].value.match(%r|/tid/(\d+)/time#(\d+)$|)
+          Program.new(
+            :tid   => match[1],
+            :pid   => match[2],
+            :title => a.text
+          )
+        else
+          nil
+        end
+      end.compact
+    end
+
+    def create_search_url(opts)
       SEARCH_URL + "?" + {
         :sd  => 2, # program
-        :uud => 1, # user setting
+        :uuc => 1, # user setting
         :v   => 0, # list
-        :r   => 0, # all range
-      }.map { |k, v| "#{k}=#{v}" }.join("&")
+        :r   => 0  # all range
+      }.merge(opts).map { |k, v| "#{k}=#{v}" }.join("&")
     end
   end
 end
