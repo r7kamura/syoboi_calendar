@@ -26,13 +26,23 @@ module SyoboiCalendar
 
     # return Array of #<SyoboiCalendar::Program> by #<Mechanize::Page>
     def extract_programs(page)
-      page.search(".tframe tr td:nth-child(2) a").map do |a|
-        if match = a.attributes["href"].value.match(%r|/tid/(\d+)/time#(\d+)$|)
-          Program.new(
-            :tid   => match[1],
-            :pid   => match[2],
-            :title => a.text
-          )
+      page.search(".tframe tr").map do |tr|
+        args = {}
+
+        tr.search("td:nth-child(2) a").each do |a|
+          if match = a.attributes["href"].value.match(%r|/tid/(\d+)/time#(\d+)$|)
+            args[:tid]   = match[1]
+            args[:pid]   = match[2]
+            args[:title] = a.text
+          end
+        end
+
+        tr.search("td:nth-child(3)").each do |td|
+          args[:user_channel] = td.text
+        end
+
+        if args[:tid]
+          Program.new(args)
         else
           nil
         end

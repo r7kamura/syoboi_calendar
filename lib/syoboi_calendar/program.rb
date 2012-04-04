@@ -3,7 +3,8 @@ module SyoboiCalendar
     attr_reader(
       :pid,
       :tid,
-      :title
+      :title,
+      :user_channel
     )
 
     # need to request JSON API as query parameter
@@ -66,20 +67,16 @@ module SyoboiCalendar
     #   then update_detail is called automatically,
     #   and @blob is updated to fill up @blob[:channel_name]
     def initialize(args)
-      @pid   = args[:pid] or return
-      @tid   = args[:tid] or return
-      @title = args[:title]
-      @blob  = {}
+      @pid          = args[:pid] or return
+      @tid          = args[:tid] or return
+      @title        = args[:title]
+      @user_channel = args[:user_channel]
+      @blob         = {}
     end
 
     # SAISOKU means "the most earliest broadcasting in the World"
     def is_saisoku?
       channel_name.match(first_channel) || first_channel.match(channel_name)
-    end
-
-    # return a saisoku channel name in user's settings
-    def saisoku_channel_name
-      (is_saisoku? || [])[0]
     end
 
     # update params from detail data
