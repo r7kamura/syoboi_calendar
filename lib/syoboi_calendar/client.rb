@@ -26,7 +26,8 @@ module SyoboiCalendar
 
     # return Array of #<SyoboiCalendar::Program> by #<Mechanize::Page>
     def extract_programs(page)
-      page.search(".tframe tr").map do |tr|
+      programs = []
+      page.search(".tframe tr").each do |tr|
         args = {}
 
         tr.search("td:nth-child(2) a").each do |a|
@@ -38,15 +39,12 @@ module SyoboiCalendar
         end
 
         tr.search("td:nth-child(3)").each do |td|
-          args[:user_channel] = td.text
+          args[:channel_name] = td.text
         end
 
-        if args[:tid]
-          Program.new(args)
-        else
-          nil
-        end
-      end.compact
+        programs << Program.new(args) if args[:tid] && args[:pid]
+      end
+      programs
     end
 
     # Adjust opts and create URL to search programs or titles

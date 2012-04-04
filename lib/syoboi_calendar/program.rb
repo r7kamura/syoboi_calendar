@@ -4,7 +4,7 @@ module SyoboiCalendar
       :pid,
       :tid,
       :title,
-      :user_channel
+      :channel_name
     )
 
     # need to request JSON API as query parameter
@@ -19,7 +19,6 @@ module SyoboiCalendar
       :program => {
         :channel_epg_url => "ChEPGURL",
         :channel_id      => "ChID",
-        :channel_name    => "ChName",
         :comment         => "Comment",
         :config_flag     => "ConfFlag",
         :count           => "Count",
@@ -67,16 +66,16 @@ module SyoboiCalendar
     #   then update_detail is called automatically,
     #   and @blob is updated to fill up @blob[:channel_name]
     def initialize(args)
-      @pid          = args[:pid] or return
-      @tid          = args[:tid] or return
+      @pid          = args[:pid]
+      @tid          = args[:tid]
       @title        = args[:title]
-      @user_channel = args[:user_channel]
+      @channel_name = args[:channel_name]
       @blob         = {}
     end
 
     # SAISOKU means "the most earliest broadcasting in the World"
     def is_saisoku?
-      channel_name.match(first_channel) || first_channel.match(channel_name)
+      first_channel.match(channel_name)
     end
 
     # update params from detail data
