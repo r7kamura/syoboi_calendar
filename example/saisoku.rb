@@ -23,7 +23,8 @@ programs.sort! { |a, b| a.start_time.to_i <=> b.start_time.to_i}
 programs.each { |program|
   puts "|%s|%-8.8s|%s|" % [
     program.start_time.strftime("%Y-%m-%d %H:%M"),
-    program.saisoku_channel_name.tr("A-Z", "Ａ-Ｚ").tr(" ", ""),
+    program.saisoku_channel_name\
+      .tr("A-Z", "Ａ-Ｚ").tr("a-z", "ａ-ｚ").tr(" ", ""),
     program.title,
   ]
 }
