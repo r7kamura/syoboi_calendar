@@ -1,27 +1,29 @@
+# encoding: UTF-8
+
 $LOAD_PATH.unshift File.expand_path("../../lib", __FILE__)
 require "syoboi_calendar"
 
 args = Slop.parse :help => true do
   on :u, :user=, "Username on SyoboiCalendar"
   on :p, :pass=, "Password on SyoboiCalendar"
-  on :d, :debug, "Enable debug mode"
 end
 
-if args.debug?
-  require "bundler/setup"
-  Bundler.require(:debug)
-end
-
-client = SyoboiCalendar::Client.new(args)
-saisoku = client.search(
+client = SyoboiCalendar::Client.new(
+  :user => args[:user],
+  :pass => args[:pass]
+)
+programs = client.search(
   :first => true,
   :range => "2012/4/1-2012/4/30"
-).uniq(&:title).select(&:is_saisoku?).sort { |a, b|
-  a.start_time.to_i <=> b.start_time.to_i
-}.each { |item|
-  puts "%s %s" % [
-    Time.at(item.start_time.to_i).strftime("%Y-%m-%d %H:%M"),
-    item.title
+)[0..10]
+
+programs.uniq!(&:title)
+programs.select!(&:is_saisoku?)
+programs.sort! { |a, b| a.start_time.to_i <=> b.start_time.to_i}
+programs.each { |program|
+  puts "|%s|%-8.8s|%s|" % [
+    program.start_time.strftime("%Y-%m-%d %H:%M"),
+    program.saisoku_channel_name.tr("A-Z", "Ａ-Ｚ").tr(" ", ""),
+    program.title,
   ]
 }
-require "pry"; binding.pry
