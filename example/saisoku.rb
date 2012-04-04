@@ -15,7 +15,7 @@ client = SyoboiCalendar::Client.new(
 programs = client.search(
   :first => true,
   :range => "2012/4/1-2012/4/30"
-)[0..10]
+)
 
 programs.uniq!(&:title)
 programs.select!(&:is_saisoku?)
