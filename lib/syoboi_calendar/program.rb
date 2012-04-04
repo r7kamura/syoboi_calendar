@@ -77,12 +77,9 @@ module SyoboiCalendar
       channel_name.match(first_channel) or first_channel.match(channel_name)
     end
 
-    # get more detail of the program and update @blob
+    # update params from detail data
     def update_detail(type)
-      hash = Agent.json(:Req => REQ_MAP[type], :PID => @pid, :TID => @tid)
-      hash = hash[hash.keys.first]
-      hash = hash[hash.keys.first]
-
+      hash = get_detail(type)
       EXT_PARAM_MAP[type].each do |k, v|
         if v.is_a?(Array)
           @blob[k] = v[1].call(hash[v[0]])
@@ -90,6 +87,14 @@ module SyoboiCalendar
           @blob[k] = hash[v]
         end
       end
+    end
+
+    # request detail data
+    def get_detail(type)
+      hash = Agent.json(:Req => REQ_MAP[type], :PID => @pid, :TID => @tid)
+      hash = hash[hash.keys.first]
+      hash = hash[hash.keys.first]
+      hash
     end
   end
 end
