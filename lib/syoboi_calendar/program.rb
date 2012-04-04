@@ -15,15 +15,16 @@ module SyoboiCalendar
     # :method_name => "NameInSyoboiCalendarResponse"
     EXT_PARAM_MAP = {
       :program => {
-        :channel_epd_url => "ChEPGURL",
+        :channel_epg_url => "ChEPGURL",
         :channel_id      => "ChID",
         :channel_name    => "ChName",
-        :comment         => "ConfFlag",
-        :config_flag     => "Count",
-        :count           => "EdTime",
-        :end_time        => "ProgComment",
+        :comment         => "Comment",
+        :config_flag     => "ConfFlag",
+        :count           => "Count",
+        :end_time        => "EdTime",
         :start_time      => "StTime",
-        :subtitle        => "SubTitle2"
+        :subtitle        => "SubTitle",
+        :subtitle2       => "SubTitle2"
       },
       :title => {
         :cat              => "Cat",
