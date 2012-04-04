@@ -7,6 +7,17 @@ This is a Ruby Library for [SyoboiCalendar](http://cal.syoboi.jp/).
 ## Require
 * Ruby (>= 1.9.2)
 
+## Install
+~~~
+git clone git://github.com/r7kamura/SyoboiCalendar.git
+cd SyoboiCalendar
+gem install bundler
+bundle install
+
+# Try example script
+ruby example/search_saisoku.rb -u username -p password
+~~~
+
 ## Example
 ~~~
 require "syoboi_calender"
