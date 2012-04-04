@@ -6,6 +6,7 @@ require "syoboi_calendar"
 args = Slop.parse :help => true do
   on :u, :user=, "Username on SyoboiCalendar"
   on :p, :pass=, "Password on SyoboiCalendar"
+  on :r, :range=, "Date range (e.g. 2012/4/1-2012/4/30)"
 end
 
 client = SyoboiCalendar::Client.new(
@@ -14,7 +15,10 @@ client = SyoboiCalendar::Client.new(
 )
 programs = client.search(
   :first => true,
-  :range => "2012/4/1-2012/4/30"
+  :range => args[:range] || [ # today .. today + 1.month
+    Time.now + 0,
+    Time.now + 60 * 60 * 24 * 31
+  ].map { |i| Time.at(i).strftime("%Y/%m/%d") }.join("-")
 )
 
 programs.uniq!(&:title)
