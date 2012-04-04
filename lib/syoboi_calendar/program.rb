@@ -12,7 +12,8 @@ module SyoboiCalendar
       :title   => "TitleFull"
     }
 
-    # :method_name => "NameInSyoboiCalendarResponse"
+    # (1) :method_name => "NameInSyoboiCalendarResponse"
+    # (2) :method_name => ["NameInSyoboiCalendarResponse", callback]
     EXT_PARAM_MAP = {
       :program => {
         :channel_epg_url => "ChEPGURL",
@@ -21,8 +22,8 @@ module SyoboiCalendar
         :comment         => "Comment",
         :config_flag     => "ConfFlag",
         :count           => "Count",
-        :end_time        => "EdTime",
-        :start_time      => "StTime",
+        :end_time        => ["EdTime", proc { |val| Time.at(val.to_i) }],
+        :start_time      => ["StTime", proc { |val| Time.at(val.to_i) }],
         :subtitle        => "SubTitle",
         :subtitle2       => "SubTitle2"
       },
@@ -81,7 +82,14 @@ module SyoboiCalendar
       hash = Agent.json(:Req => REQ_MAP[type], :PID => @pid, :TID => @tid)
       hash = hash[hash.keys.first]
       hash = hash[hash.keys.first]
-      EXT_PARAM_MAP[type].each { |k, v| @blob[k] = hash[v] }
+
+      EXT_PARAM_MAP[type].each do |k, v|
+        if v.is_a?(Array)
+          @blob[k] = v[1].call(hash[v[0]])
+        else
+          @blob[k] = hash[v]
+        end
+      end
     end
   end
 end
