@@ -8,6 +8,7 @@ module SyoboiCalendar
     JSON_URL   = BASE_URL + "/json.php"
     LOGIN_URL  = BASE_URL + "/usr"
 
+    # login is option to search with user channel setting
     def initialize(opts = {})
       if opts[:user] && opts[:pass]
         login(opts[:user], opts[:pass])
