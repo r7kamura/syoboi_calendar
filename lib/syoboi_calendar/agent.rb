@@ -1,3 +1,5 @@
+require "uri"
+
 module SyoboiCalendar
   module Agent
     extend self
@@ -34,7 +36,7 @@ module SyoboiCalendar
 
     # change hash into URL query string
     def querinize(hash)
-      "?" + hash.map { |k, v| "#{k}=#{v}" }.join("&")
+      "?" + hash.map { |k, v| "#{k}=#{URI.encode(v.to_s)}" }.join("&")
     end
 
     def agent
