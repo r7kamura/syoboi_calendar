@@ -1,4 +1,5 @@
 require "uri"
+require "json"
 
 module SyoboiCalendar
   class Agent
