@@ -82,7 +82,7 @@ module SyoboiCalendar
     def update_detail(type)
       hash = get_detail(type)
       EXT_PARAM_MAP[type].each do |k, v|
-        if v.is_a?(Array)
+        if v.kind_of?(Array)
           @blob[k] = v[1].call(hash[v[0]])
         else
           @blob[k] = hash[v]
