@@ -16,7 +16,7 @@ module SyoboiCalendar
       form = page.forms[1]
       form.usr  = args[:user]
       form.pass = args[:pass]
-      agent.submit(form)
+      mechanize.submit(form)
     end
 
     def json(query)
@@ -31,7 +31,7 @@ module SyoboiCalendar
     private
 
     def get(url, hash = {})
-      agent.get(url + querinize(hash))
+      mechanize.get(url + querinize(hash))
     end
 
     # change hash into URL query string
@@ -39,8 +39,8 @@ module SyoboiCalendar
       "?" + hash.map { |k, v| "#{k}=#{URI.encode(v.to_s)}" }.join("&")
     end
 
-    def agent
-      @agent ||= Mechanize.new
+    def mechanize
+      @mechanize ||= Mechanize.new
     end
   end
 end
