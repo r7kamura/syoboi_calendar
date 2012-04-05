@@ -1,6 +1,6 @@
 module SyoboiCalendar
   class Client
-    # initialize client and login if possible
+    # user and pass are optional to search with user's channel setting
     def initialize(opts = {})
       @agent = Agent.new(:user => opts[:user], :pass => opts[:pass])
     end
