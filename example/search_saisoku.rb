@@ -23,7 +23,7 @@ programs = client.search(
 )
 
 programs.uniq!(&:title)
-programs.select!(&:is_saisoku?)
+programs.select!(&:saisoku?)
 programs.sort! { |a, b| a.start_time.to_i <=> b.start_time.to_i}
 programs.each { |program|
   puts "|%s|%-8.8s|%s|" % [

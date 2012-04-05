@@ -74,7 +74,7 @@ module SyoboiCalendar
     end
 
     # SAISOKU means "the most earliest broadcasting in the World"
-    def is_saisoku?
+    def saisoku?
       first_channel.match(channel_name)
     end
 
