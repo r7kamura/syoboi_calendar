@@ -92,10 +92,20 @@ module SyoboiCalendar
 
     # request detail data
     def get_detail(type)
-      hash = Agent.json(:Req => REQ_MAP[type], :PID => @pid, :TID => @tid)
+      hash = self.class.agent.json(
+        :Req => REQ_MAP[type],
+        :PID => @pid,
+        :TID => @tid
+      )
       hash = hash[hash.keys.first]
       hash = hash[hash.keys.first]
       hash
+    end
+
+    private
+
+    def self.agent
+      @agent ||= Agent.new
     end
   end
 end

@@ -1,24 +1,18 @@
 module SyoboiCalendar
   class Client
     # initialize client and login if possible
-    def initialize(args)
-      @is_login = false
-      @user = args[:user]
-      @pass = args[:pass]
-      login
+    def initialize(args = {})
+      @agent = Agent.new(:user => args[:user], :pass => args[:pass])
     end
 
-    # login to SyoboiCalendar
-    def login
-      return if @is_login || !@user || !@pass
-      Agent.login(:user => @user, :pass => @pass)
-      @is_login = true
+    def login?
+      @agent.login?
     end
 
     # search programs
     def search(opts)
       query = create_search_query(opts)
-      page  = Agent.search(query)
+      page  = @agent.search(query)
       extract_programs(page)
     end
 
