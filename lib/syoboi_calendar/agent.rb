@@ -3,8 +3,6 @@ require "json"
 
 module SyoboiCalendar
   class Agent
-    # These CONSTANTS will create method
-    #   such as Agent.base, Agent.search, Agent.json
     BASE_URL   = "http://cal.syoboi.jp"
     SEARCH_URL = BASE_URL + "/find"
     JSON_URL   = BASE_URL + "/json.php"
