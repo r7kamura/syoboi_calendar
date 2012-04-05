@@ -1,8 +1,8 @@
 module SyoboiCalendar
   class Client
     # initialize client and login if possible
-    def initialize(args = {})
-      @agent = Agent.new(:user => args[:user], :pass => args[:pass])
+    def initialize(opts = {})
+      @agent = Agent.new(:user => opts[:user], :pass => opts[:pass])
     end
 
     def login?

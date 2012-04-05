@@ -9,9 +9,9 @@ module SyoboiCalendar
     JSON_URL   = BASE_URL + "/json.php"
     LOGIN_URL  = BASE_URL + "/usr"
 
-    def initialize(args = {})
-      if args[:user] && args[:pass]
-        login(args[:user], args[:pass])
+    def initialize(opts = {})
+      if opts[:user] && opts[:pass]
+        login(opts[:user], opts[:pass])
       end
     end
 
