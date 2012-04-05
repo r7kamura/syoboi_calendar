@@ -1,24 +1,18 @@
 module SyoboiCalendar
   class Client
-    # initialize client and login if possible
-    def initialize(args)
-      @is_login = false
-      @user = args[:user]
-      @pass = args[:pass]
-      login
+    # user and pass are optional to search with user's channel setting
+    def initialize(opts = {})
+      @agent = Agent.new(:user => opts[:user], :pass => opts[:pass])
     end
 
-    # login to SyoboiCalendar
-    def login
-      return if @is_login || !@user || !@pass
-      Agent.login(:user => @user, :pass => @pass)
-      @is_login = true
+    def login?
+      @agent.login?
     end
 
     # search programs
     def search(opts)
       query = create_search_query(opts)
-      page  = Agent.search(query)
+      page  = @agent.search(query)
       extract_programs(page)
     end
 
@@ -42,48 +36,27 @@ module SyoboiCalendar
           args[:channel_name] = td.text
         end
 
-        programs << Program.new(args) if args[:tid] && args[:pid]
+        programs << Program.new(args) if args.has_key?(:tid)
       end
       programs
     end
 
-    # Adjust opts and create URL to search programs or titles
-    #   sd:  program(2) or title(0)
-    #   uuc: narrow the search to login user's channel setting
-    #   v:   return list(0)
-    #   r:   range type(0..3)
-    #   rd:  range(str)
+    # create hash for search query
     def create_search_query(opts)
-      hash = {}
-
-      case opts[:mode]
-      when :title then hash[:sd] = 0
-      else             hash[:sd] = 2
-      end
-
-      case opts[:range]
-      when :all, nil then hash[:r] = 0
-      when :past     then hash[:r] = 1
-      when :future   then hash[:r] = 2
-      else                hash[:r] = 3
-        hash[:rd] = opts[:range]
-      end
-
-      hash[:pfn] = 2 if opts[:first]   # first episode
-      hash[:pfl] = 4 if opts[:final]   # final episode
-      hash[:pfn] = 1 if opts[:special] # special program
-
       {
-        :title    => :kw,
-        :channel  => :ch,
-        :subtitle => :st,
-        :comment  => :cm,
-      }.each { |k, v| hash[v] = opts[k] if opts[k] }
-
-      {
-        :uuc => 1,
-        :v   => 0,
-      }.merge(hash)
+        :sd  => { nil => 2, :program => 2, :title => 0 }[opts[:mode]],
+        :r   => { nil => 0, :all => 0, :past => 1, :future => 2}[opts[:range]] || 3,
+        :rd  => opts[:range],
+        :kw  => opts[:title],
+        :ch  => opts[:channel],
+        :st  => opts[:subtitle],
+        :cm  => opts[:comment],
+        :uuc => opts[:uuc] || 1,     # use user's channel setting
+        :v   => opts[:v] || 0,       # list view
+        :pfn => opts[:first] && 2,   # first episode
+        :pfl => opts[:final] && 4,   # final episode
+        :pfs => opts[:special] && 1, # special program
+      }.select { |k, v| v }
     end
   end
 end

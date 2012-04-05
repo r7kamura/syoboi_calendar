@@ -82,7 +82,7 @@ module SyoboiCalendar
     def update_detail(type)
       hash = get_detail(type)
       EXT_PARAM_MAP[type].each do |k, v|
-        if v.is_a?(Array)
+        if v.kind_of?(Array)
           @blob[k] = v[1].call(hash[v[0]])
         else
           @blob[k] = hash[v]
@@ -92,10 +92,20 @@ module SyoboiCalendar
 
     # request detail data
     def get_detail(type)
-      hash = Agent.json(:Req => REQ_MAP[type], :PID => @pid, :TID => @tid)
+      hash = self.class.agent.json(
+        :Req => REQ_MAP[type],
+        :PID => @pid,
+        :TID => @tid
+      )
       hash = hash[hash.keys.first]
       hash = hash[hash.keys.first]
       hash
+    end
+
+    private
+
+    def self.agent
+      @agent ||= Agent.new
     end
   end
 end

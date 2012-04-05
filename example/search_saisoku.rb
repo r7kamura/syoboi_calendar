@@ -3,6 +3,7 @@
 $LOAD_PATH.unshift File.expand_path("../../lib", __FILE__)
 require "syoboi_calendar"
 
+require "slop"
 args = Slop.parse :help => true do
   on :u, :user=, "Username on SyoboiCalendar"
   on :p, :pass=, "Password on SyoboiCalendar"

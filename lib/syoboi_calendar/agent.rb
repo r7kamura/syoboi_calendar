@@ -1,7 +1,8 @@
-module SyoboiCalendar
-  module Agent
-    extend self
+require "uri"
+require "json"
 
+module SyoboiCalendar
+  class Agent
     # These CONSTANTS will create method
     #   such as Agent.base, Agent.search, Agent.json
     BASE_URL   = "http://cal.syoboi.jp"
@@ -9,12 +10,23 @@ module SyoboiCalendar
     JSON_URL   = BASE_URL + "/json.php"
     LOGIN_URL  = BASE_URL + "/usr"
 
-    def login(args)
+    def initialize(opts = {})
+      if opts[:user] && opts[:pass]
+        login(opts[:user], opts[:pass])
+      end
+    end
+
+    def login(user, pass)
       page = get LOGIN_URL
       form = page.forms[1]
-      form.usr  = args[:user]
-      form.pass = args[:pass]
-      agent.submit(form)
+      form.usr  = user
+      form.pass = pass
+      mechanize.submit(form)
+      @logined = true
+    end
+
+    def login?
+      @logined
     end
 
     def json(query)
@@ -29,16 +41,16 @@ module SyoboiCalendar
     private
 
     def get(url, hash = {})
-      agent.get(url + querinize(hash))
+      mechanize.get(url + querinize(hash))
     end
 
     # change hash into URL query string
     def querinize(hash)
-      "?" + hash.map { |k, v| "#{k}=#{v}" }.join("&")
+      "?" + hash.map { |k, v| "#{k}=#{URI.encode(v.to_s)}" }.join("&")
     end
 
-    def agent
-      @agent ||= Mechanize.new
+    def mechanize
+      @mechanize ||= Mechanize.new
     end
   end
 end
