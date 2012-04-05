@@ -36,7 +36,7 @@ module SyoboiCalendar
           args[:channel_name] = td.text
         end
 
-        programs << Program.new(args) if args[:tid] && args[:pid]
+        programs << Program.new(args) if args.has_key?(:tid)
       end
       programs
     end
