@@ -72,7 +72,7 @@ module SyoboiCalendar
         :sd  => { nil => 2, :program => 2, :title => 0 }[opts[:mode]],
         :r   => { nil => 0, :all => 0, :past => 1, :future => 2}[opts[:range]] || 3,
         :rd  => opts[:range],
-        :kw  => opts[:title],
+        :kw  => opts[:keyword],
         :ch  => opts[:channel],
         :st  => opts[:subtitle],
         :cm  => opts[:comment],

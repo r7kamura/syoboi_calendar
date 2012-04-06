@@ -44,7 +44,7 @@ module SyoboiCalendar
     #   and @blob is updated to fill up @blob[:channel_name]
     def initialize(args)
       @tid  = args[:tid]
-      @name = args[:title]
+      @name = args[:name]
       @blob = {}
     end
 
