@@ -19,3 +19,10 @@ titles = client.search(
   :mode    => :title,
   :keyword => args[:keyword],
 )
+
+require "awesome_print"
+titles.each do |title|
+  ap title.name
+  ap title.voice_actor_map
+  puts
+end

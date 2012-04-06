@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 module SyoboiCalendar
   class Title
     attr_reader(
@@ -60,6 +62,18 @@ module SyoboiCalendar
       end
     end
 
+    def voice_actors
+      voice_actor_map.values
+    end
+
+    def characters
+      voice_actor_map.keys
+    end
+
+    def voice_actor_map
+      @voice_actor_map ||= parse_comment
+    end
+
     # request detail data
     def get_detail
       hash = self.class.agent.json(
@@ -75,6 +89,20 @@ module SyoboiCalendar
 
     def self.agent
       @agent ||= Agent.new
+    end
+
+    # cast is like following format
+    # *{section1}:key1:val1\r\n:key2:val2\r\n
+    # *{section2}:key1:val1\r\n:key2:val2\r\n
+    def parse_comment
+      sections = comment.split(/^\*/)
+      section = sections.select { |sec| sec =~ /^キャスト/ }[0]
+      lines = section.split(/\r\n/)
+      lines.inject({}) do |hash, line|
+        _, character, actor = line.split(/:/)
+        hash[character] = actor if character && actor
+        hash
+      end
     end
   end
 end
