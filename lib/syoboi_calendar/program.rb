@@ -73,7 +73,6 @@ module SyoboiCalendar
       hash = self.class.agent.json(
         :Req => "ProgramByPID",
         :PID => @pid,
-        :TID => @tid
       )
       hash = hash[hash.keys.first]
       hash = hash[hash.keys.first]
