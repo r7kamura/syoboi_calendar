@@ -31,7 +31,7 @@ programs = client.search(
   :range => "2012/4/1-2012/4/30"
 )
 
-p programs[0].title         #=> "さんかれあ #1 私が…ゾンビに…なったら"
-p programs[0].first_channel #=> "TBS"
-p programs[0].start_time    #=> 2012-04-06 02:50:00 +0900
+p programs[0].name         #=> "さんかれあ #1 私が…ゾンビに…なったら"
+p programs[0].start_time   #=> 2012-04-06 02:50:00 +0900
+p programs[0].channel_name #=> "TBS"
 ~~~
