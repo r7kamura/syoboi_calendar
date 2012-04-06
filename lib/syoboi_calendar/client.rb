@@ -28,13 +28,13 @@ module SyoboiCalendar
 
         tr.search("td:nth-child(2) a").each do |a|
           if match = a.attributes["href"].value.match(%r|/tid/(\d+)/time#(\d+)$|)
-            args[:tid]   = match[1]
-            args[:pid]   = match[2]
-            args[:title] = a.text
+            args[:tid]  = match[1]
+            args[:pid]  = match[2]
+            args[:name] = a.text
           end
         end
 
-        tr.search("td:nth-child(3) a").each do |td|
+        tr.search("td:nth-child(3)").each do |td|
           args[:channel_name] = td.text
         end
 
@@ -53,8 +53,8 @@ module SyoboiCalendar
 
         tr.search("td:nth-child(1) a").each do |a|
           if match = a.attributes["href"].value.match(%r|/tid/(\d+)$|)
-            args[:tid]   = match[1]
-            args[:title] = a.text
+            args[:tid]  = match[1]
+            args[:name] = a.text
           end
         end
 

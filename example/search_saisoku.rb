@@ -29,6 +29,6 @@ programs.each { |program|
   puts "|%s|%-8.8s|%s|" % [
     program.start_time.strftime("%Y-%m-%d %H:%M"),
     program.channel_name.tr("A-Z", "Ａ-Ｚ").tr("a-z", "ａ-ｚ").tr(" ", ""),
-    program.title.gsub(/( #\d+).*/, '\1')
+    program.name.gsub(/( #\d+).*/, '\1')
   ]
 }
