@@ -13,22 +13,24 @@ module SyoboiCalendar
     def search(opts)
       query = create_search_query(opts)
       page  = @agent.search(query)
-      extract_programs(page)
+
+      opts[:mode] == :title ?
+        extract_titles(page) :
+        extract_programs(page)
     end
 
     private
 
     # return Array of #<SyoboiCalendar::Program> by #<Mechanize::Page>
-    def extract_programs(page)
-      programs = []
-      page.search(".tframe tr").each do |tr|
+    def extract_programs(page, opts = {})
+      page.search(".tframe tr").map do |tr|
         args = {}
 
         tr.search("td:nth-child(2) a").each do |a|
           if match = a.attributes["href"].value.match(%r|/tid/(\d+)/time#(\d+)$|)
-            args[:tid]   = match[1]
-            args[:pid]   = match[2]
-            args[:title] = a.text
+            args[:tid]  = match[1]
+            args[:pid]  = match[2]
+            args[:name] = a.text
           end
         end
 
@@ -36,9 +38,32 @@ module SyoboiCalendar
           args[:channel_name] = td.text
         end
 
-        programs << Program.new(args) if args.has_key?(:tid)
-      end
-      programs
+        if args.has_key?(:tid)
+          Program.new(args)
+        else
+          nil
+        end
+      end.compact
+    end
+
+    # return Array of #<SyoboiCalendar::Title> by #<Mechanize::Page>
+    def extract_titles(page, opts = {})
+      page.search(".tframe tr").map do |tr|
+        args = {}
+
+        tr.search("td:nth-child(1) a").each do |a|
+          if match = a.attributes["href"].value.match(%r|/tid/(\d+)$|)
+            args[:tid]  = match[1]
+            args[:name] = a.text
+          end
+        end
+
+        if args.has_key?(:tid)
+          Title.new(args)
+        else
+          nil
+        end
+      end.compact
     end
 
     # create hash for search query
