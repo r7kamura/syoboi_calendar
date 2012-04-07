@@ -23,6 +23,7 @@ titles = client.search(
 require "awesome_print"
 titles.each do |title|
   ap title.name
+  ap title.url
   ap title.voice_actor_map
   puts
 end
