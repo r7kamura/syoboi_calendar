@@ -10,11 +10,11 @@ module SyoboiCalendar
     end
 
     # search programs
-    def search(opts)
-      query = create_search_query(opts)
+    def search(args)
+      query = create_search_query(args)
       page  = @agent.search(query)
 
-      opts[:mode] == :title ?
+      args[:mode] == :title ?
         extract_titles(page) :
         extract_programs(page)
     end
@@ -70,7 +70,7 @@ module SyoboiCalendar
     def create_search_query(opts)
       {
         :sd  => { nil => 2, :program => 2, :title => 0 }[opts[:mode]],
-        :r   => { nil => 0, :all => 0, :past => 1, :future => 2}[opts[:range]] || 3,
+        :r   => { nil => 1, :all => 0, :past => 1, :future => 2}[opts[:range]] || 3,
         :rd  => opts[:range],
         :kw  => opts[:keyword],
         :ch  => opts[:channel],
