@@ -59,7 +59,17 @@ module SyoboiCalendar
     end
 
     def voice_actor_map
-      @voice_actor_map ||= parse_comment
+      @voice_actor_map ||= begin
+        update_detail_from_comment
+        @voice_actor_map
+      end
+    end
+
+    def url
+      @url ||= begin
+        update_detail_from_comment
+        @url
+      end
     end
 
     private
@@ -91,10 +101,28 @@ module SyoboiCalendar
       @agent ||= Agent.new
     end
 
+    def update_detail_from_comment
+      hash             = parse_comment
+      @url             = hash[:url]
+      @voice_actor_map = hash[:voice_actor_map]
+    end
+
+    def parse_comment
+      {
+        :url             => extract_url,
+        :voice_actor_map => extract_voice_actor_map,
+      }
+    end
+
+    # first url is selected as official url
+    def extract_url
+      URI.extract(comment, %w[http https])[0]
+    end
+
     # cast is like following format
     # *{section1}:key1:val1\r\n:key2:val2\r\n
     # *{section2}:key1:val1\r\n:key2:val2\r\n
-    def parse_comment
+    def extract_voice_actor_map
       sections = comment.split(/^\*/)
       section = sections.select { |sec| sec =~ /^キャスト/ }[0]
       lines = section.split(/\r\n/)
