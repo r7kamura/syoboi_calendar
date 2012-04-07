@@ -102,9 +102,11 @@ module SyoboiCalendar
     end
 
     def update_detail_from_comment
+      return if @is_already_updated_from_comment
       hash             = parse_comment
       @url             = hash[:url]
       @voice_actor_map = hash[:voice_actor_map]
+      @is_already_updated_from_comment = true
     end
 
     def parse_comment
@@ -124,7 +126,7 @@ module SyoboiCalendar
     # *{section2}:key1:val1\r\n:key2:val2\r\n
     def extract_voice_actor_map
       sections = comment.split(/^\*/)
-      section = sections.select { |sec| sec =~ /^キャスト/ }[0]
+      section = sections.select { |sec| sec =~ /^キャスト/ }[0] or return
       lines = section.split(/\r\n/)
       lines.inject({}) do |hash, line|
         _, character, actor = line.split(/:/)
