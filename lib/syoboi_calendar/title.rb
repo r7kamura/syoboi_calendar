@@ -50,18 +50,6 @@ module SyoboiCalendar
       @blob = {}
     end
 
-    # update params from detail data
-    def update_detail
-      hash = get_detail
-      EXT_PARAM_MAP.each do |k, v|
-        if v.kind_of?(Array)
-          @blob[k] = v[1].call(hash[v[0]])
-        else
-          @blob[k] = hash[v]
-        end
-      end
-    end
-
     def voice_actors
       voice_actor_map.values
     end
@@ -74,6 +62,20 @@ module SyoboiCalendar
       @voice_actor_map ||= parse_comment
     end
 
+    private
+
+    # update params from detail data
+    def update_detail
+      hash = get_detail
+      EXT_PARAM_MAP.each do |k, v|
+        if v.kind_of?(Array)
+          @blob[k] = v[1].call(hash[v[0]])
+        else
+          @blob[k] = hash[v]
+        end
+      end
+    end
+
     # request detail data
     def get_detail
       hash = self.class.agent.json(
@@ -84,8 +86,6 @@ module SyoboiCalendar
       hash = hash[hash.keys.first]
       hash
     end
-
-    private
 
     def self.agent
       @agent ||= Agent.new
