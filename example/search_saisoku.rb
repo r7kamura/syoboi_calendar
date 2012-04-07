@@ -22,13 +22,13 @@ programs = client.search(
   ].map { |i| Time.at(i).strftime("%Y/%m/%d") }.join("-")
 )
 
-programs.uniq!(&:title)
-programs.select!(&:saisoku?)
+programs.uniq!(&:name)
 programs.sort! { |a, b| a.start_time.to_i <=> b.start_time.to_i}
 programs.each { |program|
-  puts "|%s|%-8.8s|%s|" % [
+  puts "|%s|%-9.9s|%s|%s|" % [
     program.start_time.strftime("%Y-%m-%d %H:%M"),
     program.channel_name.tr("A-Z", "Ａ-Ｚ").tr("a-z", "ａ-ｚ").tr(" ", ""),
-    program.name.gsub(/( #\d+).*/, '\1')
+    program.name.gsub(/( #\d+).*/, '\1'),
+    {true => "✔", false => " "}[program.saisoku?]
   ]
 }
