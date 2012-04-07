@@ -7,4 +7,5 @@ gem "awesome_print"
 group :development do
   gem "rake", ">= 0.9.2"
   gem "rspec"
+  gem "webmock"
 end
