@@ -25,7 +25,7 @@ module SyoboiCalendar
     end
 
     def login?
-      @logined
+      !!@logined
     end
 
     def json(query)
