@@ -12,11 +12,10 @@ module SyoboiCalendar::Fixture
   private
 
   def method_missing(method_name, *args)
-    return if cache[method_name]
-    path = "#{FIXTURE_DIR}/#{method_name}"
-    File.exist?(path) ?
-      cache[method_name] = File.read(path) :
-      nil
+    cache[method_name] ||= begin
+      path = "#{FIXTURE_DIR}/#{method_name}"
+      File.exist?(path) ? cache[method_name] = File.read(path) : nil
+    end
   end
 
   def cache
