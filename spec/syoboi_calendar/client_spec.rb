@@ -1,9 +1,31 @@
+# encoding: UTF-8
+
 require "spec_helper"
 
 describe "SyoboiCalendar::Client" do
-  before(:all) do
-    stub_request(:any, SyoboiCalendar::Agent::SEARCH_URL).\
-      with(:body => SyoboiCalendar::Fixture.response_from_search_programs)
+  before do
+    login_url      = SyoboiCalendar::Agent::LOGIN_URL
+    search_url     = SyoboiCalendar::Agent::SEARCH_URL
+    login_regexp   = /.*#{Regexp.escape(login_url)}.*/
+    title_regexp   = /.*#{Regexp.escape(search_url)}.*sd=0.*/
+    program_regexp = /.*#{Regexp.escape(search_url)}.*sd=2.*/
+
+    stub_request(:post, login_regexp)
+    stub_request(:get, login_regexp).\
+      to_return(
+        :body => SyoboiCalendar::Fixture.response_from_login,
+        :headers => { "Content-Type" => "text/html" }
+      )
+    stub_request(:get, program_regexp).\
+      to_return(
+        :body => SyoboiCalendar::Fixture.response_from_search_programs,
+        :headers => { "Content-Type" => "text/html" }
+      )
+    stub_request(:get, title_regexp).\
+      to_return(
+        :body => SyoboiCalendar::Fixture.response_from_search_titles,
+        :headers => { "Content-Type" => "text/html" }
+      )
 
     user = "testuserforruby"
     pass = user
