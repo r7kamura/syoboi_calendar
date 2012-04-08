@@ -1,0 +1,724 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+    "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="ja">
+<head>
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=7">
+  <link rel="stylesheet" type="text/css" href="/css/common.css">
+
+
+  <!-- HtmlStyle -->
+  <style type="text/css">
+  .EPGMark { float:left; }
+span.chGroup { display:none; }
+
+#filter_browser th,
+#filter_browser td { background-color:#E3F0FD; border:1px solid #B1D0EF; }
+table.mcal div.box.mark { border:1px solid #e00; outline:2px solid #fa0; }
+
+table.findform {  margin-left:auto; margin-right:auto; border:2px solid #B1D0EF; }
+table.findform th { text-align:right; color:#444; padding:2px 2px; }
+table.findform th {
+  padding:0px 8px; vertical-align:top; border-top:0px dashed #B1D0EF;  }
+table.findform td {
+  padding:0px 8px; border-top:0px dashed #B1D0EF;
+}
+table.findform td.sd_selector {
+  text-align:center;
+}
+
+label.checked { font-weight:bold; }
+
+table.sd_selector { margin-left:auto; margin-right:auto;  }
+table.sd_selector td { text-align:center; border:0px solid #B1D0EF; }
+table.sd_selector td.checked { background-color:#B1D0EF; font-weight:bold; }
+table.sd_selector td label { padding:.1em 1em; display:block; }
+  </style>
+  <!-- /HtmlStyle -->
+
+
+<style type="text/css">
+</style>
+
+<script type="text/javascript">
+var _SYOBOCAL_PATH = "/";
+var _SYOBOCAL_LOGIN = 1;
+var _SYOBOCAL_DS = 5;
+</script>
+
+  <title>検索 - しょぼいカレンダー</title>
+
+</head>
+<body>
+
+<table width="100%" id="header">
+  <tr>
+    <td>
+      <form action="/find" method="GET" name="QuickFindForm">
+      <input type="hidden" name="type" value="quick">
+      <input type="hidden" name="sd" value="1">
+      <a class="title" href="/">しょぼいカレンダー</a>
+
+
+<span class="username">
+  <a href="/uc">testuserforrubyの設定</a>
+  <span style="font-weight:normal; font-size:90%;">
+  [<a href="/usr?logout">ログアウト</a>]
+  </span>
+</span>
+      
+      <input type="text" id="headSearchBox" name="kw" size="16" value="" tabindex="1" autocomplete="off" placeholder="キー ワード/日付" title="日付(M/D)やキーワードを入力して検索">
+      <input type="submit" id="headSearchButton" name="exec" value="検索" tabindex="2" style="padding:0 .5em;">
+      </form>
+    </td>
+    <td class="menu">
+      <a href="/">番組表</a>
+       | <a href="/list">一覧</a>
+       | <a href="/find">検索</a>
+       | <a href="/config" rel="nofollow">設定</a>
+       || <a href="http://jbbs.livedoor.jp/anime/3083/">掲示板</a>
+       | <a href="http://sites.google.com/site/syobocal/">その他</a>
+       | <a href="javascript:undefined" id="linkSheetButton" rel="nofollow">リンク<span class="mark">▼</span><span class="mark" style="display:none">▲</span></a>
+    </td>
+  </tr>
+</table>
+<div id="headSearchResult" style="display:none"></div>
+
+<div id="linkSheet" style="display:none"></div>
+<div id="popup" style="display:none; position:absolute;"></div>
+
+
+
+<noscript>
+<div class="errmsg">JavaScript が off のため、一部の機能が正常に動作しません</div>
+</noscript>
+
+<div id="main">
+<h1>検索</h1>
+<div class="section">
+
+        <form action="/find" method="get" name="findform">
+
+
+        <table class="sd_selector">
+          <tr>
+            <td width="50%">
+                                <label for="sd0"><input type="radio" id="sd0" name="sd" value="0" >タイトルを検索</label>                          </td>
+                        <td width="50%">
+                                <label for="sd2"><input type="radio" id="sd2" name="sd" value="2"  checked>放送時間を検索</label>                          </td>
+                </tr>
+        </table>
+        <table class="TableColor findform">
+                <tr>
+                  <td colspan="2">
+                </td>
+                </tr>
+                <tr>
+                        <th>タイトル</th>
+                        <td>
+                                <input type="text" id="kw_input" name="kw" style="width:18em" value="">
+                                <input type="submit" value="  検索  "><br>
+
+                                                        </td>
+                </tr>
+                <tr class="sd2">
+                        <th>チャンネル</th>
+                        <td>
+                                <input type="text" id="st_input" name="ch" style="width:18em" value="">
+                                <br>
+                                <label for=uuc1><input type=checkbox id=uuc1 name=uuc value=1  checked>設定したチャネルのみ</label>&nbsp;                  </td>
+                </tr>
+                <tr class="sd2">
+                        <th>サブタイトル</th>
+                        <td>
+                                <input type="text" id="st_input" name="st" style="width:18em" value="">
+                        </td>
+                </tr>
+                <tr class="sd2">
+                        <th>コメント</th>
+                        <td>
+                                <input type="text" id="cm_input" name="cm" style="width:18em" value="">
+                        </td>
+                </tr>
+                <tr>
+                        <th>日付</th>
+                        <td>
+                                <label for="r0"><input type="radio" id="r0" name="r" value="0" >すべて</label>            <label for="r1"><input type="radio" id="r1" name="r" value="1" >過去</label>                             <label for="r2"><input type="radio" id="r2" name="r" value="2" >今日以降</label><br>
+                                <label for="r3"><input type="radio" id="r3" name="r" value="3"  checked>範囲指定</label>  <input type="text" name="rd" style="width:11em" value="2012/4/1-2012/4/30">
+                                <br>
+                                <small>例) 2002/3/1- , -2003/9/1 , 2003/4/1-2003/9/1</small>
+                        </td>
+                </tr>
+                <tr class="sd2">
+                        <th>フラグ検索</th>
+                        <td>
+                                <label for=pfn2><input type=checkbox id=pfn2 name=pfn value=2 >新番組</label>&nbsp;       <label for=pfl4><input type=checkbox id=pfl4 name=pfl value=4 >最終回</label>&nbsp;                              <label for=pfs1><input type=checkbox id=pfs1 name=pfs value=1 >注目</label>&nbsp;                  </td>
+                </tr>
+                <tr class="sd2">
+                        <th>表示形式</th>
+                        <td>
+                                <label for="v0"><input type="radio" id="v0" name="v" value="0"  checked>リスト</label>    <label for="v1"><input type="radio" id="v1" name="v" value="1" >表</label>                       </td>
+                </tr>
+                <!--
+                <tr>
+                        <th>表示順</th>
+                        <td>
+                                <select name="s">
+                                        <option value="0">日付、チャンネル</option>
+                                        <option value="1" selected>チャンネル、日付</option>
+                                        <option value="2">タイトル、チャンネル、日付</option>
+                                </select>
+                        </td>
+                </tr>
+                -->
+        </table>
+        </form>
+</div>
+
+<br>
+<table border=0 align="center" width="100%">
+<tr>
+<td valign="top"></td><td valign="top"><h2>放送時間の検索結果 - <b>500</b> 件</h2>
+<table class="tframe" width="100%"><tr><td class="nobr"><a href="/?date=2012/04/01" rel="nofollow">2012-04-01(日)</a> &nbsp;6:00-&nbsp;6:30</td><td><span style="color:white; background:#4B4; border:1px solid #BEB; line-height:1;">注</span><a href="/tid/91/time#220451" rel="nofollow">映画公開記念！クレヨンしんちゃん ひまわりセレクション</a></td><td class="nobr">テレビ朝日</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/01" rel="nofollow">2012-04-01(日)</a> &nbsp;6:30-&nbsp;7:00</td><td><span style="color:white; background:#f7a; border:1px solid #fcc; line-height:1; ">新</span><a href="/tid/2481/time#217175" rel="nofollow">聖闘士星矢Ω #1 星矢によって救われた命！甦れ聖闘士伝説！</a></td><td class="nobr">テレビ朝日</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/01" rel="nofollow">2012-04-01(日)</a> &nbsp;7:00-&nbsp;7:30</td><td><span style="color:white; background:#f7a; border:1px solid #fcc; line-height:1; ">新</span><a href="/tid/2478/time#216940" rel="nofollow">宇宙兄弟 #1 弟ヒビトと兄ムッタ</a></td><td class="nobr">日本テレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/01" rel="nofollow">2012-04-01(日)</a> &nbsp;7:00-&nbsp;7:30</td><td><a href="/tid/2279/time#218406" rel="nofollow">バトルスピリッツ 覇王 #28 世界への挑戦！太骨望デッキ登場！</a></td><td class="nobr">テレビ朝日</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/01" rel="nofollow">2012-04-01(日)</a> &nbsp;7:24-&nbsp;7:30</td><td><a href="/tid/2389/time#209791" rel="nofollow">ポヨポヨ観察日記 #13 恵みのマル</a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/01" rel="nofollow">2012-04-01(日)</a> &nbsp;7:30-&nbsp;8:00</td><td><a href="/tid/2414/time#212634" rel="nofollow">特命戦隊ゴーバスターズ #6 合体！ゴーバスターオー</a></td><td class="nobr">テレビ朝日</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/01" rel="nofollow">2012-04-01(日)</a> &nbsp;8:00-&nbsp;8:30</td><td><a href="/tid/2261/time#215995" rel="nofollow">仮面ライダーフォーゼ #29 後・輩・無・言</a></td><td class="nobr">テレビ朝日</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/01" rel="nofollow">2012-04-01(日)</a> &nbsp;8:30-&nbsp;9:00</td><td><a href="/tid/2413/time#212624" rel="nofollow">スマイルプリキュア！ #9 うそ～！やよいちゃんが転校!?</a></td><td class="nobr">テレビ朝日</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/01" rel="nofollow">2012-04-01(日)</a> &nbsp;8:30-&nbsp;8:45</td><td><span style="color:white; background:#B68; border:1px solid #C97; line-height:1;">終</span><a href="/tid/2169/time#219476" rel="nofollow">メタルファイト ベイブレード 4D #154 未来へ</a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/01" rel="nofollow">2012-04-01(日)</a> &nbsp;8:45-&nbsp;9:00</td><td><a href="/tid/2299/time#219477" rel="nofollow">クロスファイト ビーダマン #26 激闘の果てに…</a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/01" rel="nofollow">2012-04-01(日)</a> &nbsp;9:00-&nbsp;9:30</td><td><a href="/tid/2162/time#211615" rel="nofollow">トリコ #50 驚異の助っ人登場！パートナーの真の意味</a></td><td class="nobr">フジテレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/01" rel="nofollow">2012-04-01(日)</a> &nbsp;9:00-&nbsp;9:30</td><td><span style="color:white; background:#f7a; border:1px solid #fcc; line-height:1; ">新</span><a href="/tid/2512/time#219594" rel="nofollow">ふるさと再生 日本の昔ばなし #1 花さか爺さん／夢を買った男／ねずみ経</a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/01" rel="nofollow">2012-04-01(日)</a> &nbsp;9:30-10:00</td><td><a href="/tid/350/time#211627" rel="nofollow">ワンピース #541 黄猿登場！タイガーを狙う罠！</a></td><td class="nobr">フジテレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/01" rel="nofollow">2012-04-01(日)</a> 10:00-10:30</td><td><span style="color:white; background:#4B4; border:1px solid #BEB; line-height:1;">注</span><a href="/tid/2088/time#218816" rel="nofollow">カー ドファイト!! ヴァンガード 特別編「アイチの軌跡」</a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/01" rel="nofollow">2012-04-01(日)</a> 10:30-11:00</td><td><span style="color:white; background:#59f; border:1px solid #ccf; line-height:1; ">新</span><a href="/tid/1612/time#221192" rel="nofollow">毎日かあさん #65 親子ゲンカ／蚊／娘の要求／机の中</a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/01" rel="nofollow">2012-04-01(日)</a> 10:55-11:25</td><td><a href="/tid/2288/time#211884" rel="nofollow">HUNTER×HUNTER(2011) #25 ミエナイ×ト×アエナイ</a></td><td class="nobr">日本テレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/01" rel="nofollow">2012-04-01(日)</a> 17:00-17:30</td><td><a href="/tid/2266/time#219450" rel="nofollow">機動戦士ガンダムAGE #25 恐怖のミューセル</a></td><td class="nobr">TBS</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/01" rel="nofollow">2012-04-01(日)</a> 17:30-18:00</td><td><span style="color:white; background:#B68; border:1px solid #C97; line-height:1;">終</span><a href="/tid/2257/time#208194" rel="nofollow">ファ イ・ブレイン 神のパズル #25 パズルタイムの始まりだ！</a><br><small>!定刻放送</small></td><td class="nobr">NHK Eテレ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/01" rel="nofollow">2012-04-01(日)</a> 18:00-18:30</td><td><a href="/tid/1169/time#211639" rel="nofollow">ちびまる子ちゃん #851 </a></td><td class="nobr">フジテレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/01" rel="nofollow">2012-04-01(日)</a> 18:30-19:00</td><td><a href="/tid/1168/time#211651" rel="nofollow">サザエさん #2149 </a></td><td class="nobr">フジテレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/01" rel="nofollow">2012-04-01(日)</a> 18:30-19:00</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/2453/time#215886" rel="nofollow">ウル トラマンネオス #6 ザム星人の復讐</a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/01" rel="nofollow">2012-04-01(日)</a> 22:00-22:27</td><td><span style="color:white; background:#f7a; border:1px solid #fcc; line-height:1; ">新</span><a href="/tid/2459/time#217330" rel="nofollow">緋色の欠片 #1 玉衣の姫</a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/01" rel="nofollow">2012-04-01(日)</a> 22:27-22:30</td><td><span style="color:white; background:#f7a; border:1px solid #fcc; line-height:1; ">新</span><a href="/tid/2510/time#219210" rel="nofollow">しばいぬ子さん #1 フツーの中学生？</a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/01" rel="nofollow">2012-04-01(日)</a> 22:30-23:00</td><td><span style="color:white; background:#B68; border:1px solid #C97; line-height:1;">終</span><a href="/tid/2328/time#214708" rel="nofollow">ウル トラゾーン #23 </a></td><td class="nobr">チバテレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/01" rel="nofollow">2012-04-01(日)</a> 22:30-23:00</td><td><span style="color:white; background:#4B4; border:1px solid #BEB; line-height:1;">注</span><a href="/tid/2498/time#219633" rel="nofollow">宇宙 戦艦ヤマト2199上映直前！～俺たちのヤマトSP～</a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/01" rel="nofollow">2012-04-01(日)</a> 23:30-24:00</td><td><a href="/tid/2370/time#208622" rel="nofollow">モーレツ宇宙海賊 #13 茉莉香、招待する</a></td><td class="nobr">チバテレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/01" rel="nofollow">2012-04-01(日)</a> 24:00-24:30</td><td><a href="/tid/2273/time#212139" rel="nofollow">未来日記 #24 検索中</a></td><td class="nobr">チバテレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/01" rel="nofollow">2012-04-01(日)</a> 24:00-24:30</td><td><span style="color:white; background:#59f; border:1px solid #ccf; line-height:1; ">新</span><a href="/tid/1683/time#219118" rel="nofollow">CANAAN #1 洪色魔都</a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/01" rel="nofollow">2012-04-01(日)</a> 25:00-25:30</td><td><span style="color:white; background:#4B4; border:1px solid #BEB; line-height:1;">注</span><a href="/tid/2277/time#216586" rel="nofollow">Fate/Zero Remix II</a></td><td class="nobr">tvk</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/01" rel="nofollow">2012-04-01(日)</a> 25:00-25:30</td><td><span style="color:white; background:#4B4; border:1px solid #BEB; line-height:1;">注</span><a href="/tid/2277/time#216710" rel="nofollow">Fate/Zero Remix II</a></td><td class="nobr">チバテレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/01" rel="nofollow">2012-04-01(日)</a> 25:05-25:35</td><td><a href="/tid/2273/time#210670" rel="nofollow">未来日記 #24 検索中</a><br><small>!次回は25:00～(放送枠移動)</small></td><td class="nobr">テレ玉</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/01" rel="nofollow">2012-04-01(日)</a> 25:05-25:35</td><td><a href="/tid/2378/time#218464" rel="nofollow">アクエリオンEVOL #14 個の先</a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/01" rel="nofollow">2012-04-01(日)</a> 25:35-26:05</td><td><a href="/tid/2370/time#208609" rel="nofollow">モーレツ宇宙海賊 #13 茉莉香、招待する</a><br><small>!次回は25:30～(放送枠移動)</small></td><td class="nobr">テレ玉</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/02" rel="nofollow">2012-04-02(月)</a> &nbsp;6:45-&nbsp;6:55</td><td><a href="/tid/1621/time#220738" rel="nofollow">クッキンアイドル アイ！マイ！まいん！ #226 スイーツ(1)</a></td><td class="nobr">NHK E テレ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/02" rel="nofollow">2012-04-02(月)</a> &nbsp;7:15-&nbsp;7:25</td><td><a href="/tid/1903/time#220743" rel="nofollow">はなかっぱ #151 宇宙人、やまびこ村にあらわる／はなかっぱのお留守番</a></td><td class="nobr">NHK Eテレ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/02" rel="nofollow">2012-04-02(月)</a> &nbsp;7:40-&nbsp;7:45</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/1850/time#220748" rel="nofollow">マノン #18 まきばのサーカス</a></td><td class="nobr">NHK Eテレ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/02" rel="nofollow">2012-04-02(月)</a> 16:00-16:30</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/559/time#217199" rel="nofollow">ふたりはプリキュア Max Heart #9 邪魔させない！ほのかの一番大切な日</a><br><small>!暴風関連情報L字テロップ有</small></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/02" rel="nofollow">2012-04-02(月)</a> 17:00-17:30</td><td><span style="color:white; background:#59f; border:1px solid #ccf; line-height:1; ">新</span><a href="/tid/322/time#219970" rel="nofollow">ふた りはプリキュア #1 私たちが変身!?ありえない！</a></td><td class="nobr">チバテレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/02" rel="nofollow">2012-04-02(月)</a> 18:00-18:30</td><td><span style="color:white; background:#f7a; border:1px solid #fcc; line-height:1; ">新</span><a href="/tid/2506/time#219733" rel="nofollow">GON -ゴン- #1 ゴン、ゴ～ンと登場!!／ゴン、森で遊ぶ</a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/02" rel="nofollow">2012-04-02(月)</a> 18:00-18:10</td><td><span style="color:white; background:#f7a; border:1px solid #fcc; line-height:1; ">新</span><a href="/tid/2515/time#219665" rel="nofollow">おじゃる丸(第15シリーズ) #1 月光町ベスト15</a></td><td class="nobr">NHK Eテレ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/02" rel="nofollow">2012-04-02(月)</a> 18:20-18:55</td><td><a href="/tid/2322/time#221542" rel="nofollow">ちび☆デビ！ #16 まおちゃんの保育日記</a><br><small>!新作放送再開</small></td><td class="nobr">NHK Eテレ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/02" rel="nofollow">2012-04-02(月)</a> 19:00-19:30</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/2499/time#218002" rel="nofollow">科学 忍者隊ガッチャマン #7 ギャラクターの大航空ショー</a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/02" rel="nofollow">2012-04-02(月)</a> 19:30-20:00</td><td><span style="color:white; background:#59f; border:1px solid #ccf; line-height:1; ">新</span><a href="/tid/1786/time#221517" rel="nofollow">世紀末救世主伝説 北斗の拳 #1 神か悪魔か!?地獄にあらわれた最強の男</a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/02" rel="nofollow">2012-04-02(月)</a> 22:30-23:00</td><td><span style="color:white; background:#59f; border:1px solid #ccf; line-height:1; ">新</span><a href="/tid/319/time#220301" rel="nofollow">ギャ ラクシーエンジェル #1～#2</a><br><small>ギャラクシーエンジェル ア・ラ・カルト(傑作選)</small></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/02" rel="nofollow">2012-04-02(月)</a> 23:30-23:55</td><td><span style="color:white; background:#4B4; border:1px solid #BEB; line-height:1;">注</span><a href="/tid/372/time#220056" rel="nofollow">「ふしぎの海のナディア」徹底研究！</a></td><td class="nobr">NHK Eテレ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/02" rel="nofollow">2012-04-02(月)</a> 25:00-25:30</td><td><span style="color:white; background:#4B4; border:1px solid #BEB; line-height:1;">注</span><a href="/tid/2273/time#210658" rel="nofollow">未来 日記 #24 検索中</a><br><small>!放送枠移動</small></td><td class="nobr">tvk</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/02" rel="nofollow">2012-04-02(月)</a> 25:30-26:00</td><td><span style="color:white; background:#f7a; border:1px solid #fcc; line-height:1; ">新</span><a href="/tid/2507/time#218748" rel="nofollow">君と僕。2 #1 月のウサギは夜を跳ねる</a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/02" rel="nofollow">2012-04-02(月)</a> 25:30-26:00</td><td><a href="/tid/1926/time#220043" rel="nofollow">AG学園 あに☆ぶん #105 モーレツ宇宙海賊 特集</a><br><small>!次回は4/6 25:00～(放送枠移動)</small></td><td class="nobr">チバテレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/02" rel="nofollow">2012-04-02(月)</a> 26:00-26:30</td><td><span style="color:white; background:#B68; border:1px solid #C97; line-height:1;">終</span><a href="/tid/2375/time#217739" rel="nofollow">戦姫 絶唱シンフォギア #13 流れ星、堕ちて燃えて尽きて、そして―</a></td><td class="nobr">チバテレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/02" rel="nofollow">2012-04-02(月)</a> 26:00-26:30</td><td><span style="color:white; background:#4B4; border:1px solid #BEB; line-height:1;">注</span><a href="/tid/351/time#219931" rel="nofollow">春の最新アニメ緊急大集合!! もえ×こんぷらす</a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/02" rel="nofollow">2012-04-02(月)</a> 27:00-27:30</td><td><span style="color:white; background:#4B4; border:1px solid #BEB; line-height:1;">注</span><a href="/tid/62/time#219144" rel="nofollow">アニメTV #599 </a><br><small>!放送枠移動</small></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/02" rel="nofollow">2012-04-02(月)</a> 27:15-27:45</td><td><span style="color:white; background:#4B4; border:1px solid #BEB; line-height:1;">注</span><a href="/tid/1927/time#219197" rel="nofollow">あに てれPresents アニソ～ンぷらす＋ #100 2012年1月～3月特集アーティスト総集編</a><br><small>!放送枠移動　ナレーション：下野紘、高岩P 動画配信無し</small></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/03" rel="nofollow">2012-04-03(火)</a> &nbsp;6:45-&nbsp;6:55</td><td><a href="/tid/1621/time#220739" rel="nofollow">クッキンアイドル アイ！マイ！まいん！ #227 スイーツ(2)</a></td><td class="nobr">NHK E テレ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/03" rel="nofollow">2012-04-03(火)</a> &nbsp;7:15-&nbsp;7:25</td><td><a href="/tid/1903/time#220744" rel="nofollow">はなかっぱ #152 マスターカッパー参上／マニキュアのはな</a></td><td class="nobr">NHK E テレ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/03" rel="nofollow">2012-04-03(火)</a> &nbsp;7:40-&nbsp;7:45</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/1850/time#220749" rel="nofollow">マノン #19 すてきなバースデープレゼント</a></td><td class="nobr">NHK Eテレ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/03" rel="nofollow">2012-04-03(火)</a> 16:00-16:30</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/559/time#217200" rel="nofollow">ふたりはプリキュア Max Heart #10 パニック寸前！甘くて危険な見学実習</a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/03" rel="nofollow">2012-04-03(火)</a> 17:00-17:30</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/322/time#219971" rel="nofollow">ふたりはプリキュア #2 カンベンして！闇に狙われた街</a><br><small>!暴風情報L字テロップ有</small></td><td class="nobr">チバテレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/03" rel="nofollow">2012-04-03(火)</a> 17:30-18:00</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/386/time#218780" rel="nofollow">それいけ！ズッコケ三人組 #2 ズッコケ花の児童会長</a><br><small>!暴風情報L字テロップ有</small></td><td class="nobr">チバテレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/03" rel="nofollow">2012-04-03(火)</a> 17:30-18:00</td><td><span style="color:white; background:#59f; border:1px solid #ccf; line-height:1; ">新</span><a href="/tid/357/time#220072" rel="nofollow">ケロ ロ軍曹 #1 我が輩がケロロ軍曹／ケロロ 大地に立つ</a><br><small>ケロロ軍曹アンコール！</small></td><td class="nobr">テレビ東 京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/03" rel="nofollow">2012-04-03(火)</a> 18:00-18:30</td><td><span style="color:white; background:#f7a; border:1px solid #fcc; line-height:1; ">新</span><a href="/tid/2513/time#219652" rel="nofollow">NARUTO -ナルト- SD ロック・リーの青春フルパワー忍伝 #1 ロック・リーは忍術の使えない忍者です／ロック・リーのライバルはナルトです</a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/03" rel="nofollow">2012-04-03(火)</a> 18:00-18:10</td><td><a href="/tid/2515/time#219666" rel="nofollow">おじゃる丸(第15シリーズ) #2 シャクだらけ</a><br><small>!高校野球順延のため急遽放送</small></td><td class="nobr">NHK Eテレ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/03" rel="nofollow">2012-04-03(火)</a> 18:20-18:55</td><td><span style="color:white; background:#f7a; border:1px solid #fcc; line-height:1; ">新</span><a href="/tid/2525/time#220381" rel="nofollow">ズモモとヌペペ #1 朝はとつぜんやってきた</a></td><td class="nobr">NHK Eテレ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/03" rel="nofollow">2012-04-03(火)</a> 19:00-19:30</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/2499/time#218003" rel="nofollow">科学 忍者隊ガッチャマン #8 三日月サンゴ礁の秘密</a><br><small>!暴風関連情報L字テロップ有</small></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/03" rel="nofollow">2012-04-03(火)</a> 19:25-19:55</td><td><span style="color:white; background:#59f; border:1px solid #ccf; line-height:1; ">新</span><a href="/tid/1664/time#220085" rel="nofollow">マリー＆ガリー #1 ふしぎな街のマリカ</a></td><td class="nobr">NHK Eテレ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/03" rel="nofollow">2012-04-03(火)</a> 19:30-20:00</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/1460/time#218933" rel="nofollow">地獄 少女 三鼎 #8 隣</a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/03" rel="nofollow">2012-04-03(火)</a> 21:55-22:00</td><td><span style="color:white; background:#f7a; border:1px solid #fcc; line-height:1; ">新</span><a href="/tid/2472/time#221318" rel="nofollow">ガッ活！ #1 「あのぽっこりってなんなの」</a></td><td class="nobr">NHKワンセグ2</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/03" rel="nofollow">2012-04-03(火)</a> 22:00-22:29</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/1062/time#219386" rel="nofollow">ドラ ゴンボールZ #287 戻った平和!!正義の味方魔人ブウ!?</a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/03" rel="nofollow">2012-04-03(火)</a> 22:29-23:00</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/19/time#219918" rel="nofollow">機動戦 士ガンダムSEED #15 それぞれの孤独</a><br><small>#14は未放送</small></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/03" rel="nofollow">2012-04-03(火)</a> 23:00-23:30</td><td><span style="color:white; background:#4B4; border:1px solid #BEB; line-height:1;">注</span><a href="/tid/2485/time#217427" rel="nofollow">黒子 のバスケ 祝！アニメ化!!放送直前スペシャル</a><br><small>放送直前特番</small></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/03" rel="nofollow">2012-04-03(火)</a> 25:00-25:30</td><td><span style="color:white; background:#59f; border:1px solid #ccf; line-height:1; ">新</span><a href="/tid/1591/time#219025" rel="nofollow">ハヤテのごとく!! #1 禁断のマラソン自由形！</a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/03" rel="nofollow">2012-04-03(火)</a> 25:30-26:00</td><td><span style="color:white; background:#4B4; border:1px solid #BEB; line-height:1;">注</span><a href="/tid/2088/time#220071" rel="nofollow">カー ドファイト!! ヴァンガード 特別編「アイチの軌跡」</a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/03" rel="nofollow">2012-04-03(火)</a> 26:00-26:30</td><td><span style="color:white; background:#f7a; border:1px solid #fcc; line-height:1; ">新</span><a href="/tid/2534/time#221268" rel="nofollow">絆体感TV 機動戦士ガンダム 第07板倉小隊 REV.2 #1 青物横丁脱出作戦</a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/03" rel="nofollow">2012-04-03(火)</a> 27:35-28:05</td><td><span style="color:white; background:#59f; border:1px solid #ccf; line-height:1; ">新</span><a href="/tid/1966/time#219391" rel="nofollow">世紀末オカルト学院 #1 マヤの予言 / MAYA'S Prophesy</a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/04" rel="nofollow">2012-04-04(水)</a> &nbsp;6:45-&nbsp;6:55</td><td><a href="/tid/1621/time#220740" rel="nofollow">クッキンアイドル アイ！マイ！まいん！ #228 スイーツ(3)</a></td><td class="nobr">NHK E テレ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/04" rel="nofollow">2012-04-04(水)</a> &nbsp;7:15-&nbsp;7:25</td><td><a href="/tid/1903/time#220745" rel="nofollow">はなかっぱ #153 やまびこ村こどもロケット／まぼろしのチョウ</a></td><td class="nobr">NHK Eテレ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/04" rel="nofollow">2012-04-04(水)</a> &nbsp;7:40-&nbsp;7:45</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/1850/time#220750" rel="nofollow">マノン #21 やねのうえのオンドリ</a></td><td class="nobr">NHK Eテレ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/04" rel="nofollow">2012-04-04(水)</a> 16:00-16:30</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/559/time#217201" rel="nofollow">ふたりはプリキュア Max Heart #11 大ピンチ！ハートをつないで一発逆転!!</a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/04" rel="nofollow">2012-04-04(水)</a> 17:00-17:30</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/322/time#219972" rel="nofollow">ふたりはプリキュア #3 イケてる実習生に気をつけろ！</a></td><td class="nobr">チバテレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/04" rel="nofollow">2012-04-04(水)</a> 17:30-18:00</td><td><span style="color:white; background:#f7a; border:1px solid #fcc; line-height:1; ">新</span><a href="/tid/2505/time#218639" rel="nofollow">あらしのよるに ～ひみつのともだち～ #1 あらしのよるに</a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/04" rel="nofollow">2012-04-04(水)</a> 18:00-18:10</td><td><a href="/tid/2515/time#219667" rel="nofollow">おじゃる丸(第15シリーズ) #3 星野もとっても石が好き</a></td><td class="nobr">NHK Eテレ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/04" rel="nofollow">2012-04-04(水)</a> 18:00-18:30</td><td><a href="/tid/2240/time#220236" rel="nofollow">ウルトラマン列伝 #40 力を合わせろ！ウルトラ戦士!!</a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/04" rel="nofollow">2012-04-04(水)</a> 18:20-18:55</td><td><span style="color:white; background:#f7a; border:1px solid #fcc; line-height:1; ">新</span><a href="/tid/2479/time#216907" rel="nofollow">黒魔女さんが通る!! #1 学校の怪談VS黒魔女さん</a></td><td class="nobr">NHK Eテレ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/04" rel="nofollow">2012-04-04(水)</a> 18:30-19:00</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/2428/time#213683" rel="nofollow">楽し いムーミン一家 冒険日記 #10 チン入者で大騒動</a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/04" rel="nofollow">2012-04-04(水)</a> 19:00-19:27</td><td><a href="/tid/2190/time#215169" rel="nofollow">イナズマイレブンGO #46 TV局が来た！</a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/04" rel="nofollow">2012-04-04(水)</a> 19:00-19:30</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/2499/time#218004" rel="nofollow">科学 忍者隊ガッチャマン #9 月よりの悪魔</a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/04" rel="nofollow">2012-04-04(水)</a> 19:25-19:50</td><td><a href="/tid/2065/time#218760" rel="nofollow">iCarly #70 NGがいっぱい！</a><br><small>!放送枠移動</small></td><td class="nobr">NHK Eテレ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/04" rel="nofollow">2012-04-04(水)</a> 19:27-19:55</td><td><a href="/tid/2435/time#214417" rel="nofollow">ダンボール戦機W #11 ヒロに眠る力</a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/04" rel="nofollow">2012-04-04(水)</a> 19:30-20:00</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/1460/time#218934" rel="nofollow">地獄 少女 三鼎 #9 はぐれ稲荷</a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/04" rel="nofollow">2012-04-04(水)</a> 24:30-25:00</td><td><span style="color:white; background:#4B4; border:1px solid #BEB; line-height:1;">注</span><a href="/tid/2273/time#210682" rel="nofollow">未来 日記 #24 検索中</a><br><small>!放送枠移動</small></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/04" rel="nofollow">2012-04-04(水)</a> 24:30-25:00</td><td><span style="color:white; background:#4B4; border:1px solid #BEB; line-height:1;">注</span><a href="/tid/2536/time#221557" rel="nofollow">見た い！解きたい！ファイ・ブレイン2</a></td><td class="nobr">NHK Eテレ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/04" rel="nofollow">2012-04-04(水)</a> 25:00-25:30</td><td><span style="color:white; background:#f7a; border:1px solid #fcc; line-height:1; ">新</span><a href="/tid/2490/time#217936" rel="nofollow">これはゾンビですか？ オブ・ザ・デッド #1 はい、今再びの魔装変身！</a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/04" rel="nofollow">2012-04-04(水)</a> 25:50-26:20</td><td><span style="color:white; background:#f7a; border:1px solid #fcc; line-height:1; ">新</span><a href="/tid/2475/time#216895" rel="nofollow">めだかボックス #1 生徒会を執行する！</a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/04" rel="nofollow">2012-04-04(水)</a> 25:54-26:24</td><td><span style="color:white; background:#f7a; border:1px solid #fcc; line-height:1; ">新</span><a href="/tid/2511/time#219555" rel="nofollow">LUPIN the Third 峰不二子という女 #1 </a></td><td class="nobr">日本テレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/05" rel="nofollow">2012-04-05(木)</a> &nbsp;6:45-&nbsp;6:55</td><td><a href="/tid/1621/time#220741" rel="nofollow">クッキンアイドル アイ！マイ！まいん！ #229 スイーツ(4)</a></td><td class="nobr">NHK E テレ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/05" rel="nofollow">2012-04-05(木)</a> &nbsp;7:15-&nbsp;7:25</td><td><a href="/tid/1903/time#220746" rel="nofollow">はなかっぱ #154 みんなで泡アワ／寝てなさい、はなかっぱ</a></td><td class="nobr">NHK E テレ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/05" rel="nofollow">2012-04-05(木)</a> &nbsp;7:30-&nbsp;8:00</td><td><span style="color:white; background:#4B4; border:1px solid #BEB; line-height:1;">注</span><a href="/tid/2440/time#215070" rel="nofollow">ズーブルズ！ #9 </a><br><small>!放送枠移動</small></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/05" rel="nofollow">2012-04-05(木)</a> &nbsp;7:40-&nbsp;7:45</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/1850/time#220751" rel="nofollow">マノン #23 はじめてのせかい</a></td><td class="nobr">NHK Eテレ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/05" rel="nofollow">2012-04-05(木)</a> 16:00-16:30</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/559/time#217202" rel="nofollow">ふたりはプリキュア Max Heart #12 商売繁盛！高原のカフェへいらっしゃい</a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/05" rel="nofollow">2012-04-05(木)</a> 17:00-17:30</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/322/time#219973" rel="nofollow">ふたりはプリキュア #4 ミラクル!?生きている美術館</a></td><td class="nobr">チバテレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/05" rel="nofollow">2012-04-05(木)</a> 17:30-18:00</td><td><span style="color:white; background:#f7a; border:1px solid #fcc; line-height:1; ">新</span><a href="/tid/2522/time#220413" rel="nofollow">しろくまカフェ #1 しろくまカフェへようこそ／パンダくんの就職</a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/05" rel="nofollow">2012-04-05(木)</a> 17:30-18:00</td><td><span style="color:white; background:#59f; border:1px solid #ccf; line-height:1; ">新</span><a href="/tid/2531/time#220821" rel="nofollow">姫ちゃんのリボン #1 魔法使いになっちゃった</a></td><td class="nobr">チバテレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/05" rel="nofollow">2012-04-05(木)</a> 18:00-18:30</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/2265/time#200562" rel="nofollow">魔法 の天使クリィミーマミ #29 ロープウェイ・パニック</a></td><td class="nobr">テレ玉</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/05" rel="nofollow">2012-04-05(木)</a> 18:00-18:10</td><td><a href="/tid/2515/time#219668" rel="nofollow">おじゃる丸(第15シリーズ) #4 ヘイタクシー</a></td><td class="nobr">NHK Eテレ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/05" rel="nofollow">2012-04-05(木)</a> 18:00-18:30</td><td><a href="/tid/2144/time#220457" rel="nofollow">SKET DANCE #52 ツインテールツンデレガール</a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/05" rel="nofollow">2012-04-05(木)</a> 18:30-19:00</td><td><span style="color:white; background:#59f; border:1px solid #ccf; line-height:1; ">新</span><a href="/tid/1564/time#218338" rel="nofollow">フレッシュプリキュア！ #1 もぎたてフレッシュ！キュアピーチ誕生!!</a></td><td class="nobr">テレ玉</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/05" rel="nofollow">2012-04-05(木)</a> 19:00-19:30</td><td><a href="/tid/2024/time#211163" rel="nofollow">ポケットモンスター ベストウイッシュ #73 決戦ドンナマイト！ナゲキVSダゲキ!!</a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/05" rel="nofollow">2012-04-05(木)</a> 19:00-19:30</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/2499/time#218005" rel="nofollow">科学 忍者隊ガッチャマン #10 地底怪獣大戦争</a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/05" rel="nofollow">2012-04-05(木)</a> 19:30-19:57</td><td><a href="/tid/1106/time#218832" rel="nofollow">NARUTO -ナルト- 疾風伝 #257 放送10周年4週連続特別企画「出会い」</a></td><td class="nobr">テレビ 東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/05" rel="nofollow">2012-04-05(木)</a> 19:30-20:00</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/1460/time#218935" rel="nofollow">地獄 少女 三鼎 #10 鏡の中の金魚</a><br><small>!4/10～4/12は放送休止</small></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/05" rel="nofollow">2012-04-05(木)</a> 22:00-22:55</td><td><span style="color:white; background:#f7a; border:1px solid #fcc; line-height:1; ">新</span><a href="/tid/2521/time#220527" rel="nofollow">ブシロードTCG情報局 #1 </a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/05" rel="nofollow">2012-04-05(木)</a> 22:55-23:00</td><td><a href="/tid/2352/time#220592" rel="nofollow">TOKYO「萌」探偵 #23 </a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/05" rel="nofollow">2012-04-05(木)</a> 23:00-23:30</td><td><span style="color:white; background:#59f; border:1px solid #ccf; line-height:1; ">新</span><a href="/tid/2077/time#218171" rel="nofollow">魔法少女まどか☆マギカ #1 夢の中で会った、ような・・・・・</a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/05" rel="nofollow">2012-04-05(木)</a> 24:00-24:30</td><td><span style="color:white; background:#f7a; border:1px solid #fcc; line-height:1; ">新</span><a href="/tid/2509/time#219157" rel="nofollow">リスアニ！TV #1 </a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/05" rel="nofollow">2012-04-05(木)</a> 25:00-25:05</td><td><span style="color:white; background:#f7a; border:1px solid #fcc; line-height:1; ">新</span><a href="/tid/2494/time#217772" rel="nofollow">リコーダーとランドセル レ♪ #14 新入生と勘違い</a></td><td class="nobr">テレ玉</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/05" rel="nofollow">2012-04-05(木)</a> 25:45-26:15</td><td><span style="color:white; background:#f7a; border:1px solid #fcc; line-height:1; ">新</span><a href="/tid/2486/time#217403" rel="nofollow">戦国コレクション #1 Sweet Little Devil</a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/05" rel="nofollow">2012-04-05(木)</a> 26:15-26:45</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/1029/time#218818" rel="nofollow">魔法 少女リリカルなのはStrikerS #14 Mothers&amp;children</a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/05" rel="nofollow">2012-04-05(木)</a> 26:20-26:50</td><td><span style="color:white; background:#f7a; border:1px solid #fcc; line-height:1; ">新</span><a href="/tid/2489/time#217509" rel="nofollow">あっちこっち #1 あっち⇔こっち</a></td><td class="nobr">TBS</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/05" rel="nofollow">2012-04-05(木)</a> 26:50-27:20</td><td><span style="color:white; background:#f7a; border:1px solid #fcc; line-height:1; ">新</span><a href="/tid/2492/time#217741" rel="nofollow">さんかれあ #1 私が…ゾンビに…なったら</a></td><td class="nobr">TBS</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/05" rel="nofollow">2012-04-05(木)</a> 27:00-27:25</td><td><span style="color:white; background:#4B4; border:1px solid #BEB; line-height:1;">注</span><a href="/tid/372/time#220715" rel="nofollow">「ふしぎの海のナディア」徹底研究！</a></td><td class="nobr">NHK総合</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/06" rel="nofollow">2012-04-06(金)</a> &nbsp;6:45-&nbsp;6:55</td><td><a href="/tid/1621/time#220742" rel="nofollow">クッキンアイドル アイ！マイ！まいん！ #230 スイーツ(5)</a></td><td class="nobr">NHK E テレ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/06" rel="nofollow">2012-04-06(金)</a> &nbsp;7:15-&nbsp;7:25</td><td><a href="/tid/1903/time#220747" rel="nofollow">はなかっぱ #155 怖いコワ～い話／花のニンジャ、はなかっぱ</a></td><td class="nobr">NHK Eテレ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/06" rel="nofollow">2012-04-06(金)</a> &nbsp;7:40-&nbsp;7:45</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/1850/time#220752" rel="nofollow">マノン #24 そらとぶネズミ</a></td><td class="nobr">NHK Eテレ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/06" rel="nofollow">2012-04-06(金)</a> 16:00-16:30</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/559/time#217203" rel="nofollow">ふたりはプリキュア Max Heart #13 なぎさ親子で大バトル？母のココロ子知らず!?</a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/06" rel="nofollow">2012-04-06(金)</a> 17:00-17:30</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/322/time#219974" rel="nofollow">ふたりはプリキュア #5 マジヤバ！捨て身のピーサード</a></td><td class="nobr">チバテレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/06" rel="nofollow">2012-04-06(金)</a> 17:30-18:00</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/430/time#220665" rel="nofollow">犬夜叉 #75 豹猫四天王の陰謀</a></td><td class="nobr">チバテレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/06" rel="nofollow">2012-04-06(金)</a> 18:00-18:10</td><td><a href="/tid/2515/time#219669" rel="nofollow">おじゃる丸(第15シリーズ) #5 電ボ 入会する</a></td><td class="nobr">NHK Eテレ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/06" rel="nofollow">2012-04-06(金)</a> 18:00-18:30</td><td><a href="/tid/1635/time#220510" rel="nofollow">サキよみ ジャンBANG！ #154 「ロック・リーの青春フルパワー忍伝」特集　ゲスト：増川洋一</a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/06" rel="nofollow">2012-04-06(金)</a> 18:20-18:55</td><td><span style="color:white; background:#f7a; border:1px solid #fcc; line-height:1; ">新</span><a href="/tid/2532/time#220875" rel="nofollow">秘密結社 鷹の爪 NEO #1 始動。世界征服!!</a></td><td class="nobr">NHK Eテレ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/06" rel="nofollow">2012-04-06(金)</a> 19:00-19:30</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/2499/time#218006" rel="nofollow">科学 忍者隊ガッチャマン #11 謎のレッド・インパルス</a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/06" rel="nofollow">2012-04-06(金)</a> 21:00-22:54</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/44/time#218401" rel="nofollow">金曜ロ ードショー 紅の豚</a></td><td class="nobr">日本テレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/06" rel="nofollow">2012-04-06(金)</a> 23:00-23:30</td><td><span style="color:white; background:#59f; border:1px solid #ccf; line-height:1; ">新</span><a href="/tid/2535/time#221305" rel="nofollow">タイガーマスク #1 黄色い悪魔</a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/06" rel="nofollow">2012-04-06(金)</a> 24:30-25:00</td><td><span style="color:white; background:#f7a; border:1px solid #fcc; line-height:1; ">新</span><a href="/tid/2466/time#216616" rel="nofollow">アクセル・ワールド #1 Acceleration;加速</a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/06" rel="nofollow">2012-04-06(金)</a> 24:55-25:40</td><td><span style="color:white; background:#4B4; border:1px solid #BEB; line-height:1;">注</span><a href="/tid/1874/time#219436" rel="nofollow">MAG・ネット ～マンガ・アニメ・ゲームのゲンバ～ #51 特集「超世代アニメの魅力」「熱きアニソンの世界を語る！」</a><br><small>!放送 枠移動</small></td><td class="nobr">NHK総合</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/06" rel="nofollow">2012-04-06(金)</a> 25:00-25:30</td><td><span style="color:white; background:#f7a; border:1px solid #fcc; line-height:1; ">新</span><a href="/tid/2466/time#216640" rel="nofollow">アクセル・ワールド #1 Acceleration;加速</a></td><td class="nobr">テレ玉</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/06" rel="nofollow">2012-04-06(金)</a> 25:00-25:30</td><td><span style="color:white; background:#f7a; border:1px solid #fcc; line-height:1; ">新</span><a href="/tid/2484/time#217428" rel="nofollow">ZETMAN #1 未熟な感情</a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/06" rel="nofollow">2012-04-06(金)</a> 25:00-25:30</td><td><span style="color:white; background:#4B4; border:1px solid #BEB; line-height:1;">注</span><a href="/tid/1926/time#220044" rel="nofollow">AG学 園 あに☆ぶん #106 </a><br><small>!放送枠移動</small></td><td class="nobr">チバテレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/06" rel="nofollow">2012-04-06(金)</a> 25:10-25:15</td><td><span style="color:white; background:#f7a; border:1px solid #fcc; line-height:1; ">新</span><a href="/tid/2476/time#216858" rel="nofollow">ゆるめいつ3でぃ #1 ゆるめ上京する</a></td><td class="nobr">tvk</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/06" rel="nofollow">2012-04-06(金)</a> 25:30-26:00</td><td><span style="color:white; background:#f7a; border:1px solid #fcc; line-height:1; ">新</span><a href="/tid/2490/time#220031" rel="nofollow">これはゾンビですか？ オブ・ザ・デッド #1 はい、今再びの魔装変身！</a></td><td class="nobr">チバテレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/06" rel="nofollow">2012-04-06(金)</a> 26:35-27:05</td><td><span style="color:white; background:#4B4; border:1px solid #BEB; line-height:1;">注</span><a href="/tid/569/time#219435" rel="nofollow">交響詩篇エウレカセブン #51 ニュー・オーダー</a><br><small>『エウレカセブンAO』放送直前スペシャル <a href="http://eurekaao-prj.net/?p=307" target="_blank">[link]<WBR/></a></small></td><td class="nobr">TBS</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/06" rel="nofollow">2012-04-06(金)</a> 27:05-27:35</td><td><span style="color:white; background:#f7a; border:1px solid #fcc; line-height:1; ">新</span><a href="/tid/2467/time#216516" rel="nofollow">夏色キセキ #1 11回目のナツヤスミ</a></td><td class="nobr">TBS</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/07" rel="nofollow">2012-04-07(土)</a> &nbsp;6:00-&nbsp;6:30</td><td><a href="/tid/2425/time#219287" rel="nofollow">エリアの騎士 #14 幻のフェイント</a></td><td class="nobr">テレビ朝日</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/07" rel="nofollow">2012-04-07(土)</a> &nbsp;7:30-&nbsp;8:00</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/1340/time#214509" rel="nofollow">遊戯王5D's #10 デッキ0 チェーントラップのループを破れ</a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/07" rel="nofollow">2012-04-07(土)</a> &nbsp;8:00-&nbsp;8:30</td><td><span style="color:white; background:#f7a; border:1px solid #fcc; line-height:1; ">新</span><a href="/tid/2487/time#217354" rel="nofollow">超ロボット生命体 トランスフォーマー プライム #1 完全変形！トランスフォーマー登場</a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/07" rel="nofollow">2012-04-07(土)</a> &nbsp;9:00-&nbsp;9:30</td><td><span style="color:white; background:#f7a; border:1px solid #fcc; line-height:1; ">新</span><a href="/tid/2540/time#222324" rel="nofollow">とっとこハム太郎(2012) #1 とっとこ思い出！探すのだ(前編)</a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/07" rel="nofollow">2012-04-07(土)</a> &nbsp;9:30-10:00</td><td><span style="color:white; background:#f7a; border:1px solid #fcc; line-height:1; ">新</span><a href="/tid/2496/time#217845" rel="nofollow">ジュエルペット きら☆デコッ！ #1 ミラーボールが欲しいデコッ！</a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/07" rel="nofollow">2012-04-07(土)</a> &nbsp;9:30-&nbsp;9:55</td><td><span style="color:white; background:#f7a; border:1px solid #fcc; line-height:1; ">新</span><a href="/tid/2523/time#220344" rel="nofollow">銀河へキックオフ!! #1 出会い</a></td><td class="nobr">NHK総合</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/07" rel="nofollow">2012-04-07(土)</a> 10:00-10:30</td><td><span style="color:white; background:#f7a; border:1px solid #fcc; line-height:1; ">新</span><a href="/tid/2483/time#217232" rel="nofollow">プリティーリズム・ディアマイフューチャー #1 ハローマイフューチャー</a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/07" rel="nofollow">2012-04-07(土)</a> 10:30-11:00</td><td><a href="/tid/1755/time#220784" rel="nofollow">FAIRY TAIL #125 魔法舞踏会</a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/07" rel="nofollow">2012-04-07(土)</a> 16:00-16:25</td><td><span style="color:white; background:#4B4; border:1px solid #BEB; line-height:1;">注</span><a href="/tid/372/time#220780" rel="nofollow">「ふしぎの海のナディア」徹底研究！</a></td><td class="nobr">NHK Eテレ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/07" rel="nofollow">2012-04-07(土)</a> 17:30-18:00</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/518/time#211453" rel="nofollow">名探偵コナン #279 迷宮のフーリガン(前編)</a><br><small>デジタルリマスター版</small></td><td class="nobr">日本テレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/07" rel="nofollow">2012-04-07(土)</a> 17:30-17:55</td><td><span style="color:white; background:#59f; border:1px solid #ccf; line-height:1; ">新</span><a href="/tid/2295/time#220058" rel="nofollow">バクマン。(第2シリーズ) #1 沈黙と宴</a></td><td class="nobr">NHK Eテレ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/07" rel="nofollow">2012-04-07(土)</a> 17:55-18:20</td><td><span style="color:white; background:#59f; border:1px solid #ccf; line-height:1; ">新</span><a href="/tid/372/time#214514" rel="nofollow">ふし ぎの海のナディア #1 エッフェル塔の少女</a></td><td class="nobr">NHK Eテレ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/07" rel="nofollow">2012-04-07(土)</a> 18:00-18:30</td><td><a href="/tid/2456/time#221267" rel="nofollow">MUSIC FAIR 2400回記念コンサート 特別編</a><br><small>出演：水樹奈々</small></td><td class="nobr">フジテレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/07" rel="nofollow">2012-04-07(土)</a> 18:30-19:00</td><td><span style="color:white; background:#B68; border:1px solid #C97; line-height:1;">終</span><a href="/tid/2417/time#213074" rel="nofollow">琉神 マブヤー2 #13 マブイストーンとかヒジュルーゾーンとかテーゲーむるデージなってる！</a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/07" rel="nofollow">2012-04-07(土)</a> 22:00-22:30</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/1236/time#215976" rel="nofollow">D.C.II ～ダ・カーポII～ #12 心の架け橋</a><br><small>!2話連続放送</small></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/07" rel="nofollow">2012-04-07(土)</a> 22:30-23:00</td><td><span style="color:white; background:#358; border:1px solid #9BD; line-height:1;">終</span><a href="/tid/1236/time#215982" rel="nofollow">D.C.II ～ダ・カーポII～ #13 桜笑み君想う</a><br><small>!2話連続放送</small></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/07" rel="nofollow">2012-04-07(土)</a> 23:30-24:00</td><td><span style="color:white; background:#59f; border:1px solid #ccf; line-height:1; ">新</span><a href="/tid/2146/time#218237" rel="nofollow">DOG DAYS #1 勇者誕生！</a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/07" rel="nofollow">2012-04-07(土)</a> 23:30-24:00</td><td><span style="color:white; background:#59f; border:1px solid #ccf; line-height:1; ">新</span><a href="/tid/2146/time#218251" rel="nofollow">DOG DAYS #1 勇者誕生！</a></td><td class="nobr">群馬テレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/07" rel="nofollow">2012-04-07(土)</a> 23:30-24:00</td><td><span style="color:white; background:#4B4; border:1px solid #BEB; line-height:1;">注</span><a href="/tid/1926/time#219170" rel="nofollow">AG学 園 あに☆ぶん #106 </a><br><small>!放送枠移動</small></td><td class="nobr">tvk</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/07" rel="nofollow">2012-04-07(土)</a> 24:00-24:30</td><td><span style="color:white; background:#f7a; border:1px solid #fcc; line-height:1; ">新</span><a href="/tid/2500/time#218054" rel="nofollow">Fate/Zero 2ndシーズン #14 未遠川血戦</a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/07" rel="nofollow">2012-04-07(土)</a> 24:00-24:30</td><td><span style="color:white; background:#f7a; border:1px solid #fcc; line-height:1; ">新</span><a href="/tid/2500/time#218080" rel="nofollow">Fate/Zero 2ndシーズン #14 未遠川血戦</a></td><td class="nobr">tvk</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/07" rel="nofollow">2012-04-07(土)</a> 24:00-24:30</td><td><span style="color:white; background:#f7a; border:1px solid #fcc; line-height:1; ">新</span><a href="/tid/2500/time#219315" rel="nofollow">Fate/Zero 2ndシーズン #14 未遠川血戦</a></td><td class="nobr">群馬テレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/07" rel="nofollow">2012-04-07(土)</a> 24:30-25:00</td><td><a href="/tid/2370/time#219068" rel="nofollow">モーレツ宇宙海賊 #14 茉莉香、募集する</a></td><td class="nobr">tvk</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/07" rel="nofollow">2012-04-07(土)</a> 24:30-25:00</td><td><span style="color:white; background:#59f; border:1px solid #ccf; line-height:1; ">新</span><a href="/tid/1486/time#219105" rel="nofollow">かんなぎ #1 神籬(ひもろぎ)の娘</a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/07" rel="nofollow">2012-04-07(土)</a> 24:30-25:00</td><td><span style="color:white; background:#59f; border:1px solid #ccf; line-height:1; ">新</span><a href="/tid/1486/time#222204" rel="nofollow">かんなぎ #1 神籬(ひもろぎ)の娘</a></td><td class="nobr">群馬テレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/07" rel="nofollow">2012-04-07(土)</a> 25:00-25:30</td><td><span style="color:white; background:#f7a; border:1px solid #fcc; line-height:1; ">新</span><a href="/tid/2466/time#216543" rel="nofollow">アクセル・ワールド #1 Acceleration;加速</a></td><td class="nobr">チバテレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/07" rel="nofollow">2012-04-07(土)</a> 25:00-25:30</td><td><a href="/tid/2370/time#219056" rel="nofollow">モーレツ宇宙海賊 #14 茉莉香、募集する</a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/07" rel="nofollow">2012-04-07(土)</a> 25:00-25:30</td><td><a href="/tid/1926/time#219184" rel="nofollow">AG学園 あに☆ぶん #106 </a><br><small>!放送枠移動</small></td><td class="nobr">テレ玉</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/07" rel="nofollow">2012-04-07(土)</a> 25:00-25:30</td><td><span style="color:white; background:#59f; border:1px solid #ccf; line-height:1; ">新</span><a href="/tid/2529/time#220651" rel="nofollow">CYBERSIX #1 わたしはサイバーシックス</a></td><td class="nobr">tvk</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/07" rel="nofollow">2012-04-07(土)</a> 25:30-26:00</td><td><span style="color:white; background:#f7a; border:1px solid #fcc; line-height:1; ">新</span><a href="/tid/2457/time#216069" rel="nofollow">謎の彼女X #1 謎の彼女</a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/07" rel="nofollow">2012-04-07(土)</a> 25:30-26:00</td><td><span style="color:white; background:#f7a; border:1px solid #fcc; line-height:1; ">新</span><a href="/tid/2466/time#216628" rel="nofollow">アクセル・ワールド #1 Acceleration;加速</a></td><td class="nobr">tvk</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/07" rel="nofollow">2012-04-07(土)</a> 25:30-26:00</td><td><span style="color:white; background:#f7a; border:1px solid #fcc; line-height:1; ">新</span><a href="/tid/2500/time#218067" rel="nofollow">Fate/Zero 2ndシーズン #14 未遠川血戦</a></td><td class="nobr">テレ玉</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/07" rel="nofollow">2012-04-07(土)</a> 25:30-25:45</td><td><a href="/tid/2054/time#220968" rel="nofollow">アニメ星人～ときめきレシピ～ #80 </a></td><td class="nobr">チバテレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/08" rel="nofollow">2012-04-08(日)</a> &nbsp;6:30-&nbsp;7:00</td><td><a href="/tid/2481/time#217176" rel="nofollow">聖闘士星矢Ω #2 旅立ち！新世代の聖闘士！</a></td><td class="nobr">テレビ朝日</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/08" rel="nofollow">2012-04-08(日)</a> &nbsp;7:00-&nbsp;7:30</td><td><a href="/tid/2478/time#216941" rel="nofollow">宇宙兄弟 #2 俺の金ピカ</a></td><td class="nobr">日本テレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/08" rel="nofollow">2012-04-08(日)</a> &nbsp;7:00-&nbsp;7:30</td><td><a href="/tid/2279/time#218407" rel="nofollow">バトルスピリッツ 覇王 #29 ドラゴン怒りの烈神速!?セイリュービ飛翔！</a></td><td class="nobr">テレビ朝日</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/08" rel="nofollow">2012-04-08(日)</a> &nbsp;7:24-&nbsp;7:30</td><td><a href="/tid/2389/time#220981" rel="nofollow">ポヨポヨ観察日記 #14 きらわれのマル</a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/08" rel="nofollow">2012-04-08(日)</a> &nbsp;7:30-&nbsp;8:00</td><td><a href="/tid/2414/time#212635" rel="nofollow">特命戦隊ゴーバスターズ #7 エース整備不良?!</a></td><td class="nobr">テレビ朝日</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/08" rel="nofollow">2012-04-08(日)</a> &nbsp;8:00-&nbsp;8:30</td><td><a href="/tid/2261/time#215996" rel="nofollow">仮面ライダーフォーゼ #30 先・輩・無・用</a></td><td class="nobr">テレビ朝日</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/08" rel="nofollow">2012-04-08(日)</a> &nbsp;8:30-&nbsp;9:00</td><td><a href="/tid/2413/time#212625" rel="nofollow">スマイルプリキュア！ #10 熱血！あかねのお好み焼き人生!!</a></td><td class="nobr">テレ ビ朝日</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/08" rel="nofollow">2012-04-08(日)</a> &nbsp;8:30-&nbsp;8:45</td><td><span style="color:white; background:#f7a; border:1px solid #fcc; line-height:1; ">新</span><a href="/tid/2514/time#220439" rel="nofollow">メタルファイト ベイブレード ZEROG #1 新時代到来！</a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/08" rel="nofollow">2012-04-08(日)</a> &nbsp;8:45-&nbsp;9:00</td><td><a href="/tid/2299/time#221107" rel="nofollow">クロスファイト ビーダマン #27 え？まさかクロスファイトが！</a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/08" rel="nofollow">2012-04-08(日)</a> &nbsp;9:00-&nbsp;9:30</td><td><a href="/tid/2512/time#219595" rel="nofollow">ふるさと再生 日本の昔ばなし #2 一寸法師／おむすびころりん／牛の嫁入り</a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/08" rel="nofollow">2012-04-08(日)</a> &nbsp;9:00-&nbsp;9:30</td><td><a href="/tid/2162/time#221033" rel="nofollow">トリコ #51 再会トリコとルフィ！海鮮の実を探せ！</a><br><small>トリコ×ワンピースコラボ スペシャル</small></td><td class="nobr">フジテレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/08" rel="nofollow">2012-04-08(日)</a> &nbsp;9:30-10:00</td><td><a href="/tid/350/time#221045" rel="nofollow">ワンピース #542 チーム結成！チョッパーを救え</a><br><small>トリコ×ワンピースコラボスペシャル</small></td><td class="nobr">フジテレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/08" rel="nofollow">2012-04-08(日)</a> 10:00-10:30</td><td><span style="color:white; background:#f7a; border:1px solid #fcc; line-height:1; ">新</span><a href="/tid/2516/time#220019" rel="nofollow">カードファイト!! ヴァンガード アジアサーキット編 #66 黄金の騎士団</a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/08" rel="nofollow">2012-04-08(日)</a> 10:30-11:00</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/1612/time#221193" rel="nofollow">毎日 かあさん #67 恐怖の合宿／ぐへー／甘いぞ／ぶんぶん</a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/08" rel="nofollow">2012-04-08(日)</a> 10:55-11:25</td><td><a href="/tid/2288/time#221205" rel="nofollow">HUNTER×HUNTER(2011) #26 ゴンヨリ×ノ×タヨリ2</a></td><td class="nobr">日本テレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/08" rel="nofollow">2012-04-08(日)</a> 17:00-17:30</td><td><a href="/tid/2266/time#219451" rel="nofollow">機動戦士ガンダムAGE #26 地球 それはエデン</a></td><td class="nobr">TBS</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/08" rel="nofollow">2012-04-08(日)</a> 17:30-18:00</td><td><span style="color:white; background:#f7a; border:1px solid #fcc; line-height:1; ">新</span><a href="/tid/2536/time#221558" rel="nofollow">ファイ・ブレイン 神のパズル(第2シリーズ) #1 オルペウス・オーダー</a></td><td class="nobr">NHK Eテレ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/08" rel="nofollow">2012-04-08(日)</a> 18:00-18:30</td><td><a href="/tid/1169/time#221057" rel="nofollow">ちびまる子ちゃん #852 </a></td><td class="nobr">フジテレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/08" rel="nofollow">2012-04-08(日)</a> 18:30-19:00</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/2453/time#215887" rel="nofollow">ウル トラマンネオス #7 生態系の王</a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/08" rel="nofollow">2012-04-08(日)</a> 18:30-19:00</td><td><a href="/tid/1168/time#221069" rel="nofollow">サザエさん #2150 </a></td><td class="nobr">フジテレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/08" rel="nofollow">2012-04-08(日)</a> 22:00-22:27</td><td><a href="/tid/2459/time#217331" rel="nofollow">緋色の欠片 #2 決意の一歩</a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/08" rel="nofollow">2012-04-08(日)</a> 22:27-22:30</td><td><a href="/tid/2510/time#219211" rel="nofollow">しばいぬ子さん #2 気になるお年頃</a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/08" rel="nofollow">2012-04-08(日)</a> 22:30-23:00</td><td><span style="color:white; background:#59f; border:1px solid #ccf; line-height:1; ">新</span><a href="/tid/2328/time#221944" rel="nofollow">ウルトラゾーン #1 </a></td><td class="nobr">チバテレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/08" rel="nofollow">2012-04-08(日)</a> 23:30-24:00</td><td><a href="/tid/2370/time#219236" rel="nofollow">モーレツ宇宙海賊 #14 茉莉香、募集する</a></td><td class="nobr">チバテレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/08" rel="nofollow">2012-04-08(日)</a> 24:00-24:30</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/1683/time#219119" rel="nofollow">CANAAN #2 邪気乱遊戯</a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/08" rel="nofollow">2012-04-08(日)</a> 24:00-24:30</td><td><a href="/tid/2273/time#219234" rel="nofollow">未来日記 #25 リセット</a></td><td class="nobr">チバテレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/08" rel="nofollow">2012-04-08(日)</a> 24:30-25:00</td><td><span style="color:white; background:#f7a; border:1px solid #fcc; line-height:1; ">新</span><a href="/tid/2468/time#216555" rel="nofollow">黄昏乙女×アムネジア #1 幽霊乙女</a></td><td class="nobr">チバテレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/08" rel="nofollow">2012-04-08(日)</a> 24:30-25:00</td><td><span style="color:white; background:#f7a; border:1px solid #fcc; line-height:1; ">新</span><a href="/tid/2490/time#217948" rel="nofollow">これはゾンビですか？ オブ・ザ・デッド #1 はい、今再びの魔装変身！</a></td><td class="nobr">テレ玉</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/08" rel="nofollow">2012-04-08(日)</a> 24:30-25:00</td><td><span style="color:white; background:#f7a; border:1px solid #fcc; line-height:1; ">新</span><a href="/tid/2490/time#217960" rel="nofollow">これはゾンビですか？ オブ・ザ・デッド #1 はい、今再びの魔装変身！</a></td><td class="nobr">tvk</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/08" rel="nofollow">2012-04-08(日)</a> 25:00-25:30</td><td><span style="color:white; background:#f7a; border:1px solid #fcc; line-height:1; ">新</span><a href="/tid/2457/time#216081" rel="nofollow">謎の彼女X #1 謎の彼女</a></td><td class="nobr">tvk</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/08" rel="nofollow">2012-04-08(日)</a> 25:00-25:30</td><td><span style="color:white; background:#f7a; border:1px solid #fcc; line-height:1; ">新</span><a href="/tid/2500/time#218132" rel="nofollow">Fate/Zero 2ndシーズン #14 未遠川血戦</a></td><td class="nobr">チバテレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/08" rel="nofollow">2012-04-08(日)</a> 25:00-25:30</td><td><span style="color:white; background:#4B4; border:1px solid #BEB; line-height:1;">注</span><a href="/tid/2273/time#219042" rel="nofollow">未来 日記 #25 リセット</a><br><small>!放送枠移動</small></td><td class="nobr">テレ玉</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/08" rel="nofollow">2012-04-08(日)</a> 25:05-25:35</td><td><span style="color:white; background:#f7a; border:1px solid #fcc; line-height:1; ">新</span><a href="/tid/2470/time#216655" rel="nofollow">咲-Saki- 阿知賀編 episode of side-A #1 邂逅</a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/08" rel="nofollow">2012-04-08(日)</a> 25:10-25:35</td><td><span style="color:white; background:#59f; border:1px solid #ccf; line-height:1; ">新</span><a href="/tid/2118/time#218984" rel="nofollow">へうげもの #1 君は物のために死ねるか!?</a></td><td class="nobr">NHK総合</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/08" rel="nofollow">2012-04-08(日)</a> 25:30-26:00</td><td><span style="color:white; background:#f7a; border:1px solid #fcc; line-height:1; ">新</span><a href="/tid/2468/time#216604" rel="nofollow">黄昏乙女×アムネジア #1 幽霊乙女</a></td><td class="nobr">tvk</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/08" rel="nofollow">2012-04-08(日)</a> 25:30-26:00</td><td><span style="color:white; background:#4B4; border:1px solid #BEB; line-height:1;">注</span><a href="/tid/2370/time#219044" rel="nofollow">モー レツ宇宙海賊 #14 茉莉香、募集する</a><br><small>!放送枠移動</small></td><td class="nobr">テレ玉</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/08" rel="nofollow">2012-04-08(日)</a> 25:35-26:05</td><td><a href="/tid/2378/time#218465" rel="nofollow">アクエリオンEVOL #15 愛の獣たち</a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/09" rel="nofollow">2012-04-09(月)</a> 16:00-16:30</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/559/time#217204" rel="nofollow">ふたりはプリキュア Max Heart #14 藤P先輩ガンバ！なぎさ気合いの応援旗</a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/09" rel="nofollow">2012-04-09(月)</a> 17:00-17:30</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/322/time#219975" rel="nofollow">ふたりはプリキュア #6 新たな闇！危険な森のクマさん</a></td><td class="nobr">チバテレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/09" rel="nofollow">2012-04-09(月)</a> 18:00-18:10</td><td><a href="/tid/2515/time#219670" rel="nofollow">おじゃる丸(第15シリーズ) #6 アオベエがアカネでアカネがキスケでキスケがアオベエで</a></td><td class="nobr">NHK Eテレ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/09" rel="nofollow">2012-04-09(月)</a> 18:00-18:30</td><td><a href="/tid/2506/time#219734" rel="nofollow">GON -ゴン- #2 ゴン、乗り物を探す／ゴン、綺麗な羽を広げる</a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/09" rel="nofollow">2012-04-09(月)</a> 18:20-18:55</td><td><a href="/tid/2322/time#221543" rel="nofollow">ちび☆デビ！ #17 </a></td><td class="nobr">NHK Eテレ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/09" rel="nofollow">2012-04-09(月)</a> 19:00-19:30</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/2499/time#218007" rel="nofollow">科学 忍者隊ガッチャマン #12 大喰い怪獣イブクロン</a><br><small>!4/10～13は放送休止</small></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/09" rel="nofollow">2012-04-09(月)</a> 19:00-19:30</td><td><a href="/tid/1779/time#219695" rel="nofollow">たまごっち！ #123 最後のたまミズキ</a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/09" rel="nofollow">2012-04-09(月)</a> 19:30-20:00</td><td><a href="/tid/2161/time#219720" rel="nofollow">遊戯王ZEXAL #50 波乱の前夜祭！姿を現わした悪魔の決闘者(デュエリスト)・トロン</a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/09" rel="nofollow">2012-04-09(月)</a> 19:30-20:00</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/1786/time#221518" rel="nofollow">世紀 末救世主伝説 北斗の拳 #2 必殺残悔拳!!不毛の荒野に明日をみた!!</a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/09" rel="nofollow">2012-04-09(月)</a> 20:30-21:00</td><td><span style="color:white; background:#f7a; border:1px solid #fcc; line-height:1; ">新</span><a href="/tid/2528/time#219132" rel="nofollow">ぷらTWOぅ シーズン2ぅ #1 </a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/09" rel="nofollow">2012-04-09(月)</a> 22:30-23:00</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/319/time#220302" rel="nofollow">ギャラクシーエンジェル #7、#9</a><br><small>ギャラクシーエンジェル ア・ラ・カルト(傑作選)</small></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/09" rel="nofollow">2012-04-09(月)</a> 24:30-25:00</td><td><span style="color:white; background:#f7a; border:1px solid #fcc; line-height:1; ">新</span><a href="/tid/2468/time#216592" rel="nofollow">黄昏乙女×アムネジア #1 幽霊乙女</a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/09" rel="nofollow">2012-04-09(月)</a> 25:00-25:30</td><td><span style="color:white; background:#f7a; border:1px solid #fcc; line-height:1; ">新</span><a href="/tid/2457/time#216093" rel="nofollow">謎の彼女X #1 謎の彼女</a></td><td class="nobr">テレ玉</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/09" rel="nofollow">2012-04-09(月)</a> 25:00-25:30</td><td><span style="color:white; background:#f7a; border:1px solid #fcc; line-height:1; ">新</span><a href="/tid/2457/time#216110" rel="nofollow">謎の彼女X #1 謎の彼女</a></td><td class="nobr">チバテレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/09" rel="nofollow">2012-04-09(月)</a> 25:00-25:30</td><td><a href="/tid/2273/time#219040" rel="nofollow">未来日記 #25 リセット</a></td><td class="nobr">tvk</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/09" rel="nofollow">2012-04-09(月)</a> 25:00-25:30</td><td><span style="color:white; background:#f7a; border:1px solid #fcc; line-height:1; ">新</span><a href="/tid/2517/time#219821" rel="nofollow">非公認戦隊アキバレンジャー #1 痛さは強さ</a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/09" rel="nofollow">2012-04-09(月)</a> 25:30-26:00</td><td><a href="/tid/2507/time#218749" rel="nofollow">君と僕。2 #2 mary's christmas</a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/09" rel="nofollow">2012-04-09(月)</a> 26:00-26:30</td><td><span style="color:white; background:#f7a; border:1px solid #fcc; line-height:1; ">新</span><a href="/tid/2491/time#217618" rel="nofollow">這いよれ！ニャル子さん #1 第三種接近遭遇、的な</a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/09" rel="nofollow">2012-04-09(月)</a> 27:00-27:30</td><td><a href="/tid/62/time#219145" rel="nofollow">アニメTV #600 </a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/09" rel="nofollow">2012-04-09(月)</a> 27:15-27:45</td><td><a href="/tid/1927/time#219198" rel="nofollow">あにてれPresents アニソ～ンぷらす＋ #101 テレビ東京春の新アニメ紹介 自称アニメ好きクイズ大会（前編） </a><br><small>ナレーション：上坂すみれ 動画配信無し</small></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/10" rel="nofollow">2012-04-10(火)</a> 16:00-16:30</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/559/time#217205" rel="nofollow">ふたりはプリキュア Max Heart #15 あこがれの先輩は大親友!?</a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/10" rel="nofollow">2012-04-10(火)</a> 17:00-17:30</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/322/time#219976" rel="nofollow">ふたりはプリキュア #7 熱闘ラクロス！乙女心は超ビミョー！</a></td><td class="nobr">チバテレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/10" rel="nofollow">2012-04-10(火)</a> 17:30-18:00</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/386/time#218781" rel="nofollow">それいけ！ズッコケ三人組 #3 ズッコケ心霊学入門</a></td><td class="nobr">チバテレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/10" rel="nofollow">2012-04-10(火)</a> 17:30-18:00</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/357/time#220073" rel="nofollow">ケロロ軍曹 #2 桃華＆タママ出撃！／桃華＆タママ 日向家上陸</a><br><small>ケロロ軍曹アンコール！</small></td><td class="nobr">テレ ビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/10" rel="nofollow">2012-04-10(火)</a> 18:00-18:30</td><td><a href="/tid/2513/time#219653" rel="nofollow">NARUTO -ナルト- SD ロック・リーの青春フルパワー忍伝 #2 恋もまた青春の一部なのです／愛とはふたり で愚かになることです</a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/10" rel="nofollow">2012-04-10(火)</a> 18:00-18:10</td><td><a href="/tid/2515/time#219671" rel="nofollow">おじゃる丸(第15シリーズ) #7 キーちゃんのお休み</a></td><td class="nobr">NHK Eテレ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/10" rel="nofollow">2012-04-10(火)</a> 18:20-18:55</td><td><a href="/tid/2525/time#220382" rel="nofollow">ズモモとヌペペ #2 </a></td><td class="nobr">NHK Eテレ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/10" rel="nofollow">2012-04-10(火)</a> 19:25-19:55</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/1664/time#220086" rel="nofollow">マリ ー＆ガリー #2 ふしぎな街 ガリハバラ</a></td><td class="nobr">NHK Eテレ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/10" rel="nofollow">2012-04-10(火)</a> 21:55-22:00</td><td><a href="/tid/2472/time#221319" rel="nofollow">ガッ活！ #2 「どうして学校でアレしちゃいけないの」</a></td><td class="nobr">NHKワンセグ2</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/10" rel="nofollow">2012-04-10(火)</a> 22:00-22:29</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/1062/time#219387" rel="nofollow">ドラ ゴンボールZ #288 遅いぜ悟空！みんなでパーティ!!</a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/10" rel="nofollow">2012-04-10(火)</a> 22:29-23:00</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/19/time#219919" rel="nofollow">機動戦 士ガンダムSEED #16 燃える砂塵</a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/10" rel="nofollow">2012-04-10(火)</a> 23:00-23:30</td><td><span style="color:white; background:#f7a; border:1px solid #fcc; line-height:1; ">新</span><a href="/tid/2485/time#217415" rel="nofollow">黒子のバスケ #1 黒子はボクです</a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/10" rel="nofollow">2012-04-10(火)</a> 24:30-25:00</td><td><span style="color:white; background:#f7a; border:1px solid #fcc; line-height:1; ">新</span><a href="/tid/2477/time#217379" rel="nofollow">ヨルムンガンド #1 ガンメタル・キャリコロード</a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/10" rel="nofollow">2012-04-10(火)</a> 25:00-25:30</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/1591/time#219026" rel="nofollow">ハヤ テのごとく!! #2 マネーのとら</a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/10" rel="nofollow">2012-04-10(火)</a> 25:15-25:30</td><td><span style="color:white; background:#f7a; border:1px solid #fcc; line-height:1; ">新</span><a href="/tid/2524/time#220357" rel="nofollow">エアーズロック #1 </a></td><td class="nobr">テレ玉</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/10" rel="nofollow">2012-04-10(火)</a> 25:30-26:00</td><td><span style="color:white; background:#f7a; border:1px solid #fcc; line-height:1; ">新</span><a href="/tid/2477/time#217391" rel="nofollow">ヨルムンガンド #1 ガンメタル・キャリコロード</a></td><td class="nobr">tvk</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/10" rel="nofollow">2012-04-10(火)</a> 26:00-26:30</td><td><a href="/tid/2534/time#221269" rel="nofollow">絆体感TV 機動戦士ガンダム 第07板倉小隊 REV.2 #2 </a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/10" rel="nofollow">2012-04-10(火)</a> 27:35-28:05</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/1966/time#219392" rel="nofollow">世紀 末オカルト学院 #2 文明の到来 / The advent of BUNMEI</a><br><small>!4/17は放送休止</small></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/11" rel="nofollow">2012-04-11(水)</a> 17:00-17:30</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/322/time#219977" rel="nofollow">ふたりはプリキュア #8 プリキュア解散！ぶっちゃけ早すぎ!?</a></td><td class="nobr">チバテレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/11" rel="nofollow">2012-04-11(水)</a> 17:30-18:00</td><td><a href="/tid/2505/time#218640" rel="nofollow">あらしのよるに ～ひみつのともだち～ #2 うそつきガブ</a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/11" rel="nofollow">2012-04-11(水)</a> 18:00-18:10</td><td><a href="/tid/2515/time#219672" rel="nofollow">おじゃる丸(第15シリーズ) #8 心を鬼にする電ボ</a></td><td class="nobr">NHK Eテレ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/11" rel="nofollow">2012-04-11(水)</a> 18:00-18:30</td><td><a href="/tid/2240/time#220237" rel="nofollow">ウルトラマン列伝 #41 俺達の翼！ガンフェニックス!!(ウルトラマンメビウス #2 俺達の翼)</a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/11" rel="nofollow">2012-04-11(水)</a> 18:20-18:55</td><td><a href="/tid/2479/time#216908" rel="nofollow">黒魔女さんが通る!! #2 </a></td><td class="nobr">NHK Eテレ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/11" rel="nofollow">2012-04-11(水)</a> 18:30-19:00</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/2428/time#213684" rel="nofollow">楽し いムーミン一家 冒険日記 #11 ジェーンおばさんからの招待状</a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/11" rel="nofollow">2012-04-11(水)</a> 19:00-19:27</td><td><span style="color:white; background:#B68; border:1px solid #C97; line-height:1;">終</span><a href="/tid/2190/time#215170" rel="nofollow">イナ ズマイレブンGO #47 これが雷門中サッカー部だ！</a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/11" rel="nofollow">2012-04-11(水)</a> 19:25-19:50</td><td><a href="/tid/2065/time#218761" rel="nofollow">iCarly #71 カーリーの誕生日！</a></td><td class="nobr">NHK Eテレ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/11" rel="nofollow">2012-04-11(水)</a> 19:27-19:55</td><td><a href="/tid/2435/time#214418" rel="nofollow">ダンボール戦機W #12 時速500kmの激闘</a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/11" rel="nofollow">2012-04-11(水)</a> 24:30-25:00</td><td><a href="/tid/2273/time#219038" rel="nofollow">未来日記 #25 リセット</a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/11" rel="nofollow">2012-04-11(水)</a> 25:00-25:30</td><td><span style="color:white; background:#f7a; border:1px solid #fcc; line-height:1; ">新</span><a href="/tid/2473/time#216755" rel="nofollow">クイーンズブレイド リベリオン #1 叛乱の闘士</a></td><td class="nobr">チバテレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/11" rel="nofollow">2012-04-11(水)</a> 25:00-25:30</td><td><a href="/tid/2490/time#217937" rel="nofollow">これはゾンビですか？ オブ・ザ・デッド #2 嗚呼、さようなら俺</a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/11" rel="nofollow">2012-04-11(水)</a> 25:29-25:59</td><td><a href="/tid/2511/time#219556" rel="nofollow">LUPIN the Third 峰不二子という女 #2 </a></td><td class="nobr">日本テレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/11" rel="nofollow">2012-04-11(水)</a> 25:50-26:20</td><td><a href="/tid/2475/time#216896" rel="nofollow">めだかボックス #2 貴様が犯人か？／当然、私だ！</a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/12" rel="nofollow">2012-04-12(木)</a> &nbsp;7:30-&nbsp;8:00</td><td><a href="/tid/2440/time#215071" rel="nofollow">ズーブルズ！ #10 </a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/12" rel="nofollow">2012-04-12(木)</a> 17:00-17:30</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/322/time#219978" rel="nofollow">ふたりはプリキュア #9 取り返せ！メポメポ大作戦</a></td><td class="nobr">チバテレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/12" rel="nofollow">2012-04-12(木)</a> 17:30-18:00</td><td><a href="/tid/2522/time#220414" rel="nofollow">しろくまカフェ #2 みんなのカフェ／カフェのお花見</a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/12" rel="nofollow">2012-04-12(木)</a> 17:30-18:00</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/2531/time#220822" rel="nofollow">姫ち ゃんのリボン #2 ショック！先輩の告白</a></td><td class="nobr">チバテレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/12" rel="nofollow">2012-04-12(木)</a> 18:00-18:30</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/2265/time#200563" rel="nofollow">魔法 の天使クリィミーマミ #30 前略おばあちゃん</a></td><td class="nobr">テレ玉</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/12" rel="nofollow">2012-04-12(木)</a> 18:00-18:10</td><td><a href="/tid/2515/time#219673" rel="nofollow">おじゃる丸(第15シリーズ) #9 雨の日さかなつり</a></td><td class="nobr">NHK Eテレ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/12" rel="nofollow">2012-04-12(木)</a> 18:00-18:30</td><td><a href="/tid/2144/time#220458" rel="nofollow">SKET DANCE #53 コマちゃんに贈る淑やかな曲</a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/12" rel="nofollow">2012-04-12(木)</a> 18:30-19:00</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/1564/time#218339" rel="nofollow">フレ ッシュプリキュア！ #2 つみたてフレッシュ！キュアベリー誕生!!</a></td><td class="nobr">テレ玉</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/12" rel="nofollow">2012-04-12(木)</a> 19:00-19:30</td><td><a href="/tid/2024/time#221754" rel="nofollow">ポケットモンスター ベストウイッシュ #74 キバゴ救出！アイアントの巣窟!!</a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/12" rel="nofollow">2012-04-12(木)</a> 19:30-19:57</td><td><a href="/tid/1106/time#218833" rel="nofollow">NARUTO -ナルト- 疾風伝 #258 放送10周年4週連続特別企画「ライバル」</a></td><td class="nobr">テレ ビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/12" rel="nofollow">2012-04-12(木)</a> 21:00-21:30</td><td><span style="color:white; background:#59f; border:1px solid #ccf; line-height:1; ">新</span><a href="/tid/2328/time#221956" rel="nofollow">ウルトラゾーン #1 </a></td><td class="nobr">tvk</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/12" rel="nofollow">2012-04-12(木)</a> 22:00-22:55</td><td><a href="/tid/2521/time#220528" rel="nofollow">ブシロードTCG情報局 #2 </a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/12" rel="nofollow">2012-04-12(木)</a> 22:55-23:00</td><td><a href="/tid/2352/time#220593" rel="nofollow">TOKYO「萌」探偵 #24 </a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/12" rel="nofollow">2012-04-12(木)</a> 23:00-23:30</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/2077/time#218172" rel="nofollow">魔法 少女まどか☆マギカ #2 それはとっても嬉しいなって</a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/12" rel="nofollow">2012-04-12(木)</a> 24:00-24:30</td><td><a href="/tid/2509/time#219158" rel="nofollow">リスアニ！TV #2 </a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/12" rel="nofollow">2012-04-12(木)</a> 24:30-25:00</td><td><span style="color:white; background:#f7a; border:1px solid #fcc; line-height:1; ">新</span><a href="/tid/2473/time#216741" rel="nofollow">クイーンズブレイド リベリオン #1 叛乱の闘士</a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/12" rel="nofollow">2012-04-12(木)</a> 25:00-25:05</td><td><a href="/tid/2494/time#217773" rel="nofollow">リコーダーとランドセル レ♪ #15 あつしと自転車</a></td><td class="nobr">テレ玉</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/12" rel="nofollow">2012-04-12(木)</a> 25:10-25:40</td><td><span style="color:white; background:#f7a; border:1px solid #fcc; line-height:1; ">新</span><a href="/tid/2518/time#219810" rel="nofollow">坂道のアポロン #1 </a></td><td class="nobr">フジテレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/12" rel="nofollow">2012-04-12(木)</a> 25:25-25:55</td><td><a href="/tid/2489/time#217510" rel="nofollow">あっちこっち #2 美味しいケーキと⇔ばれんたいんリップ</a></td><td class="nobr">TBS</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/12" rel="nofollow">2012-04-12(木)</a> 25:40-26:10</td><td><span style="color:white; background:#f7a; border:1px solid #fcc; line-height:1; ">新</span><a href="/tid/2519/time#219833" rel="nofollow">つり球 #1 </a></td><td class="nobr">フジテレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/12" rel="nofollow">2012-04-12(木)</a> 25:45-26:15</td><td><a href="/tid/2486/time#217404" rel="nofollow">戦国コレクション #2 Peaceful Empress</a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/12" rel="nofollow">2012-04-12(木)</a> 25:55-26:25</td><td><a href="/tid/2492/time#217742" rel="nofollow">さんかれあ #2 成功…してた</a></td><td class="nobr">TBS</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/12" rel="nofollow">2012-04-12(木)</a> 26:15-26:45</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/1029/time#218819" rel="nofollow">魔法 少女リリカルなのはStrikerS #15 Sisters&amp;Daughters</a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/13" rel="nofollow">2012-04-13(金)</a> 17:00-17:30</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/322/time#219979" rel="nofollow">ふたりはプリキュア #10 ほのか炸裂！素敵な誕生日</a></td><td class="nobr">チバテレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/13" rel="nofollow">2012-04-13(金)</a> 17:30-18:00</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/430/time#220666" rel="nofollow">犬夜叉 #76 標的(ターゲット)は殺生丸と犬夜叉！</a></td><td class="nobr">チバテレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/13" rel="nofollow">2012-04-13(金)</a> 18:00-18:10</td><td><a href="/tid/2515/time#219674" rel="nofollow">おじゃる丸(第15シリーズ) #10 なにかいいこと うすいさん</a></td><td class="nobr">NHK Eテレ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/13" rel="nofollow">2012-04-13(金)</a> 18:00-18:30</td><td><a href="/tid/1635/time#220511" rel="nofollow">サキよみ ジャンBANG！ #155 </a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/13" rel="nofollow">2012-04-13(金)</a> 18:20-18:55</td><td><a href="/tid/2532/time#220876" rel="nofollow">秘密結社 鷹の爪 NEO #2 </a></td><td class="nobr">NHK Eテレ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/13" rel="nofollow">2012-04-13(金)</a> 19:00-20:54</td><td><span style="color:white; background:#4B4; border:1px solid #BEB; line-height:1;">注</span><a href="/tid/91/time#220779" rel="nofollow">クレヨ ンしんちゃん 祝！放送丸20年！春のクレヨンしんちゃん 映画公開スペシャルだゾ！</a><br><small>「映画クレヨンしんちゃん 嵐を呼 ぶ 黄金のスパイ大作戦」を放送</small></td><td class="nobr">テレビ朝日</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/13" rel="nofollow">2012-04-13(金)</a> 21:00-22:54</td><td><a href="/tid/44/time#219023" rel="nofollow">金曜ロードショー 名探偵コナン 沈黙の15分(クォーター)</a></td><td class="nobr">日本テレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/13" rel="nofollow">2012-04-13(金)</a> 23:00-23:30</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/2535/time#221306" rel="nofollow">タイ ガーマスク #2 嵐を呼ぶ猛虎</a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/13" rel="nofollow">2012-04-13(金)</a> 24:30-25:00</td><td><a href="/tid/2466/time#216617" rel="nofollow">アクセル・ワールド #2 Transformation;変移</a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/13" rel="nofollow">2012-04-13(金)</a> 25:00-25:30</td><td><a href="/tid/2466/time#216641" rel="nofollow">アクセル・ワールド #2 Transformation;変移</a></td><td class="nobr">テレ玉</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/13" rel="nofollow">2012-04-13(金)</a> 25:00-25:30</td><td><a href="/tid/2484/time#217429" rel="nofollow">ZETMAN #2 紅蓮の中で</a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/13" rel="nofollow">2012-04-13(金)</a> 25:00-25:30</td><td><a href="/tid/1926/time#220045" rel="nofollow">AG学園 あに☆ぶん #107 </a></td><td class="nobr">チバテレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/13" rel="nofollow">2012-04-13(金)</a> 25:10-25:15</td><td><a href="/tid/2476/time#216859" rel="nofollow">ゆるめいつ3でぃ #2 イメージチキンレース</a></td><td class="nobr">tvk</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/13" rel="nofollow">2012-04-13(金)</a> 25:30-26:00</td><td><a href="/tid/2490/time#220032" rel="nofollow">これはゾンビですか？ オブ・ザ・デッド #2 嗚呼、さようなら俺</a></td><td class="nobr">チバテレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/13" rel="nofollow">2012-04-13(金)</a> 26:15-26:30</td><td><span style="color:white; background:#f7a; border:1px solid #fcc; line-height:1; ">新</span><a href="/tid/2524/time#220369" rel="nofollow">エアーズロック #1 </a></td><td class="nobr">tvk</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/13" rel="nofollow">2012-04-13(金)</a> 26:20-26:50</td><td><span style="color:white; background:#f7a; border:1px solid #fcc; line-height:1; ">新</span><a href="/tid/2471/time#216711" rel="nofollow">エウレカセブンAO #1 </a></td><td class="nobr">TBS</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/13" rel="nofollow">2012-04-13(金)</a> 26:30-26:45</td><td><span style="color:white; background:#f7a; border:1px solid #fcc; line-height:1; ">新</span><a href="/tid/2524/time#220427" rel="nofollow">エアーズロック #1 </a></td><td class="nobr">チバテレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/13" rel="nofollow">2012-04-13(金)</a> 26:50-27:20</td><td><a href="/tid/2467/time#216517" rel="nofollow">夏色キセキ #2 ココロかさねて</a></td><td class="nobr">TBS</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/14" rel="nofollow">2012-04-14(土)</a> &nbsp;6:00-&nbsp;6:30</td><td><a href="/tid/2425/time#219288" rel="nofollow">エリアの騎士 #15 強敵!?辻堂学園</a></td><td class="nobr">テレビ朝日</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/14" rel="nofollow">2012-04-14(土)</a> &nbsp;7:30-&nbsp;8:00</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/1340/time#214510" rel="nofollow">遊戯王5D's #11 特殊追跡デッキ再び 取り戻せ仲間との絆</a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/14" rel="nofollow">2012-04-14(土)</a> &nbsp;8:00-&nbsp;8:30</td><td><a href="/tid/2487/time#217355" rel="nofollow">超ロボット生命体 トランスフォーマー プライム #2 暗黒変形!?ダークエネルゴン</a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/14" rel="nofollow">2012-04-14(土)</a> &nbsp;9:00-&nbsp;9:30</td><td><a href="/tid/2540/time#222325" rel="nofollow">とっとこハム太郎(2012) #2 とっとこ思い出！探すのだ(後編)</a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/14" rel="nofollow">2012-04-14(土)</a> &nbsp;9:30-10:00</td><td><a href="/tid/2496/time#217846" rel="nofollow">ジュエルペット きら☆デコッ！ #2 デコフレンドデコ～！</a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/14" rel="nofollow">2012-04-14(土)</a> &nbsp;9:30-&nbsp;9:55</td><td><a href="/tid/2523/time#220345" rel="nofollow">銀河へキックオフ!! #2 スピードスター</a></td><td class="nobr">NHK総合</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/14" rel="nofollow">2012-04-14(土)</a> 10:00-10:30</td><td><a href="/tid/2483/time#217233" rel="nofollow">プリティーリズム・ディアマイフューチャー #2 あなたにきらめく王冠(クラウン)を</a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/14" rel="nofollow">2012-04-14(土)</a> 10:30-11:00</td><td><a href="/tid/1755/time#220785" rel="nofollow">FAIRY TAIL #126 真の悪ケツプリ団</a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/14" rel="nofollow">2012-04-14(土)</a> 10:55-11:45</td><td><span style="color:white; background:#4B4; border:1px solid #BEB; line-height:1;">注</span><a href="/tid/91/time#222252" rel="nofollow">祝！映 画クレヨンしんちゃん20周年 歴代作品ぜんぶ見せますSP</a></td><td class="nobr">テレビ朝日</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/14" rel="nofollow">2012-04-14(土)</a> 17:30-17:55</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/2295/time#220059" rel="nofollow">バク マン。(第2シリーズ) #2 文集と写真集</a></td><td class="nobr">NHK Eテレ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/14" rel="nofollow">2012-04-14(土)</a> 17:55-18:20</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/372/time#214515" rel="nofollow">ふしぎの海のナディア #2 小さな逃亡者</a></td><td class="nobr">NHK Eテレ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/14" rel="nofollow">2012-04-14(土)</a> 18:00-18:30</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/518/time#219303" rel="nofollow">名探偵コナン #280 迷宮のフーリガン(後編)</a><br><small>デジタルリマスター版</small></td><td class="nobr">日本テレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/14" rel="nofollow">2012-04-14(土)</a> 22:00-22:30</td><td><span style="color:white; background:#59f; border:1px solid #ccf; line-height:1; ">新</span><a href="/tid/1356/time#219092" rel="nofollow">D.C.II S.S. ～ダ・カーポII セカンドシーズン～ #1 深雪の如く</a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/14" rel="nofollow">2012-04-14(土)</a> 22:30-23:00</td><td><span style="color:white; background:#f7a; border:1px solid #fcc; line-height:1; ">新</span><a href="/tid/2503/time#218444" rel="nofollow">シャイニング・ハーツ ～幸せのパン～ #1 ル・クールへようこそ</a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/14" rel="nofollow">2012-04-14(土)</a> 23:30-24:00</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/2146/time#218238" rel="nofollow">DOG DAYS #2 はじめての戦！</a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/14" rel="nofollow">2012-04-14(土)</a> 23:30-24:00</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/2146/time#218252" rel="nofollow">DOG DAYS #2 はじめての戦！</a></td><td class="nobr">群馬テレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/14" rel="nofollow">2012-04-14(土)</a> 23:30-24:00</td><td><a href="/tid/1926/time#219171" rel="nofollow">AG学園 あに☆ぶん #107 </a></td><td class="nobr">tvk</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/14" rel="nofollow">2012-04-14(土)</a> 24:00-24:30</td><td><a href="/tid/2500/time#218055" rel="nofollow">Fate/Zero 2ndシーズン #15 </a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/14" rel="nofollow">2012-04-14(土)</a> 24:00-24:30</td><td><a href="/tid/2500/time#218081" rel="nofollow">Fate/Zero 2ndシーズン #15 </a></td><td class="nobr">tvk</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/14" rel="nofollow">2012-04-14(土)</a> 24:00-24:30</td><td><a href="/tid/2500/time#219316" rel="nofollow">Fate/Zero 2ndシーズン #15 </a></td><td class="nobr">群馬テレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/14" rel="nofollow">2012-04-14(土)</a> 24:30-25:00</td><td><a href="/tid/2370/time#219069" rel="nofollow">モーレツ宇宙海賊 #15 密航出航大跳躍</a></td><td class="nobr">tvk</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/14" rel="nofollow">2012-04-14(土)</a> 24:30-25:00</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/1486/time#219106" rel="nofollow">かん なぎ #2 玉音アタック！</a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/14" rel="nofollow">2012-04-14(土)</a> 24:30-25:00</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/1486/time#222205" rel="nofollow">かん なぎ #2 玉音アタック！</a></td><td class="nobr">群馬テレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/14" rel="nofollow">2012-04-14(土)</a> 25:00-25:30</td><td><a href="/tid/2466/time#216544" rel="nofollow">アクセル・ワールド #2 Transformation;変移</a></td><td class="nobr">チバテレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/14" rel="nofollow">2012-04-14(土)</a> 25:00-25:30</td><td><a href="/tid/2370/time#219057" rel="nofollow">モーレツ宇宙海賊 #15 密航出航大跳躍</a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/14" rel="nofollow">2012-04-14(土)</a> 25:00-25:30</td><td><a href="/tid/1926/time#219185" rel="nofollow">AG学園 あに☆ぶん #107 </a></td><td class="nobr">テレ玉</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/14" rel="nofollow">2012-04-14(土)</a> 25:00-25:30</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/2529/time#220652" rel="nofollow">CYBERSIX #2 消された過去</a></td><td class="nobr">tvk</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/14" rel="nofollow">2012-04-14(土)</a> 25:30-26:00</td><td><a href="/tid/2457/time#216070" rel="nofollow">謎の彼女X #2 </a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/14" rel="nofollow">2012-04-14(土)</a> 25:30-26:00</td><td><a href="/tid/2466/time#216629" rel="nofollow">アクセル・ワールド #2 Transformation;変移</a></td><td class="nobr">tvk</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/14" rel="nofollow">2012-04-14(土)</a> 25:30-26:00</td><td><a href="/tid/2500/time#218068" rel="nofollow">Fate/Zero 2ndシーズン #15 </a></td><td class="nobr">テレ玉</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/14" rel="nofollow">2012-04-14(土)</a> 25:30-25:45</td><td><a href="/tid/2054/time#220969" rel="nofollow">アニメ星人～ときめきレシピ～ #81 </a></td><td class="nobr">チバテレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/15" rel="nofollow">2012-04-15(日)</a> &nbsp;6:30-&nbsp;7:00</td><td><a href="/tid/2481/time#217177" rel="nofollow">聖闘士星矢Ω #3 仮面の掟！風の聖闘士現わる！</a></td><td class="nobr">テレビ朝日</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/15" rel="nofollow">2012-04-15(日)</a> &nbsp;7:00-&nbsp;7:30</td><td><a href="/tid/2478/time#216942" rel="nofollow">宇宙兄弟 #3 有利な男と走る女医</a></td><td class="nobr">日本テレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/15" rel="nofollow">2012-04-15(日)</a> &nbsp;7:00-&nbsp;7:30</td><td><a href="/tid/2279/time#218408" rel="nofollow">バトルスピリッツ 覇王 #30 華麗なる好敵手 騎士の覇王ソーディアス・アーサー！</a></td><td class="nobr">テレビ朝日</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/15" rel="nofollow">2012-04-15(日)</a> &nbsp;7:24-&nbsp;7:30</td><td><a href="/tid/2389/time#220982" rel="nofollow">ポヨポヨ観察日記 #15 マルぱしゃり</a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/15" rel="nofollow">2012-04-15(日)</a> &nbsp;7:30-&nbsp;8:00</td><td><a href="/tid/2414/time#212636" rel="nofollow">特命戦隊ゴーバスターズ #8 マシン設計図を守れ！</a></td><td class="nobr">テレビ朝日</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/15" rel="nofollow">2012-04-15(日)</a> &nbsp;8:00-&nbsp;8:30</td><td><a href="/tid/2261/time#215997" rel="nofollow">仮面ライダーフォーゼ #31 昴・星・王・国</a></td><td class="nobr">テレビ朝日</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/15" rel="nofollow">2012-04-15(日)</a> &nbsp;8:30-&nbsp;9:00</td><td><a href="/tid/2413/time#212626" rel="nofollow">スマイルプリキュア！ #11 プリキュアがチイサクナ～ル!?</a></td><td class="nobr">テレビ 朝日</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/15" rel="nofollow">2012-04-15(日)</a> &nbsp;8:30-&nbsp;8:45</td><td><a href="/tid/2514/time#220440" rel="nofollow">メタルファイト ベイブレード ZEROG #2 ZEROGバトル！</a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/15" rel="nofollow">2012-04-15(日)</a> &nbsp;8:45-&nbsp;9:00</td><td><a href="/tid/2299/time#221108" rel="nofollow">クロスファイト ビーダマン #28 新たな開幕！ビーダマン戦国時代</a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/15" rel="nofollow">2012-04-15(日)</a> &nbsp;9:00-&nbsp;9:30</td><td><a href="/tid/2512/time#219596" rel="nofollow">ふるさと再生 日本の昔ばなし #3 </a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/15" rel="nofollow">2012-04-15(日)</a> &nbsp;9:00-&nbsp;9:30</td><td><a href="/tid/2162/time#221034" rel="nofollow">トリコ #52 衝撃！折れた包丁と研ぎ師メルク！</a></td><td class="nobr">フジテレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/15" rel="nofollow">2012-04-15(日)</a> &nbsp;9:30-10:00</td><td><a href="/tid/350/time#221046" rel="nofollow">ワンピース #543 英雄の最期 タイガー衝撃の真実</a></td><td class="nobr">フジテレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/15" rel="nofollow">2012-04-15(日)</a> 10:00-10:30</td><td><a href="/tid/2516/time#220020" rel="nofollow">カードファイト!! ヴァンガード アジアサーキット編 #67 </a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/15" rel="nofollow">2012-04-15(日)</a> 10:30-11:00</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/1612/time#221194" rel="nofollow">毎日 かあさん #73 女子部ダイエット／女子トーク／棒／石</a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/15" rel="nofollow">2012-04-15(日)</a> 10:55-11:25</td><td><a href="/tid/2288/time#221206" rel="nofollow">HUNTER×HUNTER(2011) #27 </a></td><td class="nobr">日本テレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/15" rel="nofollow">2012-04-15(日)</a> 17:00-17:30</td><td><a href="/tid/2266/time#219452" rel="nofollow">機動戦士ガンダムAGE #27 </a></td><td class="nobr">TBS</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/15" rel="nofollow">2012-04-15(日)</a> 17:30-18:00</td><td><a href="/tid/2536/time#221559" rel="nofollow">ファイ・ブレイン 神のパズル(第2シリーズ) #2 心の闇</a></td><td class="nobr">NHK Eテレ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/15" rel="nofollow">2012-04-15(日)</a> 18:00-18:30</td><td><a href="/tid/1169/time#221058" rel="nofollow">ちびまる子ちゃん #853 </a></td><td class="nobr">フジテレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/15" rel="nofollow">2012-04-15(日)</a> 18:30-19:00</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/2453/time#215888" rel="nofollow">ウル トラマンネオス #8 蘇る地球 HEART 南へ！</a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/15" rel="nofollow">2012-04-15(日)</a> 18:30-19:00</td><td><a href="/tid/1168/time#221070" rel="nofollow">サザエさん #2151 </a></td><td class="nobr">フジテレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/15" rel="nofollow">2012-04-15(日)</a> 22:00-22:27</td><td><a href="/tid/2459/time#217332" rel="nofollow">緋色の欠片 #3 </a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/15" rel="nofollow">2012-04-15(日)</a> 22:27-22:30</td><td><a href="/tid/2510/time#219212" rel="nofollow">しばいぬ子さん #3 </a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/15" rel="nofollow">2012-04-15(日)</a> 22:30-23:00</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/2328/time#221945" rel="nofollow">ウル トラゾーン #2 </a></td><td class="nobr">チバテレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/15" rel="nofollow">2012-04-15(日)</a> 23:30-24:00</td><td><a href="/tid/2370/time#219237" rel="nofollow">モーレツ宇宙海賊 #15 密航出航大跳躍</a></td><td class="nobr">チバテレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/15" rel="nofollow">2012-04-15(日)</a> 24:00-24:30</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/1683/time#219120" rel="nofollow">CANAAN #3 阿断事</a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/15" rel="nofollow">2012-04-15(日)</a> 24:00-24:30</td><td><span style="color:white; background:#B68; border:1px solid #C97; line-height:1;">終</span><a href="/tid/2273/time#219235" rel="nofollow">未来 日記 #26 </a></td><td class="nobr">チバテレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/15" rel="nofollow">2012-04-15(日)</a> 24:30-25:00</td><td><a href="/tid/2468/time#216556" rel="nofollow">黄昏乙女×アムネジア #2 邂逅乙女</a></td><td class="nobr">チバテレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/15" rel="nofollow">2012-04-15(日)</a> 24:30-25:00</td><td><a href="/tid/2490/time#217949" rel="nofollow">これはゾンビですか？ オブ・ザ・デッド #2 嗚呼、さようなら俺</a></td><td class="nobr">テレ玉</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/15" rel="nofollow">2012-04-15(日)</a> 24:30-25:00</td><td><a href="/tid/2490/time#217961" rel="nofollow">これはゾンビですか？ オブ・ザ・デッド #2 嗚呼、さようなら俺</a></td><td class="nobr">tvk</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/15" rel="nofollow">2012-04-15(日)</a> 25:00-25:30</td><td><a href="/tid/2457/time#216082" rel="nofollow">謎の彼女X #2 </a></td><td class="nobr">tvk</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/15" rel="nofollow">2012-04-15(日)</a> 25:00-25:30</td><td><a href="/tid/2500/time#218133" rel="nofollow">Fate/Zero 2ndシーズン #15 </a></td><td class="nobr">チバテレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/15" rel="nofollow">2012-04-15(日)</a> 25:00-25:30</td><td><span style="color:white; background:#B68; border:1px solid #C97; line-height:1;">終</span><a href="/tid/2273/time#219043" rel="nofollow">未来 日記 #26 </a></td><td class="nobr">テレ玉</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/15" rel="nofollow">2012-04-15(日)</a> 25:05-25:35</td><td><a href="/tid/2470/time#216656" rel="nofollow">咲-Saki- 阿知賀編 episode of side-A #2 </a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/15" rel="nofollow">2012-04-15(日)</a> 25:10-25:35</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/2118/time#218985" rel="nofollow">へう げもの #2 茶室のファンタジー</a></td><td class="nobr">NHK総合</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/15" rel="nofollow">2012-04-15(日)</a> 25:30-26:00</td><td><a href="/tid/2468/time#216605" rel="nofollow">黄昏乙女×アムネジア #2 邂逅乙女</a></td><td class="nobr">tvk</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/15" rel="nofollow">2012-04-15(日)</a> 25:30-26:00</td><td><a href="/tid/2370/time#219045" rel="nofollow">モーレツ宇宙海賊 #15 密航出航大跳躍</a></td><td class="nobr">テレ玉</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/15" rel="nofollow">2012-04-15(日)</a> 25:35-26:05</td><td><a href="/tid/2378/time#218466" rel="nofollow">アクエリオンEVOL #16 </a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/16" rel="nofollow">2012-04-16(月)</a> 17:00-17:30</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/322/time#219980" rel="nofollow">ふたりはプリキュア #11 亮太を救え！ゲキドラーゴ・パニック</a></td><td class="nobr">チバテレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/16" rel="nofollow">2012-04-16(月)</a> 18:00-18:10</td><td><a href="/tid/2515/time#219675" rel="nofollow">おじゃる丸(第15シリーズ) #11 話せば分かる</a></td><td class="nobr">NHK Eテレ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/16" rel="nofollow">2012-04-16(月)</a> 18:00-18:30</td><td><a href="/tid/2506/time#219735" rel="nofollow">GON -ゴン- #3 </a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/16" rel="nofollow">2012-04-16(月)</a> 18:20-18:55</td><td><a href="/tid/2322/time#221544" rel="nofollow">ちび☆デビ！ #18 </a></td><td class="nobr">NHK Eテレ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/16" rel="nofollow">2012-04-16(月)</a> 19:00-19:30</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/2499/time#218008" rel="nofollow">科学 忍者隊ガッチャマン #13 謎の赤い砂</a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/16" rel="nofollow">2012-04-16(月)</a> 19:00-19:30</td><td><a href="/tid/1779/time#219696" rel="nofollow">たまごっち！ #124 </a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/16" rel="nofollow">2012-04-16(月)</a> 19:30-20:00</td><td><a href="/tid/2161/time#219721" rel="nofollow">遊戯王ZEXAL #51 行くぜ決勝大会！デュエル・コースターでGO!</a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/16" rel="nofollow">2012-04-16(月)</a> 19:30-20:00</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/1786/time#221519" rel="nofollow">世紀 末救世主伝説 北斗の拳 #3 光なき街に孤拳が燃えた！爆殺五指烈弾</a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/16" rel="nofollow">2012-04-16(月)</a> 20:30-21:00</td><td><a href="/tid/2528/time#219133" rel="nofollow">ぷらTWOぅ シーズン2ぅ #2 </a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/16" rel="nofollow">2012-04-16(月)</a> 22:30-23:00</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/319/time#220303" rel="nofollow">ギャラクシーエンジェル #17、#25</a><br><small>ギャラクシーエンジェル ア・ラ・カルト(傑作選)</small></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/16" rel="nofollow">2012-04-16(月)</a> 24:30-25:00</td><td><a href="/tid/2468/time#216593" rel="nofollow">黄昏乙女×アムネジア #2 邂逅乙女</a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/16" rel="nofollow">2012-04-16(月)</a> 25:00-25:30</td><td><a href="/tid/2457/time#216094" rel="nofollow">謎の彼女X #2 </a></td><td class="nobr">テレ玉</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/16" rel="nofollow">2012-04-16(月)</a> 25:00-25:30</td><td><a href="/tid/2457/time#216111" rel="nofollow">謎の彼女X #2 </a></td><td class="nobr">チバテレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/16" rel="nofollow">2012-04-16(月)</a> 25:00-25:30</td><td><span style="color:white; background:#B68; border:1px solid #C97; line-height:1;">終</span><a href="/tid/2273/time#219041" rel="nofollow">未来 日記 #26 </a></td><td class="nobr">tvk</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/16" rel="nofollow">2012-04-16(月)</a> 25:00-25:30</td><td><a href="/tid/2517/time#219822" rel="nofollow">非公認戦隊アキバレンジャー #2 再起する痛魂が喚ぶ赤き妄想のフルブラスト</a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/16" rel="nofollow">2012-04-16(月)</a> 25:30-26:00</td><td><a href="/tid/2507/time#218750" rel="nofollow">君と僕。2 #3 </a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/16" rel="nofollow">2012-04-16(月)</a> 26:00-26:30</td><td><a href="/tid/2491/time#217619" rel="nofollow">這いよれ！ニャル子さん #2 </a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/16" rel="nofollow">2012-04-16(月)</a> 26:45-27:35</td><td><a href="/tid/2436/time#214492" rel="nofollow">ナイトライダー ネクスト #7 </a><br><small>!次回は26:30～(放送枠移動)</small></td><td class="nobr">フジテレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/16" rel="nofollow">2012-04-16(月)</a> 27:00-27:30</td><td><a href="/tid/62/time#219146" rel="nofollow">アニメTV #601 </a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/16" rel="nofollow">2012-04-16(月)</a> 27:15-27:45</td><td><a href="/tid/1927/time#219199" rel="nofollow">あにてれPresents アニソ～ンぷらす＋ #102 </a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/17" rel="nofollow">2012-04-17(火)</a> 17:00-17:30</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/322/time#219981" rel="nofollow">ふたりはプリキュア #12 悪の華・ポイズニー参上！って誰？</a></td><td class="nobr">チバテレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/17" rel="nofollow">2012-04-17(火)</a> 17:30-18:00</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/386/time#218782" rel="nofollow">それいけ！ズッコケ三人組 #4 ズッコケ夢のゴールデンクイズ</a></td><td class="nobr">チバテレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/17" rel="nofollow">2012-04-17(火)</a> 17:30-18:00</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/357/time#220074" rel="nofollow">ケロロ軍曹 #3 ケロロ 危険臨界点突破／ケロロ 極秘任務開始</a><br><small>ケロロ軍曹アンコール！</small></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/17" rel="nofollow">2012-04-17(火)</a> 18:00-18:30</td><td><a href="/tid/2513/time#219654" rel="nofollow">NARUTO -ナルト- SD ロック・リーの青春フルパワー忍伝 #3 </a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/17" rel="nofollow">2012-04-17(火)</a> 18:00-18:10</td><td><a href="/tid/2515/time#219676" rel="nofollow">おじゃる丸(第15シリーズ) #12 にがお絵</a></td><td class="nobr">NHK Eテレ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/17" rel="nofollow">2012-04-17(火)</a> 18:20-18:55</td><td><a href="/tid/2525/time#220383" rel="nofollow">ズモモとヌペペ #3 </a></td><td class="nobr">NHK Eテレ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/17" rel="nofollow">2012-04-17(火)</a> 19:25-19:55</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/1664/time#220087" rel="nofollow">マリ ー＆ガリー #3 愛とリンゴの万有魅力！</a></td><td class="nobr">NHK Eテレ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/17" rel="nofollow">2012-04-17(火)</a> 19:30-20:00</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/1460/time#218936" rel="nofollow">地獄 少女 三鼎 #11 滲んだ頁</a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/17" rel="nofollow">2012-04-17(火)</a> 21:55-22:00</td><td><a href="/tid/2472/time#221320" rel="nofollow">ガッ活！ #3 「宇宙人は何をしに地球に来るの？」</a></td><td class="nobr">NHKワンセグ2</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/17" rel="nofollow">2012-04-17(火)</a> 22:00-22:29</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/1062/time#219388" rel="nofollow">ドラ ゴンボールZ #289 悟空おじいちゃん！私がパンよ!!</a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/17" rel="nofollow">2012-04-17(火)</a> 22:29-23:00</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/19/time#219920" rel="nofollow">機動戦 士ガンダムSEED #17 カガリ再び</a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/17" rel="nofollow">2012-04-17(火)</a> 23:00-23:30</td><td><a href="/tid/2485/time#217416" rel="nofollow">黒子のバスケ #2 </a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/17" rel="nofollow">2012-04-17(火)</a> 24:30-25:00</td><td><a href="/tid/2477/time#217380" rel="nofollow">ヨルムンガンド #2 </a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/17" rel="nofollow">2012-04-17(火)</a> 25:00-25:30</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/1591/time#219027" rel="nofollow">ハヤ テのごとく!! #3 そして伝説にならない</a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/17" rel="nofollow">2012-04-17(火)</a> 25:15-25:30</td><td><a href="/tid/2524/time#220358" rel="nofollow">エアーズロック #2 </a></td><td class="nobr">テレ玉</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/17" rel="nofollow">2012-04-17(火)</a> 25:30-26:00</td><td><a href="/tid/2477/time#217392" rel="nofollow">ヨルムンガンド #2 </a></td><td class="nobr">tvk</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/17" rel="nofollow">2012-04-17(火)</a> 26:00-26:30</td><td><a href="/tid/2534/time#221270" rel="nofollow">絆体感TV 機動戦士ガンダム 第07板倉小隊 REV.2 #3 </a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/18" rel="nofollow">2012-04-18(水)</a> 17:00-17:30</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/322/time#219982" rel="nofollow">ふたりはプリキュア #13 ご用心！年下の転校生</a></td><td class="nobr">チバテレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/18" rel="nofollow">2012-04-18(水)</a> 17:30-18:00</td><td><a href="/tid/2505/time#218641" rel="nofollow">あらしのよるに ～ひみつのともだち～ #3 </a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/18" rel="nofollow">2012-04-18(水)</a> 18:00-18:10</td><td><a href="/tid/2515/time#219677" rel="nofollow">おじゃる丸(第15シリーズ) #13 貧乏神大きくなる</a></td><td class="nobr">NHK Eテレ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/18" rel="nofollow">2012-04-18(水)</a> 18:00-18:30</td><td><a href="/tid/2240/time#220238" rel="nofollow">ウルトラマン列伝 #42 </a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/18" rel="nofollow">2012-04-18(水)</a> 18:20-18:55</td><td><a href="/tid/2479/time#216909" rel="nofollow">黒魔女さんが通る!! #3 </a></td><td class="nobr">NHK Eテレ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/18" rel="nofollow">2012-04-18(水)</a> 18:30-19:00</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/2428/time#213685" rel="nofollow">楽し いムーミン一家 冒険日記 #12 タイムマシーンふたたび発動</a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/18" rel="nofollow">2012-04-18(水)</a> 19:25-19:50</td><td><a href="/tid/2065/time#218762" rel="nofollow">iCarly #72 サムのママって？</a></td><td class="nobr">NHK Eテレ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/18" rel="nofollow">2012-04-18(水)</a> 19:27-19:55</td><td><a href="/tid/2435/time#214419" rel="nofollow">ダンボール戦機W #13 </a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/18" rel="nofollow">2012-04-18(水)</a> 19:30-20:00</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/1460/time#218937" rel="nofollow">地獄 少女 三鼎 #12 真夏のグラフ</a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/18" rel="nofollow">2012-04-18(水)</a> 24:30-25:00</td><td><span style="color:white; background:#f7a; border:1px solid #fcc; line-height:1; ">新</span><a href="/tid/2466/time#219011" rel="nofollow">アクセル・ワールド #1 Acceleration;加速</a></td><td class="nobr">群馬テレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/18" rel="nofollow">2012-04-18(水)</a> 24:30-25:00</td><td><span style="color:white; background:#B68; border:1px solid #C97; line-height:1;">終</span><a href="/tid/2273/time#219039" rel="nofollow">未来 日記 #26 </a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/18" rel="nofollow">2012-04-18(水)</a> 25:00-25:30</td><td><a href="/tid/2473/time#216756" rel="nofollow">クイーンズブレイド リベリオン #2 聖なる戦い</a></td><td class="nobr">チバテレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/18" rel="nofollow">2012-04-18(水)</a> 25:00-25:30</td><td><a href="/tid/2490/time#217938" rel="nofollow">これはゾンビですか？ オブ・ザ・デッド #3 Yo！それは You！ 情！</a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/18" rel="nofollow">2012-04-18(水)</a> 25:29-25:59</td><td><a href="/tid/2511/time#219557" rel="nofollow">LUPIN the Third 峰不二子という女 #3 </a></td><td class="nobr">日本テレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/18" rel="nofollow">2012-04-18(水)</a> 25:50-26:20</td><td><a href="/tid/2475/time#216897" rel="nofollow">めだかボックス #3 </a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/19" rel="nofollow">2012-04-19(木)</a> &nbsp;7:30-&nbsp;8:00</td><td><a href="/tid/2440/time#215072" rel="nofollow">ズーブルズ！ #11 </a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/19" rel="nofollow">2012-04-19(木)</a> 17:00-17:30</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/322/time#219983" rel="nofollow">ふたりはプリキュア #14 ウソホント!?にせプリキュア大暴れ</a></td><td class="nobr">チバテレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/19" rel="nofollow">2012-04-19(木)</a> 17:30-18:00</td><td><a href="/tid/2522/time#220415" rel="nofollow">しろくまカフェ #3 </a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/19" rel="nofollow">2012-04-19(木)</a> 17:30-18:00</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/2531/time#220823" rel="nofollow">姫ち ゃんのリボン #3 あこがれの先輩に変身</a></td><td class="nobr">チバテレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/19" rel="nofollow">2012-04-19(木)</a> 18:00-18:30</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/2265/time#200564" rel="nofollow">魔法 の天使クリィミーマミ #31 優のフラッシュダンス</a></td><td class="nobr">テレ玉</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/19" rel="nofollow">2012-04-19(木)</a> 18:00-18:10</td><td><a href="/tid/2515/time#219678" rel="nofollow">おじゃる丸(第15シリーズ) #14 カメトメアメ</a></td><td class="nobr">NHK Eテレ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/19" rel="nofollow">2012-04-19(木)</a> 18:00-18:30</td><td><a href="/tid/2144/time#220459" rel="nofollow">SKET DANCE #54 </a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/19" rel="nofollow">2012-04-19(木)</a> 18:30-19:00</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/1564/time#218340" rel="nofollow">フレ ッシュプリキュア！ #3 とれたてフレッシュ！キュアパイン誕生!!</a></td><td class="nobr">テレ玉</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/19" rel="nofollow">2012-04-19(木)</a> 19:00-19:30</td><td><a href="/tid/2024/time#221755" rel="nofollow">ポケットモンスター ベストウイッシュ #75 </a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/19" rel="nofollow">2012-04-19(木)</a> 19:30-19:57</td><td><a href="/tid/1106/time#218834" rel="nofollow">NARUTO -ナルト- 疾風伝 #259 </a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/19" rel="nofollow">2012-04-19(木)</a> 19:30-20:00</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/1460/time#218938" rel="nofollow">地獄 少女 三鼎 #13 六文燈籠</a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/19" rel="nofollow">2012-04-19(木)</a> 21:00-21:30</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/2328/time#221957" rel="nofollow">ウル トラゾーン #2 </a></td><td class="nobr">tvk</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/19" rel="nofollow">2012-04-19(木)</a> 22:00-22:55</td><td><a href="/tid/2521/time#220529" rel="nofollow">ブシロードTCG情報局 #3 </a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/19" rel="nofollow">2012-04-19(木)</a> 22:55-23:00</td><td><a href="/tid/2352/time#220594" rel="nofollow">TOKYO「萌」探偵 #25 </a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/19" rel="nofollow">2012-04-19(木)</a> 23:00-23:30</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/2077/time#218173" rel="nofollow">魔法 少女まどか☆マギカ #3 もう何も恐くない</a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/19" rel="nofollow">2012-04-19(木)</a> 24:00-24:30</td><td><a href="/tid/2509/time#219159" rel="nofollow">リスアニ！TV #3 </a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/19" rel="nofollow">2012-04-19(木)</a> 24:30-25:00</td><td><a href="/tid/2473/time#216742" rel="nofollow">クイーンズブレイド リベリオン #2 聖なる戦い</a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/19" rel="nofollow">2012-04-19(木)</a> 24:45-25:15</td><td><a href="/tid/2518/time#219811" rel="nofollow">坂道のアポロン #2 </a></td><td class="nobr">フジテレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/19" rel="nofollow">2012-04-19(木)</a> 25:00-25:05</td><td><a href="/tid/2494/time#217774" rel="nofollow">リコーダーとランドセル レ♪ #16 </a></td><td class="nobr">テレ玉</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/19" rel="nofollow">2012-04-19(木)</a> 25:15-25:45</td><td><a href="/tid/2519/time#219834" rel="nofollow">つり球 #2 </a></td><td class="nobr">フジテレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/19" rel="nofollow">2012-04-19(木)</a> 25:37-26:07</td><td><a href="/tid/2489/time#217511" rel="nofollow">あっちこっち #3 </a></td><td class="nobr">TBS</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/19" rel="nofollow">2012-04-19(木)</a> 25:45-26:15</td><td><a href="/tid/2486/time#217405" rel="nofollow">戦国コレクション #3 </a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/19" rel="nofollow">2012-04-19(木)</a> 26:07-26:37</td><td><a href="/tid/2492/time#217743" rel="nofollow">さんかれあ #3 </a></td><td class="nobr">TBS</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/19" rel="nofollow">2012-04-19(木)</a> 26:15-26:45</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/1029/time#218820" rel="nofollow">魔法 少女リリカルなのはStrikerS #16 その日、機動六課(前編)</a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/20" rel="nofollow">2012-04-20(金)</a> 17:00-17:30</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/322/time#219984" rel="nofollow">ふたりはプリキュア #15 メッチャ危ない家族旅行</a></td><td class="nobr">チバテレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/20" rel="nofollow">2012-04-20(金)</a> 17:30-18:00</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/430/time#220667" rel="nofollow">犬夜叉 #77 豹猫族とふたつの牙の剣</a></td><td class="nobr">チバテレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/20" rel="nofollow">2012-04-20(金)</a> 18:00-18:10</td><td><a href="/tid/2515/time#219679" rel="nofollow">おじゃる丸(第15シリーズ) #15 おじゃカッチャン</a></td><td class="nobr">NHK Eテレ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/20" rel="nofollow">2012-04-20(金)</a> 18:00-18:30</td><td><a href="/tid/1635/time#220512" rel="nofollow">サキよみ ジャンBANG！ #156 </a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/20" rel="nofollow">2012-04-20(金)</a> 18:20-18:55</td><td><a href="/tid/2532/time#220877" rel="nofollow">秘密結社 鷹の爪 NEO #3 </a></td><td class="nobr">NHK Eテレ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/20" rel="nofollow">2012-04-20(金)</a> 23:00-23:30</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/2535/time#221307" rel="nofollow">タイ ガーマスク #3 帰って来た男</a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/20" rel="nofollow">2012-04-20(金)</a> 24:30-25:00</td><td><a href="/tid/2466/time#216618" rel="nofollow">アクセル・ワールド #3 </a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/20" rel="nofollow">2012-04-20(金)</a> 25:00-25:30</td><td><a href="/tid/2466/time#216642" rel="nofollow">アクセル・ワールド #3 </a></td><td class="nobr">テレ玉</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/20" rel="nofollow">2012-04-20(金)</a> 25:00-25:30</td><td><a href="/tid/2484/time#217430" rel="nofollow">ZETMAN #3 </a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/20" rel="nofollow">2012-04-20(金)</a> 25:00-25:30</td><td><a href="/tid/1926/time#220046" rel="nofollow">AG学園 あに☆ぶん #108 </a></td><td class="nobr">チバテレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/20" rel="nofollow">2012-04-20(金)</a> 25:10-25:15</td><td><a href="/tid/2476/time#216860" rel="nofollow">ゆるめいつ3でぃ #3 </a></td><td class="nobr">tvk</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/20" rel="nofollow">2012-04-20(金)</a> 25:30-26:00</td><td><a href="/tid/2490/time#220033" rel="nofollow">これはゾンビですか？ オブ・ザ・デッド #3 Yo！それは You！ 情！</a></td><td class="nobr">チバテレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/20" rel="nofollow">2012-04-20(金)</a> 25:55-26:25</td><td><a href="/tid/2471/time#216712" rel="nofollow">エウレカセブンAO #2 </a></td><td class="nobr">TBS</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/20" rel="nofollow">2012-04-20(金)</a> 26:15-26:30</td><td><a href="/tid/2524/time#220370" rel="nofollow">エアーズロック #2 </a></td><td class="nobr">tvk</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/20" rel="nofollow">2012-04-20(金)</a> 26:25-26:55</td><td><a href="/tid/2467/time#216518" rel="nofollow">夏色キセキ #3 </a></td><td class="nobr">TBS</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/20" rel="nofollow">2012-04-20(金)</a> 26:30-26:45</td><td><a href="/tid/2524/time#220428" rel="nofollow">エアーズロック #2 </a></td><td class="nobr">チバテレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/21" rel="nofollow">2012-04-21(土)</a> &nbsp;6:00-&nbsp;6:30</td><td><a href="/tid/2425/time#219289" rel="nofollow">エリアの騎士 #16 </a></td><td class="nobr">テレビ朝日</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/21" rel="nofollow">2012-04-21(土)</a> &nbsp;7:30-&nbsp;8:00</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/1340/time#214511" rel="nofollow">遊戯王5D's #12 死闘追跡(デッドチェイス)！絆を紡げターボウォリアー</a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/21" rel="nofollow">2012-04-21(土)</a> &nbsp;8:00-&nbsp;8:30</td><td><a href="/tid/2487/time#217356" rel="nofollow">超ロボット生命体 トランスフォーマー プライム #3 </a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/21" rel="nofollow">2012-04-21(土)</a> &nbsp;9:00-&nbsp;9:30</td><td><a href="/tid/2540/time#222326" rel="nofollow">とっとこハム太郎(2012) #3 </a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/21" rel="nofollow">2012-04-21(土)</a> &nbsp;9:30-10:00</td><td><a href="/tid/2496/time#217847" rel="nofollow">ジュエルペット きら☆デコッ！ #3 </a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/21" rel="nofollow">2012-04-21(土)</a> &nbsp;9:30-&nbsp;9:55</td><td><a href="/tid/2523/time#220346" rel="nofollow">銀河へキックオフ!! #3 三つ子の悪魔</a></td><td class="nobr">NHK総合</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/21" rel="nofollow">2012-04-21(土)</a> 10:00-10:30</td><td><a href="/tid/2483/time#217234" rel="nofollow">プリティーリズム・ディアマイフューチャー #3 </a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/21" rel="nofollow">2012-04-21(土)</a> 10:30-11:00</td><td><a href="/tid/1755/time#220786" rel="nofollow">FAIRY TAIL #127 </a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/21" rel="nofollow">2012-04-21(土)</a> 17:30-17:55</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/2295/time#220060" rel="nofollow">バク マン。(第2シリーズ) #3 窓と雪</a></td><td class="nobr">NHK Eテレ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/21" rel="nofollow">2012-04-21(土)</a> 17:55-18:20</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/372/time#214516" rel="nofollow">ふしぎの海のナディア #3 謎の大海獣</a></td><td class="nobr">NHK Eテレ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/21" rel="nofollow">2012-04-21(土)</a> 18:00-18:30</td><td><a href="/tid/518/time#219304" rel="nofollow">名探偵コナン #652 </a></td><td class="nobr">日本テレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/21" rel="nofollow">2012-04-21(土)</a> 22:00-22:30</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/1356/time#219093" rel="nofollow">D.C.II S.S. ～ダ・カーポII セカンドシーズン～ #2 雪の密室</a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/21" rel="nofollow">2012-04-21(土)</a> 22:30-23:00</td><td><a href="/tid/2503/time#218445" rel="nofollow">シャイニング・ハーツ ～幸せのパン～ #2 </a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/21" rel="nofollow">2012-04-21(土)</a> 23:30-24:00</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/2146/time#218239" rel="nofollow">DOG DAYS #3 帰りたい！帰れない？勇者inフロニャルド！</a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/21" rel="nofollow">2012-04-21(土)</a> 23:30-24:00</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/2146/time#218253" rel="nofollow">DOG DAYS #3 帰りたい！帰れない？勇者inフロニャルド！</a></td><td class="nobr">群馬テレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/21" rel="nofollow">2012-04-21(土)</a> 23:30-24:00</td><td><a href="/tid/1926/time#219172" rel="nofollow">AG学園 あに☆ぶん #108 </a></td><td class="nobr">tvk</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/21" rel="nofollow">2012-04-21(土)</a> 24:00-24:30</td><td><a href="/tid/2500/time#218056" rel="nofollow">Fate/Zero 2ndシーズン #16 </a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/21" rel="nofollow">2012-04-21(土)</a> 24:00-24:30</td><td><a href="/tid/2500/time#218082" rel="nofollow">Fate/Zero 2ndシーズン #16 </a></td><td class="nobr">tvk</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/21" rel="nofollow">2012-04-21(土)</a> 24:00-24:30</td><td><a href="/tid/2500/time#219317" rel="nofollow">Fate/Zero 2ndシーズン #16 </a></td><td class="nobr">群馬テレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/21" rel="nofollow">2012-04-21(土)</a> 24:30-25:00</td><td><a href="/tid/2370/time#219070" rel="nofollow">モーレツ宇宙海賊 #16 </a></td><td class="nobr">tvk</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/21" rel="nofollow">2012-04-21(土)</a> 24:30-25:00</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/1486/time#219107" rel="nofollow">かん なぎ #3 スクールの女神</a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/21" rel="nofollow">2012-04-21(土)</a> 24:30-25:00</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/1486/time#222206" rel="nofollow">かん なぎ #3 スクールの女神</a></td><td class="nobr">群馬テレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/21" rel="nofollow">2012-04-21(土)</a> 25:00-25:30</td><td><a href="/tid/2466/time#216545" rel="nofollow">アクセル・ワールド #3 </a></td><td class="nobr">チバテレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/21" rel="nofollow">2012-04-21(土)</a> 25:00-25:30</td><td><a href="/tid/2370/time#219058" rel="nofollow">モーレツ宇宙海賊 #16 </a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/21" rel="nofollow">2012-04-21(土)</a> 25:00-25:30</td><td><a href="/tid/1926/time#219186" rel="nofollow">AG学園 あに☆ぶん #108 </a></td><td class="nobr">テレ玉</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/21" rel="nofollow">2012-04-21(土)</a> 25:00-25:30</td><td><span style="color:white; background:#88F; border:1px solid #88F; line-height:1;">再</span><a href="/tid/2529/time#220653" rel="nofollow">CYBERSIX #3 テラ</a></td><td class="nobr">tvk</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/21" rel="nofollow">2012-04-21(土)</a> 25:30-26:00</td><td><a href="/tid/2457/time#216071" rel="nofollow">謎の彼女X #3 </a></td><td class="nobr">TOKYO MX</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/21" rel="nofollow">2012-04-21(土)</a> 25:30-26:00</td><td><a href="/tid/2466/time#216630" rel="nofollow">アクセル・ワールド #3 </a></td><td class="nobr">tvk</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/21" rel="nofollow">2012-04-21(土)</a> 25:30-26:00</td><td><a href="/tid/2500/time#218069" rel="nofollow">Fate/Zero 2ndシーズン #16 </a></td><td class="nobr">テレ玉</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/21" rel="nofollow">2012-04-21(土)</a> 25:30-25:45</td><td><a href="/tid/2054/time#220970" rel="nofollow">アニメ星人～ときめきレシピ～ #82 </a></td><td class="nobr">チバテレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/22" rel="nofollow">2012-04-22(日)</a> &nbsp;6:30-&nbsp;7:00</td><td><a href="/tid/2481/time#217178" rel="nofollow">聖闘士星矢Ω #4 </a></td><td class="nobr">テレビ朝日</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/22" rel="nofollow">2012-04-22(日)</a> &nbsp;7:00-&nbsp;7:30</td><td><a href="/tid/2478/time#216943" rel="nofollow">宇宙兄弟 #4 </a></td><td class="nobr">日本テレビ</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/22" rel="nofollow">2012-04-22(日)</a> &nbsp;7:00-&nbsp;7:30</td><td><a href="/tid/2279/time#218409" rel="nofollow">バトルスピリッツ 覇王 #31 </a></td><td class="nobr">テレビ朝日</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/22" rel="nofollow">2012-04-22(日)</a> &nbsp;7:24-&nbsp;7:30</td><td><a href="/tid/2389/time#220983" rel="nofollow">ポヨポヨ観察日記 #16 </a></td><td class="nobr">テレビ東京</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/22" rel="nofollow">2012-04-22(日)</a> &nbsp;7:30-&nbsp;8:00</td><td><a href="/tid/2414/time#212637" rel="nofollow">特命戦隊ゴーバスターズ #9 </a></td><td class="nobr">テレビ朝日</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/22" rel="nofollow">2012-04-22(日)</a> &nbsp;8:00-&nbsp;8:30</td><td><a href="/tid/2261/time#215998" rel="nofollow">仮面ライダーフォーゼ #32 </a></td><td class="nobr">テレビ朝日</td></tr>
+<tr><td class="nobr"><a href="/?date=2012/04/22" rel="nofollow">2012-04-22(日)</a> &nbsp;8:30-&nbsp;9:00</td><td><a href="/tid/2413/time#212627" rel="nofollow">スマイルプリキュア！ #12 </a></td><td class="nobr">テレビ朝日</td></tr>
+</table>
+</td>
+</tr>
+</table>
+
+<br>
+
+<hr>
+<center>
+
+<form action="http://www.google.co.jp/search" method="GET">
+<input type="hidden" name="hl" value="ja">
+<input type="hidden" name="as_sitesearch" value="cal.syoboi.jp">
+<input type="text" name="q" value="">
+<input type="submit" value="cal.syoboi.jp 内検索(Google)">
+</form>
+
+
+</center>
+
+</div> <!-- /.main -->
+
+
+<div id="footer">
+<div style="font-size:8pt" title="処理時間 0.1108 秒">すべてのデータは手入力されており、間違った情報が登録されている場合が あります。<br>
+データの修正依頼は<a href="http://jbbs.livedoor.jp/anime/3083/">掲示板</a>から。意見や要望や不具合の報告は<a href="/tuuhou">通報ページ</a>から。</div>
+</div>
+<script type="text/javascript" src="/js/jquery-1.3.2.min.js"></script>
+<script type="text/javascript" src="/js/common.js?20091203"></script>
+<script type="text/javascript" src="/js/filter_browser.js"></script><script type="text/javascript" src="/js/find.js"></script>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-51343-1");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+
+</body>
+</html>
