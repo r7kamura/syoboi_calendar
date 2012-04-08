@@ -47,7 +47,7 @@ describe "SyoboiCalendar::Client" do
       end
     end
 
-    context "when specify title mode" do
+    context "when passed mode of title" do
       subject { @guest.search(@args_title)[0] }
       it "should return Titles" do
         should be_kind_of SyoboiCalendar::Title
@@ -56,12 +56,12 @@ describe "SyoboiCalendar::Client" do
   end
 
   describe "#login?" do
-    context "logined user" do
+    context "in logined user" do
       subject { @client }
       it { should be_login }
     end
 
-    context "guest user" do
+    context "in guest user" do
       subject { @guest }
       it { should_not be_login }
     end
