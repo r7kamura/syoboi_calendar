@@ -6,22 +6,19 @@ describe "SyoboiCalendar::Client" do
   before do
     login_url      = SyoboiCalendar::Agent::LOGIN_URL
     search_url     = SyoboiCalendar::Agent::SEARCH_URL
-    login_regexp   = /.*#{Regexp.escape(login_url)}.*/
-    title_regexp   = /.*#{Regexp.escape(search_url)}.*sd=0.*/
-    program_regexp = /.*#{Regexp.escape(search_url)}.*sd=2.*/
 
-    stub_request(:post, login_regexp)
-    stub_request(:get, login_regexp).\
+    stub_request(:post, /.*#{Regexp.escape(login_url)}.*/)
+    stub_request(:get,  /.*#{Regexp.escape(login_url)}.*/).\
       to_return(
         :body => SyoboiCalendar::Fixture.response_from_login,
         :headers => { "Content-Type" => "text/html" }
       )
-    stub_request(:get, program_regexp).\
+    stub_request(:get, /.*#{Regexp.escape(search_url)}.*sd=2.*/).\
       to_return(
         :body => SyoboiCalendar::Fixture.response_from_search_programs,
         :headers => { "Content-Type" => "text/html" }
       )
-    stub_request(:get, title_regexp).\
+    stub_request(:get, /.*#{Regexp.escape(search_url)}.*sd=0.*/).\
       to_return(
         :body => SyoboiCalendar::Fixture.response_from_search_titles,
         :headers => { "Content-Type" => "text/html" }
@@ -35,25 +32,25 @@ describe "SyoboiCalendar::Client" do
 
   describe "#search" do
     before do
-      @args = { :range => "2012/4/1-2012/4/30" }
+      @args_program = { :range => "2012/4/1-2012/4/30" }
+      @args_title   = { :mode => :title, :keyword => "ひだまりスケッチ" }
     end
 
     it do
-      @client.search(@args).should be_kind_of Array
+      @client.search(@args_program).should be_kind_of Array
     end
 
     context "in default" do
+      subject { @client.search(@args_program)[0] }
       it "should return Programs" do
-        @client.search(@args)[0].should be_kind_of SyoboiCalendar::Program
+        should be_kind_of SyoboiCalendar::Program
       end
     end
 
     context "when specify title mode" do
+      subject { @guest.search(@args_title)[0] }
       it "should return Titles" do
-        @guest.search(
-          :mode    => :title,
-          :keyword => "ひだまりスケッチ"
-        )[0].should be_kind_of SyoboiCalendar::Title
+        should be_kind_of SyoboiCalendar::Title
       end
     end
   end
