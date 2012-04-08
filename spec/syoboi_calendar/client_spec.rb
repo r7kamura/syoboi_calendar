@@ -12,13 +12,6 @@ describe "SyoboiCalendar::Client" do
   end
 
   describe "#search" do
-    before(:all) do
-      WebMock.enable!
-    end
-    after(:all) do
-      WebMock.disable!
-    end
-
     before do
       @args = { :range => "2012/4/1-2012/4/30" }
     end
