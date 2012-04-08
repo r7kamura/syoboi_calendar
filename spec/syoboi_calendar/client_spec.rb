@@ -32,6 +32,15 @@ describe "SyoboiCalendar::Client" do
         @client.search(@args)[0].should be_kind_of SyoboiCalendar::Program
       end
     end
+
+    context "when specify title mode" do
+      it "should return Titles" do
+        @guest.search(
+          :mode    => :title,
+          :keyword => "ひだまりスケッチ"
+        )[0].should be_kind_of SyoboiCalendar::Title
+      end
+    end
   end
 
   describe "#login?" do
