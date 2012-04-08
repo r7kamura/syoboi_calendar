@@ -38,15 +38,4 @@ describe "SyoboiCalendar::Title" do
       @title.url.should == "http://www.tv-tokyo.co.jp/anime/mukashibanashi/"
     end
   end
-
-
-   def linkify_url(str)
-    replaced_uris = []
-    URI.extract(str.dup, %w[http https ftp]) do |uri|
-      next if replaced_uris.include?(uri)
-      replaced_uris << uri
-      str = str.gsub(uri, %Q{<a href="#{uri}" target="_blank">#{uri}</a>}).html_safe
-    end
-    str
-  end
 end
