@@ -1,11 +1,12 @@
 $LOAD_PATH.unshift File.expand_path("../", __FILE__)
 $LOAD_PATH.unshift File.expand_path("../../lib", __FILE__)
 
+require "simplecov"
+SimpleCov.start
+
 require "syoboi_calendar"
 require "webmock/rspec"
-require "simplecov"
 
-SimpleCov.start
 
 module SyoboiCalendar::Fixture
   extend self
