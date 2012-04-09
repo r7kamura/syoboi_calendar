@@ -6,7 +6,7 @@ Gem::Specification.new do |gem|
   gem.email         = ["r7kamura@gmail.com"]
   gem.description   = "Simple gem for Syoboi Calendar"
   gem.summary       = "Search Japanese Anime Lineup"
-  gem.homepage      = "http://github.com/r7kamura/syoboi_calendar"
+  gem.homepage      = "http://r7kamura.github.com/syoboi_calendar/"
 
   gem.files         = `git ls-files`.split($\)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
