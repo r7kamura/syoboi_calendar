@@ -26,8 +26,8 @@ describe "SyoboiCalendar::Client" do
 
     user = "testuserforruby"
     pass = user
-    @client = SyoboiCalendar::Client.new(:user => user, :pass => pass)
-    @guest  = SyoboiCalendar::Client.new
+    @client = SyoboiCalendar.new(:user => user, :pass => pass)
+    @guest  = SyoboiCalendar.new
   end
 
   describe "#search" do

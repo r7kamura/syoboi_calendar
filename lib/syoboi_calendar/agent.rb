@@ -1,7 +1,7 @@
 require "uri"
 require "json"
 
-module SyoboiCalendar
+class SyoboiCalendar
   class Agent
     BASE_URL   = "http://cal.syoboi.jp"
     SEARCH_URL = BASE_URL + "/find"
