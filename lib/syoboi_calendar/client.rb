@@ -1,4 +1,4 @@
-module SyoboiCalendar
+class SyoboiCalendar
   class Client
     # user and pass are optional to search with user's channel setting
     def initialize(opts = {})

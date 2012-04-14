@@ -1,6 +1,6 @@
 # encoding: UTF-8
 
-module SyoboiCalendar
+class SyoboiCalendar
   class Title
     attr_reader(
       :tid,
