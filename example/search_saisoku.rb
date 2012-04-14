@@ -10,7 +10,7 @@ args = Slop.parse :help => true do
   on :r, :range=, "Date range (e.g. 2012/4/1-2012/4/30)"
 end
 
-client = SyoboiCalendar::Client.new(
+client = SyoboiCalendar.new(
   :user => args[:user],
   :pass => args[:pass]
 )

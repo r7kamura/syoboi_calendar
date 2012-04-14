@@ -14,7 +14,7 @@ unless args[:keyword]
   exit
 end
 
-client = SyoboiCalendar::Client.new
+client = SyoboiCalendar.new
 titles = client.search(
   :mode    => :title,
   :keyword => args[:keyword],
