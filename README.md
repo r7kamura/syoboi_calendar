@@ -21,7 +21,7 @@ Or install it yourself as:
 ```
 require "syoboi_calender"
 
-client = SyoboiCalendar::Client.new(
+client = SyoboiCalendar.new(
   :user => "r7kamura",
   :pass => "********"
 )
