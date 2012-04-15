@@ -27,10 +27,5 @@ p programs[0].start_time   #=> 2012-04-06 02:50:00 +0900
 p programs[0].channel_name #=> "TBS"
 ```
 
-## Contributing
-
-1. Fork it
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Added some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create new Pull Request
+## Requirement
+* Ruby >= 1.9.2
