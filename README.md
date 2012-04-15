@@ -4,17 +4,9 @@ Simple gem for [SyoboiCalendar](http://cal.syoboi.jp/) to search Japanese anime 
 
 ## Installation
 
-Add this line to your application's Gemfile:
-
-    gem 'syoboi_calendar'
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install syoboi_calendar
+```
+$ gem install syoboi_calendar
+```
 
 ## Usage
 
