@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    syoboi_calendar (0.1.1)
+    syoboi_calendar (0.1.2)
       mechanize (>= 2.3)
 
 GEM
