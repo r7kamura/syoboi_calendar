@@ -12,6 +12,7 @@ $ gem install syoboi_calendar
 
 ```
 require "syoboi_calender"
+require "date"
 
 client = SyoboiCalendar.new(
   :user => "r7kamura",
@@ -19,7 +20,7 @@ client = SyoboiCalendar.new(
 )
 programs = client.search(
   :first => true,
-  :range => "2012/4/1-2012/4/30"
+  :range => Date.today .. Date.today + 7
 )
 
 p programs[0].name         #=> "さんかれあ #1 私が…ゾンビに…なったら"
