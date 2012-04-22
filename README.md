@@ -11,7 +11,7 @@ $ gem install syoboi_calendar
 ## Usage
 
 ```
-require "syoboi_calender"
+require "syoboi_calendar"
 require "date"
 
 client = SyoboiCalendar.new(
