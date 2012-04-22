@@ -66,4 +66,26 @@ describe "SyoboiCalendar::Client" do
       it { should_not be_login }
     end
   end
+
+  describe "#canonicalize_range" do
+    shared_examples_for "return date format string" do
+      it { should match(%r|\d{4}/\d{2}/\d{2}-\d{4}/\d{2}/\d{2}|) }
+    end
+
+    context "when passed Range of Date" do
+      subject do
+        range = (Date.today .. Date.today + 1)
+        @client.send(:canonicalize_range, range)
+      end
+      it_should_behave_like "return date format string"
+    end
+
+    context "when passed Range of Time" do
+      subject do
+        range = (Time.now .. Time.now + 86400)
+        @client.send(:canonicalize_range, range)
+      end
+      it_should_behave_like "return date format string"
+    end
+  end
 end

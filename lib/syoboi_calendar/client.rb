@@ -68,6 +68,8 @@ class SyoboiCalendar
 
     # create hash for search query
     def create_search_query(opts)
+      opts[:range] &&= canonicalize_range(opts[:range])
+
       {
         :sd  => { nil => 2, :program => 2, :title => 0 }[opts[:mode]],
         :r   => { nil => 0, :all => 0, :past => 1, :future => 2}[opts[:range]] || 3,
@@ -82,6 +84,16 @@ class SyoboiCalendar
         :pfl => opts[:final] && 4,   # final episode
         :pfs => opts[:special] && 1, # special program
       }.select { |k, v| v }
+    end
+
+    def canonicalize_range(range)
+      if range.kind_of?(Range)
+        [range.first, range.last].map { |date|
+          date.strftime("%Y/%m/%d")
+        }.join("-")
+      else
+        range
+      end
     end
   end
 end
