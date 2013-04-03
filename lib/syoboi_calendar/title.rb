@@ -65,6 +65,21 @@ class SyoboiCalendar
       end
     end
 
+    def staff
+      staff_map.values
+    end
+
+    def role
+      staff_map.keys
+    end
+
+    def staff_map
+      @staff_map ||= begin
+        update_detail_from_comment
+        @staff_map
+      end
+    end
+
     def url
       @url ||= begin
         update_detail_from_comment
@@ -106,6 +121,7 @@ class SyoboiCalendar
       hash             = parse_comment
       @url             = hash[:url]
       @voice_actor_map = hash[:voice_actor_map]
+      @staff_map       = hash[:staff_map]
       @is_already_updated_from_comment = true
     end
 
@@ -113,6 +129,7 @@ class SyoboiCalendar
       {
         :url             => extract_url,
         :voice_actor_map => extract_voice_actor_map,
+        :staff_map => extract_staff_map,
       }
     end
 
@@ -125,8 +142,22 @@ class SyoboiCalendar
     # *{section1}:key1:val1\r\n:key2:val2\r\n
     # *{section2}:key1:val1\r\n:key2:val2\r\n
     def extract_voice_actor_map
+      extract_some_map(/^キャスト/)
+    end
+
+    # cast is like following format
+    # *{section1}:key1:val1\r\n:key2:val2\r\n
+    # *{section2}:key1:val1\r\n:key2:val2\r\n
+    def extract_staff_map
+      extract_some_map(/^スタッフ/)
+    end
+
+    # cast is like following format
+    # *{section1}:key1:val1\r\n:key2:val2\r\n
+    # *{section2}:key1:val1\r\n:key2:val2\r\n
+    def extract_some_map(section_regex)
       sections = comment.split(/^\*/)
-      section = sections.select { |sec| sec =~ /^キャスト/ }[0] or return
+      section = sections.select { |sec| sec =~ section_regex }[0] or return
       lines = section.split(/\r\n/)
       lines.inject({}) do |hash, line|
         _, character, actor = line.split(/:/)
