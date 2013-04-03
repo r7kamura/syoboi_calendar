@@ -87,6 +87,15 @@ class SyoboiCalendar
       end
     end
 
+    def parsed_subtitles
+      results = []
+      subtitles.split("\r\n").each do |subtitle_str|
+        next unless subtitle_str =~ /\A\*(\d+)\*(.+)\Z/
+        results << { number: $1.to_i, subtitle: $2 }
+      end
+      results
+    end
+
     private
 
     # update params from detail data
