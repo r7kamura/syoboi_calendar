@@ -138,7 +138,7 @@ class SyoboiCalendar
       {
         :url             => extract_url,
         :voice_actor_map => extract_voice_actor_map,
-        :staff_map => extract_staff_map,
+        :staff_map       => extract_staff_map,
       }
     end
 
@@ -154,16 +154,12 @@ class SyoboiCalendar
       extract_some_map(/^キャスト/)
     end
 
-    # cast is like following format
+    # staff is like following format
     # *{section1}:key1:val1\r\n:key2:val2\r\n
-    # *{section2}:key1:val1\r\n:key2:val2\r\n
     def extract_staff_map
       extract_some_map(/^スタッフ/)
     end
 
-    # cast is like following format
-    # *{section1}:key1:val1\r\n:key2:val2\r\n
-    # *{section2}:key1:val1\r\n:key2:val2\r\n
     def extract_some_map(section_regex)
       sections = comment.split(/^\*/)
       section = sections.select { |sec| sec =~ section_regex }[0] or return
