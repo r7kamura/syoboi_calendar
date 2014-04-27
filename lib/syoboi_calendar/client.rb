@@ -11,15 +11,15 @@ module SyoboiCalendar
     end
 
     def channels(options = {})
-      get(ChannelsQuery, options)
+      get(Queries::Channel, options)
     end
 
     def programs(options = {})
-      get(ProgramsQuery, options)
+      get(Queries::Program, options)
     end
 
     def titles(options = {})
-      get(TitlesQuery, options)
+      get(Queries::Title, options)
     end
 
     private
