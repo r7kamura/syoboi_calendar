@@ -21,6 +21,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "faraday_middleware"
   spec.add_dependency "hashie"
   spec.add_dependency "multi_xml"
+  spec.add_development_dependency "codeclimate-test-reporter", ">= 0.3.0"
   spec.add_development_dependency "pry"
   spec.add_development_dependency "rake"
   spec.add_development_dependency "rspec", "2.14.1"
