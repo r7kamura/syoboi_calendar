@@ -5,11 +5,16 @@ module SyoboiCalendar
 
       option(
         :count,
-        :pid,
+        :program_id,
         :played_from,
         :played_to,
         :started_from,
         :started_to,
+      )
+
+      time_option(
+        :played,
+        :started,
       )
 
       property(
@@ -19,6 +24,8 @@ module SyoboiCalendar
         :Range,
         :StTime,
       )
+
+      alias pid program_id
 
       private
 
@@ -31,19 +38,11 @@ module SyoboiCalendar
       end
 
       def range
-        "#{played_from}-#{played_to}" if has_played_time?
+        "#{formatted_played_from}-#{formatted_played_to}" if has_played_time?
       end
 
       def st_time
-        "#{started_from}-#{started_to}" if has_started_time?
-      end
-
-      def has_played_time?
-        !!(played_from || played_to)
-      end
-
-      def has_started_time?
-        !!(started_from || started_to)
+        "#{formatted_started_from}-#{formatted_started_to}" if has_started_time?
       end
     end
   end

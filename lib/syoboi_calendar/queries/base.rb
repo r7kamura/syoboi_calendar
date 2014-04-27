@@ -13,13 +13,41 @@ module SyoboiCalendar
             end
           end
         end
+
+        def time_option(*names)
+          names.each do |name|
+            define_method("has_#{name}_time?") do
+              !!(send("#{name}_from") || send("#{name}_to"))
+            end
+
+            define_method("formatted_#{name}_from") do
+              send("#{name}_from").try(:strftime, "%Y%m%d_%H%M%S")
+            end
+
+            define_method("formatted_#{name}_to") do
+              send("#{name}_to").try(:strftime, "%Y%m%d_%H%M%S")
+            end
+          end
+        end
       end
 
       class_attribute :properties
 
       self.properties = []
 
-      property :Command
+      option(
+        :updated_from,
+        :updated_to,
+      )
+
+      time_option(
+        :updated,
+      )
+
+      property(
+        :Command,
+        :LastUpdate,
+      )
 
       attr_reader :options
 
@@ -39,6 +67,10 @@ module SyoboiCalendar
 
       def properties
         self.class.properties
+      end
+
+      def last_update
+        "#{formatted_updated_from}-#{formatted_updated_to}" if has_updated_time?
       end
     end
   end

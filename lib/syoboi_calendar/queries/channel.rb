@@ -2,7 +2,6 @@ module SyoboiCalendar
   module Queries
     class Channel < Base
       include ChannelIdQueriable
-      include UpdatedTimeQueriable
 
       private
 
