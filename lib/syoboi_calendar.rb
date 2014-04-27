@@ -1,1 +1,5 @@
 require "syoboi_calendar/client"
+require "syoboi_calendar/queries/base"
+require "syoboi_calendar/queries/channel"
+require "syoboi_calendar/queries/program"
+require "syoboi_calendar/queries/title"
