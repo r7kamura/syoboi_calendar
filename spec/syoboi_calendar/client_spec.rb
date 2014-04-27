@@ -24,9 +24,9 @@ describe SyoboiCalendar::Client do
   end
 
   describe "#programs" do
-    it "sends HTTP request with Command=ProgLookup" do
+    it "sends HTTP request with Command=ProgLookup&JOIN=SubTitles" do
       client.programs
-      a_request(:get, "http://cal.syoboi.jp/db.php?Command=ProgLookup").should have_been_made
+      a_request(:get, "http://cal.syoboi.jp/db.php?Command=ProgLookup&JOIN=SubTitles").should have_been_made
     end
   end
 end
