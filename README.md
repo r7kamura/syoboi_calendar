@@ -12,9 +12,9 @@ gem "syoboi_calendar"
 require "syoboi_calendar"
 
 client = SyoboiCalendar::Client
-client.channels
-client.programs
-client.titles
+client.channels #=> a Hashie::Mash instance
+client.programs #=> a Hashie::Mash instance
+client.titles   #=> a Hashie::Mash instance
 ```
 
 ## API

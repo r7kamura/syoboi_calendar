@@ -3,6 +3,7 @@ require "active_support/core_ext/class/attribute"
 require "active_support/core_ext/object/try"
 require "active_support/core_ext/string/inflections"
 require "faraday"
+require "faraday_middleware"
 
 require "syoboi_calendar/client"
 require "syoboi_calendar/queries/base"
