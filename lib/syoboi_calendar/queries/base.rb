@@ -6,6 +6,10 @@ module SyoboiCalendar
       def initialize(options = {})
         @options = options
       end
+
+      def to_hash
+        { Command: command }
+      end
     end
   end
 end

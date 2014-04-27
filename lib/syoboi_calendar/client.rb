@@ -2,8 +2,6 @@ require "faraday"
 
 module SyoboiCalendar
   class Client
-    HOST = "cal.syoboi.jp"
-
     attr_reader :options
 
     def initialize(options = {})
@@ -25,10 +23,7 @@ module SyoboiCalendar
     private
 
     def get(query_class, options = {})
-      connection.get(
-        "/db.php",
-        query_class.new(options).to_hash,
-      )
+      connection.get path, query_class.new(options).to_hash
     end
 
     def connection
@@ -39,6 +34,14 @@ module SyoboiCalendar
 
     def url
       "http://#{host}/"
+    end
+
+    def host
+      "cal.syoboi.jp"
+    end
+
+    def path
+      "/db.php"
     end
   end
 end
