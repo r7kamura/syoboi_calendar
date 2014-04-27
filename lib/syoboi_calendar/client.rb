@@ -1,5 +1,3 @@
-require "faraday"
-
 module SyoboiCalendar
   class Client
     attr_reader :options

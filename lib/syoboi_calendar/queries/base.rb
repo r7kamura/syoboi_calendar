@@ -1,17 +1,25 @@
-require "active_support/core_ext/string/inflections"
-
 module SyoboiCalendar
   module Queries
     class Base
       class << self
-        def properties
-          @properties ||= []
+        def property(*properties)
+          self.properties += properties
         end
 
-        def property(*properties)
-          self.properties.concat(properties)
+        def option(*options)
+          options.each do |option|
+            define_method(option) do
+              self.options[option]
+            end
+          end
         end
       end
+
+      class_attribute :properties
+
+      self.properties = []
+
+      property :Command
 
       attr_reader :options
 

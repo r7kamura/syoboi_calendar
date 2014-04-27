@@ -1,7 +1,8 @@
 module SyoboiCalendar
   module Queries
     class Channel < Base
-      property :Command
+      include ChannelIdQueriable
+      include UpdatedTimeQueriable
 
       private
 

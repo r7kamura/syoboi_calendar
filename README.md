@@ -18,26 +18,26 @@ client.titles   #=> [...]
 ```
 
 ## API
-Supported API request examples: (o: Supported, x: ToDo)
+Supported API request examples:
 
 ```
-o GET http://cal.syoboi.jp/db.php?Command=ProgLookup&JOIN=SubTitles
-x GET http://cal.syoboi.jp/db.php?Command=ProgLookup&JOIN=SubTitles&ChID=:channelID
-x GET http://cal.syoboi.jp/db.php?Command=ProgLookup&JOIN=SubTitles&Count=:count
-x GET http://cal.syoboi.jp/db.php?Command=ProgLookup&JOIN=SubTitles&PID=:id
-x GET http://cal.syoboi.jp/db.php?Command=ProgLookup&JOIN=SubTitles&PID=:id
-x GET http://cal.syoboi.jp/db.php?Command=ProgLookup&JOIN=SubTitles&Range=-:playedTo
-x GET http://cal.syoboi.jp/db.php?Command=ProgLookup&JOIN=SubTitles&Range=:playedFrom-
-x GET http://cal.syoboi.jp/db.php?Command=ProgLookup&JOIN=SubTitles&Range=:playedFrom-:playedTo
-x GET http://cal.syoboi.jp/db.php?Command=ProgLookup&JOIN=SubTitles&StTime=-:startedTo
-o GET http://cal.syoboi.jp/db.php?Command=TitleLookup
-x GET http://cal.syoboi.jp/db.php?Command=TitleLookup&LastUpdate=-:updatedTo&TID=*
-x GET http://cal.syoboi.jp/db.php?Command=TitleLookup&LastUpdate=:updatedFrom-&TID=*
-x GET http://cal.syoboi.jp/db.php?Command=TitleLookup&LastUpdate=:updatedFrom-:updatedTo&TID=*
-x GET http://cal.syoboi.jp/db.php?Command=TitleLookup&TID=:id
-o GET http://cal.syoboi.jp/db.php?Command=ChLookup
-x GET http://cal.syoboi.jp/db.php?Command=ChLookup&ChID=:id
-x GET http://cal.syoboi.jp/db.php?Command=ChLookup&LastUpdate=:updatedFrom-:updatedTo
-x GET http://cal.syoboi.jp/db.php?Command=ChLookup&LastUpdate=:updatedFrom-
-x GET http://cal.syoboi.jp/db.php?Command=ChLookup&LastUpdate=-:updatedTo
+GET http://cal.syoboi.jp/db.php?Command=ProgLookup&JOIN=SubTitles
+GET http://cal.syoboi.jp/db.php?Command=ProgLookup&JOIN=SubTitles&ChID=:channelID
+GET http://cal.syoboi.jp/db.php?Command=ProgLookup&JOIN=SubTitles&Count=:count
+GET http://cal.syoboi.jp/db.php?Command=ProgLookup&JOIN=SubTitles&PID=:id
+GET http://cal.syoboi.jp/db.php?Command=ProgLookup&JOIN=SubTitles&PID=:id
+GET http://cal.syoboi.jp/db.php?Command=ProgLookup&JOIN=SubTitles&Range=-:playedTo
+GET http://cal.syoboi.jp/db.php?Command=ProgLookup&JOIN=SubTitles&Range=:playedFrom-
+GET http://cal.syoboi.jp/db.php?Command=ProgLookup&JOIN=SubTitles&Range=:playedFrom-:playedTo
+GET http://cal.syoboi.jp/db.php?Command=ProgLookup&JOIN=SubTitles&StTime=-:startedTo
+GET http://cal.syoboi.jp/db.php?Command=TitleLookup
+GET http://cal.syoboi.jp/db.php?Command=TitleLookup&LastUpdate=-:updatedTo&TID=*
+GET http://cal.syoboi.jp/db.php?Command=TitleLookup&LastUpdate=:updatedFrom-&TID=*
+GET http://cal.syoboi.jp/db.php?Command=TitleLookup&LastUpdate=:updatedFrom-:updatedTo&TID=*
+GET http://cal.syoboi.jp/db.php?Command=TitleLookup&TID=:id
+GET http://cal.syoboi.jp/db.php?Command=ChLookup
+GET http://cal.syoboi.jp/db.php?Command=ChLookup&ChID=:id
+GET http://cal.syoboi.jp/db.php?Command=ChLookup&LastUpdate=:updatedFrom-:updatedTo
+GET http://cal.syoboi.jp/db.php?Command=ChLookup&LastUpdate=:updatedFrom-
+GET http://cal.syoboi.jp/db.php?Command=ChLookup&LastUpdate=-:updatedTo
 ```

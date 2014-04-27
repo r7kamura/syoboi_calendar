@@ -1,7 +1,11 @@
 module SyoboiCalendar
   module Queries
     class Title < Base
-      property :Command
+      include UpdatedTimeQueriable
+
+      option :tid
+
+      property :TID
 
       private
 
