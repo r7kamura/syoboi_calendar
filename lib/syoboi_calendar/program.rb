@@ -1,4 +1,4 @@
-class SyoboiCalendar
+module SyoboiCalendar
   class Program
     attr_reader(
       :pid,
