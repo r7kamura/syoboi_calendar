@@ -23,7 +23,7 @@ module SyoboiCalendar
     private
 
     def get(query_class, options = {})
-      connection.get path, query_class.new(options).to_hash
+      connection.get(path, query_class.new(options).to_hash)
     end
 
     def connection

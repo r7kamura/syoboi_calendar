@@ -1,12 +1,16 @@
 module SyoboiCalendar
   module Queries
     class Program < Base
-      def to_hash
-        super.merge(JOIN: "SubTitles")
-      end
+      property :Command, :JOIN
+
+      private
 
       def command
         "ProgLookup"
+      end
+
+      def join
+        "SubTitles"
       end
     end
   end

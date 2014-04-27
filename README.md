@@ -21,7 +21,7 @@ client.titles   #=> [...]
 Supported API request examples: (o: Supported, x: ToDo)
 
 ```
-o GET http://cal.syoboi.jp/db.php?Command=ProgLookup
+o GET http://cal.syoboi.jp/db.php?Command=ProgLookup&JOIN=SubTitles
 x GET http://cal.syoboi.jp/db.php?Command=ProgLookup&JOIN=SubTitles&ChID=:channelID
 x GET http://cal.syoboi.jp/db.php?Command=ProgLookup&JOIN=SubTitles&Count=:count
 x GET http://cal.syoboi.jp/db.php?Command=ProgLookup&JOIN=SubTitles&PID=:id
