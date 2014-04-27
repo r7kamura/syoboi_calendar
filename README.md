@@ -20,7 +20,7 @@ client.titles
 ## API
 SyoboiCalender::Client provides `#channels`, `#titles`, `#programs` methods.
 
-```
+```ruby
 SyoboiCalendar::Client
   #channels
     with options {}
