@@ -5,8 +5,6 @@ $LOAD_PATH.unshift File.expand_path("../../lib", __FILE__)
 require "syoboi_calendar"
 require "webmock/rspec"
 
-WebMock.allow_net_connect!
-
 module SyoboiCalendar::Fixture
   extend self
 
