@@ -12,7 +12,7 @@ gem "syoboi_calendar"
 ```ruby
 require "syoboi_calendar"
 
-client = SyoboiCalendar::Client
+client = SyoboiCalendar::Client.new
 client.channels #=> a Hashie::Mash instance
 client.programs #=> a Hashie::Mash instance
 client.titles   #=> a Hashie::Mash instance
