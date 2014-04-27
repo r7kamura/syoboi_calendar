@@ -63,7 +63,7 @@ describe SyoboiCalendar::Client do
           hash[:query]
         end
 
-        it "sends request with #{hash[:query].to_query}" do
+        it "requests to http://cal.syoboi.jp/db.php?#{hash[:query].to_query}" do
           should have_been_made
         end
       end
@@ -106,7 +106,7 @@ describe SyoboiCalendar::Client do
           hash[:query]
         end
 
-        it "sends request with #{hash[:query].to_query}" do
+        it "requests to http://cal.syoboi.jp/db.php?#{hash[:query].to_query}" do
           should have_been_made
         end
       end
@@ -181,7 +181,7 @@ describe SyoboiCalendar::Client do
           hash[:query]
         end
 
-        it "sends request with #{hash[:query].to_query}" do
+        it "requests to http://cal.syoboi.jp/db.php?#{hash[:query].to_query}" do
           should have_been_made
         end
       end
