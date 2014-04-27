@@ -1,6 +1,1 @@
-require "mechanize"
-require "syoboi_calendar/agent"
 require "syoboi_calendar/client"
-require "syoboi_calendar/program"
-require "syoboi_calendar/title"
-require "syoboi_calendar/version"

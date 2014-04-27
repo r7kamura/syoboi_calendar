@@ -1,21 +1,25 @@
-require File.expand_path("../lib/syoboi_calendar/version", __FILE__)
+lib = File.expand_path("../lib", __FILE__)
+$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+require "syoboi_calendar/version"
 
-Gem::Specification.new do |gem|
-  gem.authors       = ["Ryo NAKAMURA"]
-  gem.email         = ["r7kamura@gmail.com"]
-  gem.description   = "Search Japanese anime from SyoboiCalendar."
-  gem.homepage      = "http://github.com/r7kamura/syoboi_calendar/"
+Gem::Specification.new do |spec|
+  spec.name          = "syoboi_calendar"
+  spec.version       = SyoboiCalendar::VERSION
+  spec.authors       = ["Ryo Nakamura"]
+  spec.email         = ["r7kamura@gmail.com"]
+  spec.summary       = "A chatterbot framework, inspired by Hubot"
+  spec.homepage      = "https://github.com/r7kamura/syoboi_calendar"
+  spec.license       = "MIT"
 
-  gem.files         = `git ls-files`.split($\)
-  gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
-  gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
-  gem.name          = "syoboi_calendar"
-  gem.require_paths = ["lib"]
-  gem.version       = SyoboiCalendar::VERSION
+  spec.files         = `git ls-files -z`.split("\x0")
+  spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
+  spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
+  spec.require_paths = ["lib"]
 
-  gem.add_dependency "mechanize", ">= 2.3"
-  gem.add_development_dependency "rake", ">= 0.9.2"
-  gem.add_development_dependency "rspec", ">= 2.9.0"
-  gem.add_development_dependency "webmock", ">= 1.8.6"
-  gem.add_development_dependency "simplecov", ">= 0.6.1"
+  spec.add_dependency "faraday"
+  spec.add_development_dependency "pry"
+  spec.add_development_dependency "rake"
+  spec.add_development_dependency "rspec", "2.14.1"
+  spec.add_development_dependency "simplecov"
+  spec.add_development_dependency "webmock"
 end
