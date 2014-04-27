@@ -20,6 +20,10 @@ module SyoboiCalendar
       end
 
       def to_hash
+        to_hash_with_nil_value.reject {|key, value| value.nil? }
+      end
+
+      def to_hash_with_nil_value
         properties.inject({}) do |hash, property|
           hash.merge(property => send(property.to_s.underscore))
         end
