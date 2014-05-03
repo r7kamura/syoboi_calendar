@@ -2,8 +2,8 @@ module SyoboiCalendar
   module QueryBuilders
     class Base
       class << self
-        def build(options)
-          new(options).to_hash
+        def build(*args)
+          new(*args).to_hash
         end
 
         def property(*properties)
