@@ -1,3 +1,6 @@
+## 0.3.1
+* Client#programs supports `:include` option for eage-loading related resources
+
 ## 0.3.0
 * SyoboiCalendar::Client returns an Array of resources
 
