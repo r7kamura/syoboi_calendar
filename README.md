@@ -107,7 +107,6 @@ SyoboiCalendar::Client returns an Array of resources.
 * point
 * rank
 
-
 ### SyoboiCalendar::Resources::Program
 * channel_id
 * comment
@@ -122,3 +121,12 @@ SyoboiCalendar::Client returns an Array of resources.
 * title_id
 * updated_at
 * warn
+
+## Eager Loading
+Client#programs supports `:include` option for eage-loading related resources.
+
+```ruby
+programs = client.programs(include: [:channel, :title])
+programs.first.channel #=> SyoboiCalendar::Resources::Channel
+programs.first.title   #=> SyoboiCalendar::Resources::title
+```

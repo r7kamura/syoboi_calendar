@@ -1,6 +1,8 @@
 module SyoboiCalendar
   module Resources
     class Program < Base
+      attr_accessor :channel, :title
+
       def id
         response.PID.try(:to_i)
       end
