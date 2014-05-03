@@ -2,6 +2,10 @@ module SyoboiCalendar
   module Queries
     class Base
       class << self
+        def build(options)
+          new(options).to_hash
+        end
+
         def property(*properties)
           self.properties += properties
         end
