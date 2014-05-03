@@ -1,6 +1,5 @@
 # coding: utf-8
 require "spec_helper"
-require "active_support/core_ext/object/to_query"
 
 describe SyoboiCalendar::Client do
   before do
