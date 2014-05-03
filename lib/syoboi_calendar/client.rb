@@ -1,15 +1,15 @@
 module SyoboiCalendar
   class Client
     def channels(options = {})
-      get Queries::Channel.build(options)
+      get QueryBuilders::Channel.build(options)
     end
 
     def programs(options = {})
-      get Queries::Program.build(options)
+      get QueryBuilders::Program.build(options)
     end
 
     def titles(options = {})
-      get Queries::Title.build(options)
+      get QueryBuilders::Title.build(options)
     end
 
     private

@@ -1,5 +1,5 @@
 module SyoboiCalendar
-  module Queries
+  module QueryBuilders
     class Program < Base
       include ChannelIdQueriable
 

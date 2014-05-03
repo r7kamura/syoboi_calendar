@@ -1,5 +1,5 @@
 module SyoboiCalendar
-  module Queries
+  module QueryBuilders
     module ChannelIdQueriable
       extend ActiveSupport::Concern
 

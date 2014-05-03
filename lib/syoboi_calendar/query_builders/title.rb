@@ -1,5 +1,5 @@
 module SyoboiCalendar
-  module Queries
+  module QueryBuilders
     class Title < Base
       option :title_id
 
