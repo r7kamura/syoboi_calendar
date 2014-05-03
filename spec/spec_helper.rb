@@ -10,6 +10,8 @@ if ENV["CI"]
 end
 
 require "syoboi_calendar"
+require "rack"
+require "active_support/all"
 
 RSpec.configure do |config|
   config.treat_symbols_as_metadata_keys_with_true_values = true

@@ -1,15 +1,27 @@
 module SyoboiCalendar
   class Client
     def channels(options = {})
-      get QueryBuilders::Channel.build(options)
+      process(
+        QueryBuilders::Channel,
+        Parsers::Channel,
+        options,
+      )
     end
 
     def programs(options = {})
-      get QueryBuilders::Program.build(options)
+      process(
+        QueryBuilders::Program,
+        Parsers::Program,
+        options,
+      )
     end
 
     def titles(options = {})
-      get QueryBuilders::Title.build(options)
+      process(
+        QueryBuilders::Title,
+        Parsers::Title,
+        options,
+      )
     end
 
     private
@@ -20,6 +32,12 @@ module SyoboiCalendar
 
     def get(query)
       connector.get(query).body
+    end
+
+    def process(builder, parser, options)
+      query = builder.build(options)
+      response = get(query)
+      parser.parse(response)
     end
   end
 end
