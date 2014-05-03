@@ -3,8 +3,8 @@ module SyoboiCalendar
     URL = "http://cal.syoboi.jp/"
     PATH = "/db.php"
 
-    def get(params)
-      connection.get(path, params)
+    def get(query)
+      connection.get(path, query)
     end
 
     def connection

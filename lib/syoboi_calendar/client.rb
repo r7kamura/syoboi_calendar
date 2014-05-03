@@ -18,8 +18,8 @@ module SyoboiCalendar
       @connector ||= Connector.new
     end
 
-    def get(params)
-      connector.get(params).body
+    def get(query)
+      connector.get(query).body
     end
   end
 end
