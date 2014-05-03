@@ -13,9 +13,9 @@ gem "syoboi_calendar"
 require "syoboi_calendar"
 
 client = SyoboiCalendar::Client.new
-client.channels #=> a Hashie::Mash instance
-client.programs #=> a Hashie::Mash instance
-client.titles   #=> a Hashie::Mash instance
+client.channels #=> an Array of SyoboiCalendar::Resources::Channel
+client.programs #=> an Array of SyoboiCalendar::Resources::Program
+client.titles   #=> an Array of SyoboiCalendar::Resources::Title
 ```
 
 ## API
@@ -73,3 +73,52 @@ SyoboiCalendar::Client
     with options {:played_from=>2000-01-01 00:00:00 UTC, :played_to=>2000-01-01 00:00:00 UTC}
       requests to http://cal.syoboi.jp/db.php?Command=ProgLookup&JOIN=SubTitles&Range=20000101_000000-20000101_000000
 ```
+
+## Resources
+SyoboiCalendar::Client returns an Array of resources.
+
+### SyoboiCalendar::Resources::Channel
+* comment
+* epg_url
+* group_id
+* id
+* iepg_name
+* name
+* number
+* url
+
+
+### SyoboiCalendar::Resources::Title
+* category_id
+* comment
+* first_channel
+* first_end_month
+* first_end_year
+* first_month
+* first_year
+* keywords
+* short_title
+* sub_titles
+* id
+* name
+* english_name
+* flag
+* kana
+* point
+* rank
+
+
+### SyoboiCalendar::Resources::Program
+* channel_id
+* comment
+* count
+* deleted?
+* finished_at
+* flag
+* id
+* revision
+* started_at
+* sub_title
+* title_id
+* updated_at
+* warn
