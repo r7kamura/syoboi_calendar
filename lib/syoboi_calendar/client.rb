@@ -1,11 +1,5 @@
 module SyoboiCalendar
   class Client
-    attr_reader :options
-
-    def initialize(options = {})
-      @options = options
-    end
-
     def channels(options = {})
       get(Queries::Channel, options)
     end
