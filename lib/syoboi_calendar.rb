@@ -6,6 +6,7 @@ require "faraday"
 require "faraday_middleware"
 
 require "syoboi_calendar/client"
+require "syoboi_calendar/connector"
 require "syoboi_calendar/queries/base"
 require "syoboi_calendar/queries/channel_id_queriable"
 require "syoboi_calendar/queries/channel"

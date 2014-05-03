@@ -14,29 +14,12 @@ module SyoboiCalendar
 
     private
 
+    def connector
+      @connector ||= Connector.new
+    end
+
     def get(params)
-      connection.get(path, params).body
-    end
-
-    def connection
-      @connection ||= Faraday.new(url: url) do |connection|
-        connection.adapter :net_http
-        connection.response :mashify
-        connection.response :xml
-        connection.response :raise_error
-      end
-    end
-
-    def url
-      "http://#{host}/"
-    end
-
-    def host
-      "cal.syoboi.jp"
-    end
-
-    def path
-      "/db.php"
+      connector.get(params).body
     end
   end
 end
