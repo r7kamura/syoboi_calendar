@@ -7,7 +7,7 @@ Gem::Specification.new do |spec|
   spec.version       = SyoboiCalendar::VERSION
   spec.authors       = ["Ryo Nakamura"]
   spec.email         = ["r7kamura@gmail.com"]
-  spec.summary       = "A chatterbot framework, inspired by Hubot"
+  spec.summary       = "An API Client for http://cal.syoboi.jp/ written in Ruby."
   spec.homepage      = "https://github.com/r7kamura/syoboi_calendar"
   spec.license       = "MIT"
 
