@@ -36,7 +36,7 @@ module SyoboiCalendar
       end
 
       def includes
-        Array.wrap(options[:includes])
+        ::Array.wrap(options[:includes])
       end
     end
   end

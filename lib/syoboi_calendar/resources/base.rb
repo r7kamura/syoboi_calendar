@@ -11,7 +11,7 @@ module SyoboiCalendar
 
       # @return [Time]
       def updated_at
-        Time.parse(response.LastUpdate)
+        ::Time.parse(response.LastUpdate)
       end
     end
   end

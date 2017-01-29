@@ -44,7 +44,7 @@ module SyoboiCalendar
 
       # @return [Time]
       def finished_at
-        Time.parse(response.EdTime)
+        ::Time.parse(response.EdTime)
       end
 
       # @return [Integer, nil]
@@ -54,7 +54,7 @@ module SyoboiCalendar
 
       # @return [Time]
       def started_at
-        Time.parse(response.StTime)
+        ::Time.parse(response.StTime)
       end
 
       # @return [String, nil]

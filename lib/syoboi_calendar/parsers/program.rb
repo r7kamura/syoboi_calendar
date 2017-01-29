@@ -8,7 +8,7 @@ module SyoboiCalendar
       end
 
       def items
-        Array.wrap(response.ProgLookupResponse.ProgItems.ProgItem)
+        ::Array.wrap(response.ProgLookupResponse.ProgItems.ProgItem)
       end
     end
   end
