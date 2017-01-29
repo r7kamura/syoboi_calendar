@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/r7kamura/syoboi_calendar.png)](https://travis-ci.org/r7kamura/syoboi_calendar)
 
-An API Client for http://cal.syoboi.jp/ written in Ruby.
+An API Client library for http://cal.syoboi.jp/ written in Ruby.
 
 ## Installation
 
