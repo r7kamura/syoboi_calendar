@@ -1,6 +1,6 @@
 module SyoboiCalendar
   module Resources
-    class Title < Base
+    class TitleResource < BaseResource
       # @return [Integer, nil]
       def category_id
         response.Cat.try(:to_i)

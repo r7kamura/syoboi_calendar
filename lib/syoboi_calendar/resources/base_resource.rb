@@ -1,6 +1,6 @@
 module SyoboiCalendar
   module Resources
-    class Base
+    class BaseResource
       # @return [Hashie::Mash]
       attr_reader :response
 

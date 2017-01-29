@@ -192,17 +192,16 @@ describe ::SyoboiCalendar::Client do
         stub_request(:get, //).to_rack(app)
       end
 
-      it "returns an Array of ::SyoboiCalendar::Resources::Channel" do
+      it "returns channels" do
         channels = subject
-        channels[0].should be_a ::SyoboiCalendar::Resources::Channel
-        channels[0].comment.should == "DummyComment"
-        channels[0].epg_url.should == "http://example.com/epg-url"
-        channels[0].group_id.should == 1
-        channels[0].id.should == 3
-        channels[0].iepg_name.should == "DummyiEPGName"
-        channels[0].name.should == "DummyChannelName"
-        channels[0].number.should == 3
-        channels[0].url.should == "http://example.com/"
+        channels.first.comment.should == "DummyComment"
+        channels.first.epg_url.should == "http://example.com/epg-url"
+        channels.first.group_id.should == 1
+        channels.first.id.should == 3
+        channels.first.iepg_name.should == "DummyiEPGName"
+        channels.first.name.should == "DummyChannelName"
+        channels.first.number.should == 3
+        channels.first.url.should == "http://example.com/"
       end
     end
   end
@@ -368,22 +367,21 @@ describe ::SyoboiCalendar::Client do
         stub_request(:get, //).to_rack(app)
       end
 
-      it "returns an Array of ::SyoboiCalendar::Resources::Program" do
+      it "returns programs" do
         programs = subject
-        programs[0].should be_a ::SyoboiCalendar::Resources::Program
-        programs[0].channel_id.should == 3
-        programs[0].comment.should == "DummyComment"
-        programs[0].count.should == 1
-        programs[0].deleted?.should == false
-        programs[0].finished_at.should == Time.parse("2000-01-01 00:00:00")
-        programs[0].flag.should == 9
-        programs[0].id.should == 1
-        programs[0].revision.should == 2
-        programs[0].started_at.should == Time.parse("2000-01-01 00:00:00")
-        programs[0].sub_title.should == "DummySubTitle"
-        programs[0].title_id.should == 2
-        programs[0].updated_at.should == Time.parse("2000-01-01 00:00:00")
-        programs[0].warn.should == 1
+        programs.first.channel_id.should == 3
+        programs.first.comment.should == "DummyComment"
+        programs.first.count.should == 1
+        programs.first.deleted?.should == false
+        programs.first.finished_at.should == Time.parse("2000-01-01 00:00:00")
+        programs.first.flag.should == 9
+        programs.first.id.should == 1
+        programs.first.revision.should == 2
+        programs.first.started_at.should == Time.parse("2000-01-01 00:00:00")
+        programs.first.sub_title.should == "DummySubTitle"
+        programs.first.title_id.should == 2
+        programs.first.updated_at.should == Time.parse("2000-01-01 00:00:00")
+        programs.first.warn.should == 1
       end
     end
   end
@@ -460,26 +458,25 @@ describe ::SyoboiCalendar::Client do
         stub_request(:get, //).to_rack(app)
       end
 
-      it "returns an Array of ::SyoboiCalendar::Resources::Title" do
+      it "returns titles" do
         titles = subject
-        titles[0].should be_a ::SyoboiCalendar::Resources::Title
-        titles[0].category_id.should == 4
-        titles[0].comment.should == "DummyComment"
-        titles[0].first_channel.should == "DummyChannel"
-        titles[0].first_end_month.should == 1
-        titles[0].first_end_year.should == 2000
-        titles[0].first_month.should == 1
-        titles[0].first_year.should == 2000
-        titles[0].keywords.should == "DummyKeywords"
-        titles[0].short_title.should == "DummyShortTitle"
-        titles[0].sub_titles.should == "DummySubTitles"
-        titles[0].id.should == 2
-        titles[0].name.should == "DummyTitle"
-        titles[0].english_name.should == "DummyEnglishTitle"
-        titles[0].flag.should == 0
-        titles[0].kana.should == "ダミータイトル"
-        titles[0].point.should == 6
-        titles[0].rank.should == 1
+        titles.first.category_id.should == 4
+        titles.first.comment.should == "DummyComment"
+        titles.first.first_channel.should == "DummyChannel"
+        titles.first.first_end_month.should == 1
+        titles.first.first_end_year.should == 2000
+        titles.first.first_month.should == 1
+        titles.first.first_year.should == 2000
+        titles.first.keywords.should == "DummyKeywords"
+        titles.first.short_title.should == "DummyShortTitle"
+        titles.first.sub_titles.should == "DummySubTitles"
+        titles.first.id.should == 2
+        titles.first.name.should == "DummyTitle"
+        titles.first.english_name.should == "DummyEnglishTitle"
+        titles.first.flag.should == 0
+        titles.first.kana.should == "ダミータイトル"
+        titles.first.point.should == 6
+        titles.first.rank.should == 1
       end
     end
   end

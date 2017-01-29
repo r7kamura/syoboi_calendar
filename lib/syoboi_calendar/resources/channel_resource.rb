@@ -1,6 +1,6 @@
 module SyoboiCalendar
   module Resources
-    class Channel < Base
+    class ChannelResource < BaseResource
       # @return [String, nil]
       def comment
         response.ChComment

@@ -16,22 +16,22 @@ module SyoboiCalendar
     # @return [Array<SyoboiCalendar::Resources::Channel>]
     def list_channels(options = {})
       query = ::SyoboiCalendar::Queries::ChannelQuery.new(options)
-      response = get(query.to_hash)
-      ::SyoboiCalendar::Parsers::Channel.parse(response.body)
+      faraday_response = get(query.to_hash)
+      ::SyoboiCalendar::Responses::ChannelsResponse.new(faraday_response)
     end
 
     # @return [Array<SyoboiCalendar::Resources::Program>]
     def list_programs(options = {})
       query = ::SyoboiCalendar::Queries::ProgramQuery.new(options)
-      response = get(query.to_hash)
-      ::SyoboiCalendar::Parsers::Program.parse(response.body)
+      faraday_response = get(query.to_hash)
+      ::SyoboiCalendar::Responses::ProgramsResponse.new(faraday_response)
     end
 
     # @return [Array<SyoboiCalendar::Resources::Title>]
     def list_titles(options = {})
       query = ::SyoboiCalendar::Queries::TitleQuery.new(options)
-      response = get(query.to_hash)
-      ::SyoboiCalendar::Parsers::Title.parse(response.body)
+      faraday_response = get(query.to_hash)
+      ::SyoboiCalendar::Responses::TitlesResponse.new(faraday_response)
     end
 
     private

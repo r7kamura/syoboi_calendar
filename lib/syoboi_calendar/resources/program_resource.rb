@@ -1,6 +1,6 @@
 module SyoboiCalendar
   module Resources
-    class Program < Base
+    class ProgramResource < BaseResource
       # @return [SyoboiCalendar::Resources::Channel, nil]
       attr_accessor :channel
 
