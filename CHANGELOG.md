@@ -1,3 +1,7 @@
+## 0.4.0
+
+- Change client method names (e..g `#programs` to `#list_programs`)
+
 ## 0.3.1
 
 - Client#programs supports `:include` option for eage-loading related resources
