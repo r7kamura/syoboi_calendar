@@ -1,29 +1,6 @@
-# coding: utf-8
-require "spec_helper"
-
-describe SyoboiCalendar::Client do
-  before do
-    stub_request(:any, //)
-  end
-
+describe ::SyoboiCalendar::Client do
   let(:client) do
     described_class.new
-  end
-
-  let!(:request) do
-    stub_request(:get, "http://cal.syoboi.jp/db.php?#{query.to_query}")
-  end
-
-  let(:call) do
-    client.send(method_name, options)
-  end
-
-  let(:options) do
-    {}
-  end
-
-  let(:query) do
-    {}
   end
 
   let(:dummy_channels_response) do
@@ -143,44 +120,69 @@ describe SyoboiCalendar::Client do
     request
   end
 
-  describe "#channels" do
-    let(:method_name) do
-      :channels
+  describe "#list_channels" do
+    subject do
+      client.list_channels(options)
+    end
+
+    let(:options) do
+      {}
     end
 
     [
       {
         options: {},
-        query: { Command: "ChLookup" },
+        query: {
+          Command: "ChLookup",
+        },
       },
       {
-        options: { channel_id: 1 },
-        query: { Command: "ChLookup", ChID: 1 },
+        options: {
+          channel_id: 1,
+        },
+        query: {
+          Command: "ChLookup",
+          ChID: 1,
+        },
       },
       {
-        options: { updated_from: Time.utc(2000) },
-        query: { Command: "ChLookup", LastUpdate: "20000101_000000-" },
+        options: {
+          updated_from: ::Time.new(2000, 1, 1),
+        },
+        query: {
+          Command: "ChLookup",
+          LastUpdate: "20000101_000000-",
+        },
       },
       {
-        options: { updated_to: Time.utc(2000) },
-        query: { Command: "ChLookup", LastUpdate: "-20000101_000000" },
+        options: {
+          updated_to: ::Time.new(2000, 1, 1),
+        },
+        query: {
+          Command: "ChLookup",
+          LastUpdate: "-20000101_000000",
+        },
       },
       {
-        options: { updated_from: Time.utc(2000), updated_to: Time.utc(2000) },
-        query: { Command: "ChLookup", LastUpdate: "20000101_000000-20000101_000000" },
+        options: {
+          updated_from: ::Time.new(2000, 1, 1),
+          updated_to: ::Time.new(2000, 1, 1),
+        },
+        query: {
+          Command: "ChLookup",
+          LastUpdate: "20000101_000000-20000101_000000",
+        },
       },
-    ].each do |hash|
-      context "with options #{hash[:options].inspect}" do
+    ].each do |example|
+      context "with options #{example[:options].inspect}" do
         let(:options) do
-          hash[:options]
+          example[:options]
         end
 
-        let(:query) do
-          hash[:query]
-        end
-
-        it "requests to http://cal.syoboi.jp/db.php?#{hash[:query].to_query}" do
-          should have_been_made
+        it "sends an HTTP request to http://cal.syoboi.jp/db.php?#{example[:query].to_query}" do
+          stub = stub_request(:get, "http://cal.syoboi.jp/db.php?#{example[:query].to_query}")
+          subject
+          expect(stub).to have_been_made
         end
       end
     end
@@ -190,9 +192,9 @@ describe SyoboiCalendar::Client do
         stub_request(:get, //).to_rack(app)
       end
 
-      it "returns an Array of SyoboiCalendar::Resources::Channel" do
-        channels = client.channels
-        channels[0].should be_a SyoboiCalendar::Resources::Channel
+      it "returns an Array of ::SyoboiCalendar::Resources::Channel" do
+        channels = subject
+        channels[0].should be_a ::SyoboiCalendar::Resources::Channel
         channels[0].comment.should == "DummyComment"
         channels[0].epg_url.should == "http://example.com/epg-url"
         channels[0].group_id.should == 1
@@ -205,44 +207,158 @@ describe SyoboiCalendar::Client do
     end
   end
 
-  describe "#titles" do
-    let(:method_name) do
-      :titles
+  describe "#list_programs" do
+    subject do
+      client.list_programs(options)
+    end
+
+    let(:options) do
+      {}
     end
 
     [
       {
         options: {},
-        query: { Command: "TitleLookup" },
+        query: {
+          Command: "ProgLookup",
+          JOIN: "SubTitles",
+        },
       },
       {
-        options: { title_id: 1 },
-        query: { Command: "TitleLookup", TID: 1 },
+        options: {
+          program_id: 1,
+        },
+        query: {
+          Command: "ProgLookup",
+          JOIN: "SubTitles",
+          PID: 1,
+        },
       },
       {
-        options: { updated_from: Time.utc(2000) },
-        query: { Command: "TitleLookup", LastUpdate: "20000101_000000-" },
+        options: {
+          channel_id: 2,
+          program_id: 1,
+        },
+        query: {
+          ChID: 2,
+          Command: "ProgLookup",
+          JOIN: "SubTitles",
+          PID: 1,
+        },
       },
       {
-        options: { updated_to: Time.utc(2000) },
-        query: { Command: "TitleLookup", LastUpdate: "-20000101_000000" },
+        options: {
+          count: 1,
+        },
+        query: {
+          Command: "ProgLookup",
+          Count: 1,
+          JOIN: "SubTitles",
+        },
       },
       {
-        options: { updated_from: Time.utc(2000), updated_to: Time.utc(2000) },
-        query: { Command: "TitleLookup", LastUpdate: "20000101_000000-20000101_000000" },
+        options: {
+          updated_from: ::Time.new(2000, 1, 1),
+        },
+        query: {
+          Command: "ProgLookup",
+          JOIN: "SubTitles",
+          LastUpdate: "20000101_000000-",
+        },
       },
-    ].each do |hash|
-      context "with options #{hash[:options].inspect}" do
+      {
+        options: {
+          updated_to: ::Time.new(2000, 1, 1),
+        },
+        query: {
+          Command: "ProgLookup",
+          JOIN: "SubTitles",
+          LastUpdate: "-20000101_000000",
+        },
+      },
+      {
+        options: {
+          updated_from: ::Time.new(2000, 1, 1),
+          updated_to: ::Time.new(2000, 1, 1),
+        },
+        query: {
+          Command: "ProgLookup",
+          JOIN: "SubTitles",
+          LastUpdate: "20000101_000000-20000101_000000",
+        },
+      },
+      {
+        options: {
+          started_from: ::Time.new(2000, 1, 1),
+        },
+        query: {
+          Command: "ProgLookup",
+          JOIN: "SubTitles", StTime:
+          "20000101_000000-",
+        },
+      },
+      {
+        options: {
+          started_to: ::Time.new(2000, 1, 1),
+        },
+        query: {
+          Command: "ProgLookup",
+          JOIN: "SubTitles",
+          StTime: "-20000101_000000",
+        },
+      },
+      {
+        options: {
+          started_from: ::Time.new(2000, 1, 1),
+          started_to: ::Time.new(2000, 1, 1),
+        },
+        query: {
+          Command: "ProgLookup",
+          JOIN: "SubTitles",
+          StTime: "20000101_000000-20000101_000000",
+        },
+      },
+      {
+        options: {
+          played_from: ::Time.new(2000, 1, 1),
+        },
+        query: {
+          Command: "ProgLookup",
+          JOIN: "SubTitles",
+          Range: "20000101_000000-",
+        },
+      },
+      {
+        options: {
+          played_to: ::Time.new(2000, 1, 1),
+        },
+        query: {
+          Command: "ProgLookup",
+          JOIN: "SubTitles",
+          Range: "-20000101_000000",
+        },
+      },
+      {
+        options: {
+          played_from: ::Time.new(2000, 1, 1),
+          played_to: ::Time.new(2000, 1, 1),
+        },
+        query: {
+          Command: "ProgLookup",
+          JOIN: "SubTitles",
+          Range: "20000101_000000-20000101_000000",
+        },
+      },
+    ].each do |example|
+      context "with options #{example[:options].inspect}" do
         let(:options) do
-          hash[:options]
+          example[:options]
         end
 
-        let(:query) do
-          hash[:query]
-        end
-
-        it "requests to http://cal.syoboi.jp/db.php?#{hash[:query].to_query}" do
-          should have_been_made
+        it "sends an HTTP request to http://cal.syoboi.jp/db.php?#{example[:query].to_query}" do
+          stub = stub_request(:get, "http://cal.syoboi.jp/db.php?#{example[:query].to_query}")
+          subject
+          expect(stub).to have_been_made
         end
       end
     end
@@ -252,112 +368,9 @@ describe SyoboiCalendar::Client do
         stub_request(:get, //).to_rack(app)
       end
 
-      it "returns an Array of SyoboiCalendar::Resources::Title" do
-        titles = client.titles
-        titles[0].should be_a SyoboiCalendar::Resources::Title
-        titles[0].category_id.should == 4
-        titles[0].comment.should == "DummyComment"
-        titles[0].first_channel.should == "DummyChannel"
-        titles[0].first_end_month.should == 1
-        titles[0].first_end_year.should == 2000
-        titles[0].first_month.should == 1
-        titles[0].first_year.should == 2000
-        titles[0].keywords.should == "DummyKeywords"
-        titles[0].short_title.should == "DummyShortTitle"
-        titles[0].sub_titles.should == "DummySubTitles"
-        titles[0].id.should == 2
-        titles[0].name.should == "DummyTitle"
-        titles[0].english_name.should == "DummyEnglishTitle"
-        titles[0].flag.should == 0
-        titles[0].kana.should == "ダミータイトル"
-        titles[0].point.should == 6
-        titles[0].rank.should == 1
-      end
-    end
-  end
-
-  describe "#programs" do
-    let(:method_name) do
-      :programs
-    end
-
-    [
-      {
-        options: {},
-        query: { Command: "ProgLookup", JOIN: "SubTitles" },
-      },
-      {
-        options: { program_id: 1 },
-        query: { Command: "ProgLookup", JOIN: "SubTitles", PID: 1 },
-      },
-      {
-        options: { program_id: 1, channel_id: 2 },
-        query: { Command: "ProgLookup", JOIN: "SubTitles", PID: 1, ChID: 2 },
-      },
-      {
-        options: { count: 1 },
-        query: { Command: "ProgLookup", JOIN: "SubTitles", Count: 1 },
-      },
-      {
-        options: { updated_from: Time.utc(2000) },
-        query: { Command: "ProgLookup", JOIN: "SubTitles", LastUpdate: "20000101_000000-" },
-      },
-      {
-        options: { updated_to: Time.utc(2000) },
-        query: { Command: "ProgLookup", JOIN: "SubTitles", LastUpdate: "-20000101_000000" },
-      },
-      {
-        options: { updated_from: Time.utc(2000), updated_to: Time.utc(2000) },
-        query: { Command: "ProgLookup", JOIN: "SubTitles", LastUpdate: "20000101_000000-20000101_000000" },
-      },
-      {
-        options: { started_from: Time.utc(2000) },
-        query: { Command: "ProgLookup", JOIN: "SubTitles", StTime: "20000101_000000-" },
-      },
-      {
-        options: { started_to: Time.utc(2000) },
-        query: { Command: "ProgLookup", JOIN: "SubTitles", StTime: "-20000101_000000" },
-      },
-      {
-        options: { started_from: Time.utc(2000), started_to: Time.utc(2000) },
-        query: { Command: "ProgLookup", JOIN: "SubTitles", StTime: "20000101_000000-20000101_000000" },
-      },
-      {
-        options: { played_from: Time.utc(2000) },
-        query: { Command: "ProgLookup", JOIN: "SubTitles", Range: "20000101_000000-" },
-      },
-      {
-        options: { played_to: Time.utc(2000) },
-        query: { Command: "ProgLookup", JOIN: "SubTitles", Range: "-20000101_000000" },
-      },
-      {
-        options: { played_from: Time.utc(2000), played_to: Time.utc(2000) },
-        query: { Command: "ProgLookup", JOIN: "SubTitles", Range: "20000101_000000-20000101_000000" },
-      },
-    ].each do |hash|
-      context "with options #{hash[:options].inspect}" do
-        let(:options) do
-          hash[:options]
-        end
-
-        let(:query) do
-          hash[:query]
-        end
-
-        it "requests to http://cal.syoboi.jp/db.php?#{hash[:query].to_query}" do
-          should have_been_made
-        end
-      end
-    end
-
-    context "with real response" do
-      let!(:request) do
-        stub_request(:get, //).to_rack(app)
-      end
-
-      it "returns an Array of SyoboiCalendar::Resources::Program" do
-        programs = client.programs
-        programs[0].should be_a SyoboiCalendar::Resources::Program
+      it "returns an Array of ::SyoboiCalendar::Resources::Program" do
+        programs = subject
+        programs[0].should be_a ::SyoboiCalendar::Resources::Program
         programs[0].channel_id.should == 3
         programs[0].comment.should == "DummyComment"
         programs[0].count.should == 1
@@ -380,9 +393,105 @@ describe SyoboiCalendar::Client do
       end
 
       it "eager loads related resources" do
-        programs = client.programs(includes: [:channel, :title])
-        programs[0].channel.should be_a SyoboiCalendar::Resources::Channel
-        programs[0].title.should be_a SyoboiCalendar::Resources::Title
+        programs = client.list_programs(includes: [:channel, :title])
+        programs[0].channel.should be_a ::SyoboiCalendar::Resources::Channel
+        programs[0].title.should be_a ::SyoboiCalendar::Resources::Title
+      end
+    end
+  end
+
+  describe "#list_titles" do
+    subject do
+      client.list_titles(options)
+    end
+
+    let(:options) do
+      {}
+    end
+
+    [
+      {
+        options: {},
+        query: {
+          Command: "TitleLookup",
+        },
+      },
+      {
+        options: {
+          title_id: 1,
+        },
+        query: {
+          Command: "TitleLookup",
+          TID: 1,
+        },
+      },
+      {
+        options: {
+          updated_from: ::Time.new(2000, 1, 1),
+        },
+        query: {
+          Command: "TitleLookup",
+          LastUpdate: "20000101_000000-",
+        },
+      },
+      {
+        options: {
+          updated_to: ::Time.new(2000, 1, 1),
+        },
+        query: {
+          Command: "TitleLookup",
+          LastUpdate: "-20000101_000000",
+        },
+      },
+      {
+        options: {
+          updated_from: ::Time.new(2000, 1, 1),
+          updated_to: ::Time.new(2000, 1, 1),
+        },
+        query: {
+          Command: "TitleLookup",
+          LastUpdate: "20000101_000000-20000101_000000",
+        },
+      },
+    ].each do |example|
+      context "with options #{example[:options].inspect}" do
+        let(:options) do
+          example[:options]
+        end
+
+        it "sends an HTTP request to http://cal.syoboi.jp/db.php?#{example[:query].to_query}" do
+          stub = stub_request(:get, "http://cal.syoboi.jp/db.php?#{example[:query].to_query}")
+          subject
+          expect(stub).to have_been_made
+        end
+      end
+    end
+
+    context "with real response" do
+      let!(:request) do
+        stub_request(:get, //).to_rack(app)
+      end
+
+      it "returns an Array of ::SyoboiCalendar::Resources::Title" do
+        titles = subject
+        titles[0].should be_a ::SyoboiCalendar::Resources::Title
+        titles[0].category_id.should == 4
+        titles[0].comment.should == "DummyComment"
+        titles[0].first_channel.should == "DummyChannel"
+        titles[0].first_end_month.should == 1
+        titles[0].first_end_year.should == 2000
+        titles[0].first_month.should == 1
+        titles[0].first_year.should == 2000
+        titles[0].keywords.should == "DummyKeywords"
+        titles[0].short_title.should == "DummyShortTitle"
+        titles[0].sub_titles.should == "DummySubTitles"
+        titles[0].id.should == 2
+        titles[0].name.should == "DummyTitle"
+        titles[0].english_name.should == "DummyEnglishTitle"
+        titles[0].flag.should == 0
+        titles[0].kana.should == "ダミータイトル"
+        titles[0].point.should == 6
+        titles[0].rank.should == 1
       end
     end
   end
