@@ -386,18 +386,6 @@ describe ::SyoboiCalendar::Client do
         programs[0].warn.should == 1
       end
     end
-
-    context "with :include option" do
-      let!(:request) do
-        stub_request(:get, //).to_rack(app)
-      end
-
-      it "eager loads related resources" do
-        programs = client.list_programs(includes: [:channel, :title])
-        programs[0].channel.should be_a ::SyoboiCalendar::Resources::Channel
-        programs[0].title.should be_a ::SyoboiCalendar::Resources::Title
-      end
-    end
   end
 
   describe "#list_titles" do
