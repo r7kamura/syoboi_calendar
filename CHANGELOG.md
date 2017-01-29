@@ -1,3 +1,8 @@
+## 0.5.0
+
+- Refactor internal implementation
+- Add `TID=*` query if no `:title_id` option given on `#list_titles`
+
 ## 0.4.0
 
 - Change client method names (e..g `#programs` to `#list_programs`)
