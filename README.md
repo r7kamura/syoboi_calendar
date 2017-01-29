@@ -1,6 +1,7 @@
 # SyoboiCalendar
 
-[![Build Status](https://travis-ci.org/r7kamura/syoboi_calendar.png)](https://travis-ci.org/r7kamura/syoboi_calendar)
+[![Gem Version](https://badge.fury.io/rb/syoboi_calendar.svg)](https://rubygems.org/gems/syoboi_calendar)
+[![CircleCI](https://img.shields.io/circleci/project/r7kamura/syoboi_calendar.svg)](https://circleci.com/gh/r7kamura/syoboi_calendar)
 [![Documentation](http://img.shields.io/badge/docs-rdoc.info-blue.svg)](http://www.rubydoc.info/github/r7kamura/syoboi_calendar)
 
 An API Client library for http://cal.syoboi.jp/ written in Ruby.
