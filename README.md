@@ -120,6 +120,21 @@ client.list_titles(updated_to: Time.new(2000, 1, 1))
 client.list_titles(updated_from: Time.new(2000, 1, 1), updated_to: Time.new(2000, 2, 1))
 ```
 
+### `SyoboiCalendar::Resources::Title#category_id`
+
+```ruby
+client.list_titles(title_id: 1).first.category_id
+```
+
+<details>
+<summary>Result</summary>
+
+```
+10
+```
+
+</details>
+
 ## Resources
 
 SyoboiCalendar::Client returns an Array of resources.
