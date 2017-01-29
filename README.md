@@ -1,6 +1,7 @@
 # SyoboiCalendar
 
 [![Build Status](https://travis-ci.org/r7kamura/syoboi_calendar.png)](https://travis-ci.org/r7kamura/syoboi_calendar)
+[![Documentation](http://img.shields.io/badge/docs-rdoc.info-blue.svg)](http://www.rubydoc.info/github/r7kamura/syoboi_calendar)
 
 An API Client library for http://cal.syoboi.jp/ written in Ruby.
 
@@ -179,3 +180,7 @@ programs = client.programs(include: [:channel, :title])
 programs.first.channel #=> SyoboiCalendar::Resources::Channel
 programs.first.title   #=> SyoboiCalendar::Resources::title
 ```
+
+## Documentation
+
+See API documentation at http://www.rubydoc.info/github/r7kamura/syoboi_calendar.
