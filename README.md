@@ -25,6 +25,7 @@ gem install syoboi_calendar
 ```
 
 ## Usage
+
 ```ruby
 require "syoboi_calendar"
 
@@ -35,6 +36,7 @@ client.titles   #=> an Array of SyoboiCalendar::Resources::Title
 ```
 
 ## API
+
 SyoboiCalender::Client provides `#channels`, `#titles`, `#programs` methods.
 
 ```ruby
@@ -91,54 +93,59 @@ SyoboiCalendar::Client
 ```
 
 ## Resources
+
 SyoboiCalendar::Client returns an Array of resources.
 
 ### SyoboiCalendar::Resources::Channel
-* comment
-* epg_url
-* group_id
-* id
-* iepg_name
-* name
-* number
-* url
+
+- comment
+- epg_url
+- group_id
+- id
+- iepg_name
+- name
+- number
+- url
 
 
 ### SyoboiCalendar::Resources::Title
-* category_id
-* comment
-* first_channel
-* first_end_month
-* first_end_year
-* first_month
-* first_year
-* keywords
-* short_title
-* sub_titles
-* id
-* name
-* english_name
-* flag
-* kana
-* point
-* rank
+
+- category_id
+- comment
+- first_channel
+- first_end_month
+- first_end_year
+- first_month
+- first_year
+- keywords
+- short_title
+- sub_titles
+- id
+- name
+- english_name
+- flag
+- kana
+- point
+- rank
 
 ### SyoboiCalendar::Resources::Program
-* channel_id
-* comment
-* count
-* deleted?
-* finished_at
-* flag
-* id
-* revision
-* started_at
-* sub_title
-* title_id
-* updated_at
-* warn
+
+- channel_id
+- comment
+- count
+- deleted?
+- finished_at
+- flag
+- id
+- revision
+- started_at
+- sub_title
+- title_id
+- updated_at
+- warn
 
 ## Eager Loading
+
 Client#programs supports `:include` option for eage-loading related resources.
 
 ```ruby
