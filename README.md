@@ -3,9 +3,23 @@
 Search Japanese anime from [SyoboiCalendar](http://cal.syoboi.jp/).
 
 ## Installation
+
+Add this line to your application's Gemfile:
+
 ```ruby
-# Gemfile
 gem "syoboi_calendar"
+```
+
+And then execute:
+
+```bash
+bundle
+```
+
+Or install it yourself as:
+
+```bash
+gem install syoboi_calendar
 ```
 
 ## Usage
