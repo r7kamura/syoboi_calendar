@@ -4,6 +4,10 @@
 
 An API Client library for http://cal.syoboi.jp/ written in Ruby.
 
+## Requirements
+
+- Ruby 2.2.2 or higher
+
 ## Installation
 
 Add this line to your application's Gemfile:
