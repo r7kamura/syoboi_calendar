@@ -1,4 +1,6 @@
-# SyoboiCalendar [![Build Status](https://travis-ci.org/r7kamura/syoboi_calendar.png)](https://travis-ci.org/r7kamura/syoboi_calendar) [![Code Climate](https://codeclimate.com/github/r7kamura/syoboi_calendar.png)](https://codeclimate.com/github/r7kamura/syoboi_calendar) [![Code Climate](https://codeclimate.com/github/r7kamura/syoboi_calendar/coverage.png)](https://codeclimate.com/github/r7kamura/syoboi_calendar)
+# SyoboiCalendar
+
+[![Build Status](https://travis-ci.org/r7kamura/syoboi_calendar.png)](https://travis-ci.org/r7kamura/syoboi_calendar)
 
 Search Japanese anime from [SyoboiCalendar](http://cal.syoboi.jp/).
 

@@ -1,13 +1,4 @@
-require "simplecov"
-SimpleCov.start
-
 require "webmock/rspec"
-
-if ENV["CI"]
-  WebMock.disable_net_connect!(allow: "codeclimate.com")
-  require "codeclimate-test-reporter"
-  CodeClimate::TestReporter.start
-end
 
 require "syoboi_calendar"
 require "rack"
