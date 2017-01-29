@@ -153,12 +153,6 @@ Sends an HTTP request to `http://cal.syoboi.jp/db.php?Command=ProgLookup&JOIN=Su
 client.list_programs(played_from: Time.new(2000, 1, 1), played_to: Time.new(2000, 2, 1))
 ```
 
-Eage-loads related resources.
-
-```ruby
-client.list_programs(include: [:channel, :title])
-```
-
 ### SyoboiCalendar::Client#list_titles
 
 Sends an HTTP request to `http://cal.syoboi.jp/db.php?Command=TitleLookup`.
