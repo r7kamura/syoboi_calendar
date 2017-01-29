@@ -10,9 +10,9 @@ module SyoboiCalendar
         COMMAND
       end
 
-      # @return [Integer, nil]
+      # @return [Integer, String]
       def TID
-        options[:title_id]
+        options[:title_id] || "*"
       end
     end
   end

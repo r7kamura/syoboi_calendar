@@ -400,6 +400,7 @@ describe ::SyoboiCalendar::Client do
         options: {},
         query: {
           Command: "TitleLookup",
+          TID: "*",
         },
       },
       {
@@ -418,6 +419,7 @@ describe ::SyoboiCalendar::Client do
         query: {
           Command: "TitleLookup",
           LastUpdate: "20000101_000000-",
+          TID: "*",
         },
       },
       {
@@ -427,16 +429,19 @@ describe ::SyoboiCalendar::Client do
         query: {
           Command: "TitleLookup",
           LastUpdate: "-20000101_000000",
+          TID: "*",
         },
       },
       {
         options: {
           updated_from: ::Time.new(2000, 1, 1),
           updated_to: ::Time.new(2000, 1, 1),
+          TID: "*",
         },
         query: {
           Command: "TitleLookup",
           LastUpdate: "20000101_000000-20000101_000000",
+          TID: "*",
         },
       },
     ].each do |example|
