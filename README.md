@@ -185,7 +185,7 @@ Sends an HTTP request to `http://cal.syoboi.jp/db.php?Command=TitleLookupp&TID=*
 client.list_titles(updated_from: Time.new(2000, 1, 1), updated_to: Time.new(2000, 2, 1))
 ```
 
-### SyoboiCalendar::Resources::Channel#comment
+### SyoboiCalendar::Resources::ChannelResource#comment
 
 ```ruby
 client.list_channels.first.comment
@@ -200,7 +200,7 @@ client.list_channels.first.comment
 
 </details>
 
-### SyoboiCalendar::Resources::Channel#epg_url
+### SyoboiCalendar::Resources::ChannelResource#epg_url
 
 ```ruby
 client.list_channels.first.epg_url
@@ -215,7 +215,7 @@ client.list_channels.first.epg_url
 
 </details>
 
-### SyoboiCalendar::Resources::Channel#group_id
+### SyoboiCalendar::Resources::ChannelResource#group_id
 
 ```ruby
 client.list_channels.first.group_id
@@ -230,7 +230,7 @@ client.list_channels.first.group_id
 
 </details>
 
-### SyoboiCalendar::Resources::Channel#id
+### SyoboiCalendar::Resources::ChannelResource#id
 
 ```ruby
 client.list_channels.first.id
@@ -245,7 +245,7 @@ client.list_channels.first.id
 
 </details>
 
-### SyoboiCalendar::Resources::Channel#iepg_name
+### SyoboiCalendar::Resources::ChannelResource#iepg_name
 
 ```ruby
 client.list_channels.first.iepg_name
@@ -260,7 +260,7 @@ client.list_channels.first.iepg_name
 
 </details>
 
-### SyoboiCalendar::Resources::Channel#number
+### SyoboiCalendar::Resources::ChannelResource#number
 
 ```ruby
 client.list_channels.first.number
@@ -275,7 +275,7 @@ client.list_channels.first.number
 
 </details>
 
-### SyoboiCalendar::Resources::Channel#url
+### SyoboiCalendar::Resources::ChannelResource#url
 
 ```ruby
 client.list_channels.first.url
@@ -290,7 +290,7 @@ client.list_channels.first.url
 
 </details>
 
-### SyoboiCalendar::Resources::Program#channel_id
+### SyoboiCalendar::Resources::ProgramResource#channel_id
 
 ```ruby
 client.list_programs.first.channel_id
@@ -305,7 +305,7 @@ client.list_programs.first.channel_id
 
 </details>
 
-### SyoboiCalendar::Resources::Program#comment
+### SyoboiCalendar::Resources::ProgramResource#comment
 
 ```ruby
 client.list_programs[96].comment
@@ -320,7 +320,7 @@ client.list_programs[96].comment
 
 </details>
 
-### SyoboiCalendar::Resources::Program#count
+### SyoboiCalendar::Resources::ProgramResource#count
 
 ```ruby
 client.list_programs.first.count
@@ -335,7 +335,7 @@ client.list_programs.first.count
 
 </details>
 
-### SyoboiCalendar::Resources::Program#deleted?
+### SyoboiCalendar::Resources::ProgramResource#deleted?
 
 ```ruby
 client.list_programs.first.count
@@ -350,7 +350,7 @@ false
 
 </details>
 
-### SyoboiCalendar::Resources::Program#finished_at
+### SyoboiCalendar::Resources::ProgramResource#finished_at
 
 ```ruby
 client.list_programs.first.finished_at.to_s
@@ -365,7 +365,7 @@ client.list_programs.first.finished_at.to_s
 
 </details>
 
-### SyoboiCalendar::Resources::Program#flag
+### SyoboiCalendar::Resources::ProgramResource#flag
 
 ```ruby
 client.list_programs.first.flag
@@ -380,7 +380,7 @@ client.list_programs.first.flag
 
 </details>
 
-### SyoboiCalendar::Resources::Program#revision
+### SyoboiCalendar::Resources::ProgramResource#revision
 
 ```ruby
 client.list_programs.first.revision
@@ -395,7 +395,7 @@ client.list_programs.first.revision
 
 </details>
 
-### SyoboiCalendar::Resources::Program#started_at
+### SyoboiCalendar::Resources::ProgramResource#started_at
 
 ```ruby
 client.list_programs.first.started_at.to_s
@@ -410,7 +410,7 @@ client.list_programs.first.started_at.to_s
 
 </details>
 
-### SyoboiCalendar::Resources::Program#sub_title
+### SyoboiCalendar::Resources::ProgramResource#sub_title
 
 ```ruby
 client.list_programs.first.sub_title
@@ -425,7 +425,7 @@ client.list_programs.first.sub_title
 
 </details>
 
-### SyoboiCalendar::Resources::Program#title_id
+### SyoboiCalendar::Resources::ProgramResource#title_id
 
 ```ruby
 client.list_programs.first.title_id
@@ -440,7 +440,7 @@ client.list_programs.first.title_id
 
 </details>
 
-### SyoboiCalendar::Resources::Program#updated_at
+### SyoboiCalendar::Resources::ProgramResource#updated_at
 
 ```ruby
 client.list_programs.first.updated_at.to_s
@@ -455,7 +455,7 @@ client.list_programs.first.updated_at.to_s
 
 </details>
 
-### SyoboiCalendar::Resources::Program#warn
+### SyoboiCalendar::Resources::ProgramResource#warn
 
 ```ruby
 client.list_programs.first.warn
@@ -470,7 +470,7 @@ client.list_programs.first.warn
 
 </details>
 
-### SyoboiCalendar::Resources::Title#category_id
+### SyoboiCalendar::Resources::TitleResource#category_id
 
 ```ruby
 client.list_titles(title_id: 1).first.category_id
@@ -485,7 +485,7 @@ client.list_titles(title_id: 1).first.category_id
 
 </details>
 
-### SyoboiCalendar::Resources::Title#comment
+### SyoboiCalendar::Resources::TitleResource#comment
 
 ```ruby
 client.list_titles(title_id: 1).first.comment
@@ -500,7 +500,7 @@ client.list_titles(title_id: 1).first.comment
 
 </details>
 
-### SyoboiCalendar::Resources::Title#english_name
+### SyoboiCalendar::Resources::TitleResource#english_name
 
 ```ruby
 client.list_titles(title_id: 8).first.english_name
@@ -515,7 +515,7 @@ client.list_titles(title_id: 8).first.english_name
 
 </details>
 
-### SyoboiCalendar::Resources::Title#first_channel
+### SyoboiCalendar::Resources::TitleResource#first_channel
 
 ```ruby
 client.list_titles(title_id: 1).first.first_channel
@@ -530,7 +530,7 @@ client.list_titles(title_id: 1).first.first_channel
 
 </details>
 
-### SyoboiCalendar::Resources::Title#first_end_month
+### SyoboiCalendar::Resources::TitleResource#first_end_month
 
 ```ruby
 client.list_titles(title_id: 1).first.first_end_month
@@ -545,7 +545,7 @@ client.list_titles(title_id: 1).first.first_end_month
 
 </details>
 
-### SyoboiCalendar::Resources::Title#first_end_year
+### SyoboiCalendar::Resources::TitleResource#first_end_year
 
 ```ruby
 client.list_titles(title_id: 1).first.first_end_year
@@ -560,7 +560,7 @@ client.list_titles(title_id: 1).first.first_end_year
 
 </details>
 
-### SyoboiCalendar::Resources::Title#first_month
+### SyoboiCalendar::Resources::TitleResource#first_month
 
 ```ruby
 client.list_titles(title_id: 1).first.first_month
@@ -575,7 +575,7 @@ client.list_titles(title_id: 1).first.first_month
 
 </details>
 
-### SyoboiCalendar::Resources::Title#first_year
+### SyoboiCalendar::Resources::TitleResource#first_year
 
 ```ruby
 client.list_titles(title_id: 1).first.first_year
@@ -590,7 +590,7 @@ client.list_titles(title_id: 1).first.first_year
 
 </details>
 
-### SyoboiCalendar::Resources::Title#flag
+### SyoboiCalendar::Resources::TitleResource#flag
 
 ```ruby
 client.list_titles(title_id: 1).first.flag
@@ -605,7 +605,7 @@ client.list_titles(title_id: 1).first.flag
 
 </details>
 
-### SyoboiCalendar::Resources::Title#id
+### SyoboiCalendar::Resources::TitleResource#id
 
 ```ruby
 client.list_titles(title_id: 1).first.id
@@ -620,7 +620,7 @@ client.list_titles(title_id: 1).first.id
 
 </details>
 
-### SyoboiCalendar::Resources::Title#kana
+### SyoboiCalendar::Resources::TitleResource#kana
 
 ```ruby
 client.list_titles(title_id: 1).first.kana
@@ -635,7 +635,7 @@ client.list_titles(title_id: 1).first.kana
 
 </details>
 
-### SyoboiCalendar::Resources::Title#keywords
+### SyoboiCalendar::Resources::TitleResource#keywords
 
 ```ruby
 client.list_titles(title_id: 2).first.keywords
@@ -650,7 +650,7 @@ client.list_titles(title_id: 2).first.keywords
 
 </details>
 
-### SyoboiCalendar::Resources::Title#point
+### SyoboiCalendar::Resources::TitleResource#point
 
 ```ruby
 client.list_titles(title_id: 1).first.point
@@ -665,7 +665,7 @@ client.list_titles(title_id: 1).first.point
 
 </details>
 
-### SyoboiCalendar::Resources::Title#rank
+### SyoboiCalendar::Resources::TitleResource#rank
 
 ```ruby
 client.list_titles(title_id: 1).first.rank
@@ -680,7 +680,7 @@ client.list_titles(title_id: 1).first.rank
 
 </details>
 
-### SyoboiCalendar::Resources::Title#short_title
+### SyoboiCalendar::Resources::TitleResource#short_title
 
 ```ruby
 client.list_titles(title_id: 4).first.short_title
@@ -695,7 +695,7 @@ client.list_titles(title_id: 4).first.short_title
 
 </details>
 
-### SyoboiCalendar::Resources::Title#sub_titles
+### SyoboiCalendar::Resources::TitleResource#sub_titles
 
 ```ruby
 client.list_titles(title_id: 1).first.sub_titles
