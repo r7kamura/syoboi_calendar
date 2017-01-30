@@ -155,7 +155,7 @@ client.list_programs(played_from: Time.new(2000, 1, 1), played_to: Time.new(2000
 
 ### SyoboiCalendar::Client#list_titles
 
-Sends an HTTP request to `http://cal.syoboi.jp/db.php?Command=TitleLookup`.
+Sends an HTTP request to `http://cal.syoboi.jp/db.php?Command=TitleLookup&TID=*`.
 
 ```ruby
 client.list_titles
@@ -167,19 +167,19 @@ Sends an HTTP request to `http://cal.syoboi.jp/db.php?Command=TitleLookup&TID=1`
 client.list_titles(title_id: 1)
 ```
 
-Sends an HTTP request to `http://cal.syoboi.jp/db.php?Command=TitleLookup&LastUpdate=20000101_000000-`.
+Sends an HTTP request to `http://cal.syoboi.jp/db.php?Command=TitleLookupp&TID=*&LastUpdate=20000101_000000-`.
 
 ```ruby
 client.list_titles(updated_from: Time.new(2000, 1, 1))
 ```
 
-Sends an HTTP request to `http://cal.syoboi.jp/db.php?Command=TitleLookup&LastUpdate=-20000101_000000`.
+Sends an HTTP request to `http://cal.syoboi.jp/db.php?Command=TitleLookupp&TID=*&LastUpdate=-20000101_000000`.
 
 ```ruby
 client.list_titles(updated_to: Time.new(2000, 1, 1))
 ```
 
-Sends an HTTP request to `http://cal.syoboi.jp/db.php?Command=TitleLookup&LastUpdate=20000101_000000-20000201_000000`.
+Sends an HTTP request to `http://cal.syoboi.jp/db.php?Command=TitleLookupp&TID=*&LastUpdate=20000101_000000-20000201_000000`.
 
 ```ruby
 client.list_titles(updated_from: Time.new(2000, 1, 1), updated_to: Time.new(2000, 2, 1))
