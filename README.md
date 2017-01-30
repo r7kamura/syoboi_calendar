@@ -650,6 +650,21 @@ client.list_titles(title_id: 2).first.keywords
 
 </details>
 
+### SyoboiCalendar::Resources::TitleResource#name
+
+```ruby
+client.list_titles(title_id: 1).first.name
+```
+
+<details>
+<summary>Result</summary>
+
+```ruby
+"魔法遣いに大切なこと"
+```
+
+</details>
+
 ### SyoboiCalendar::Resources::TitleResource#point
 
 ```ruby
