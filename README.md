@@ -105,6 +105,12 @@ Sends an HTTP request to `http://cal.syoboi.jp/db.php?Command=ProgLookup&Count=1
 client.list_programs(count: 1)
 ```
 
+Sends an HTTP request to `http://cal.syoboi.jp/db.php?Command=ProgLookup&Fields=PID&JOIN=SubTitles`.
+
+```ruby
+client.list_programs(fields: ["PID"])
+```
+
 Sends an HTTP request to `http://cal.syoboi.jp/db.php?Command=ProgLookup&JOIN=SubTitles&LastUpdate=20000101_000000-`.
 
 ```ruby
@@ -171,6 +177,12 @@ Sends an HTTP request to `http://cal.syoboi.jp/db.php?Command=TitleLookup&TID=1`
 
 ```ruby
 client.list_titles(title_id: 1)
+```
+
+Sends an HTTP request to `http://cal.syoboi.jp/db.php?Command=TitleLookup&Fields=TID`.
+
+```ruby
+client.list_titles(fields: ["TID"])
 ```
 
 Sends an HTTP request to `http://cal.syoboi.jp/db.php?Command=TitleLookupp&TID=*&LastUpdate=20000101_000000-`.

@@ -7,6 +7,7 @@ module SyoboiCalendar
 
       property :ChID
       property :Count
+      property :Fields
       property :JOIN
       property :PID
       property :Range
@@ -29,6 +30,13 @@ module SyoboiCalendar
       def Count
         if options[:count]
           format_comma_separated_values(options[:count])
+        end
+      end
+
+      # @return [String, nil]
+      def Fields
+        if options[:fields]
+          format_comma_separated_values(options[:fields])
         end
       end
 
