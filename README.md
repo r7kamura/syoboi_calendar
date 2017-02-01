@@ -81,6 +81,12 @@ Sends an HTTP request to `http://cal.syoboi.jp/db.php?Command=ProgLookup&JOIN=Su
 client.list_programs
 ```
 
+Sends an HTTP request to `http://cal.syoboi.jp/db.php?Command=ProgLookup&JOIN=SubTitles&TID=1`.
+
+```ruby
+client.list_programs(title_id: 1)
+```
+
 Sends an HTTP request to `http://cal.syoboi.jp/db.php?Command=ProgLookup&JOIN=SubTitles&PID=1`.
 
 ```ruby

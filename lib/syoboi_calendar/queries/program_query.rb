@@ -11,6 +11,7 @@ module SyoboiCalendar
       property :PID
       property :Range
       property :StTime
+      property :TID
 
       # @return [String, nil]
       def ChID
@@ -51,6 +52,13 @@ module SyoboiCalendar
       # @return [String, nil]
       def StTime
         format_time_range(options[:started_from], options[:started_to])
+      end
+
+      # @return [String, nil]
+      def TID
+        if options[:title_id]
+          format_comma_separated_values(options[:title_id])
+        end
       end
     end
   end
