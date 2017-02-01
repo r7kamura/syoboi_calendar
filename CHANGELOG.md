@@ -1,3 +1,9 @@
+## 0.5.1
+
+- Support :title_id options on list_programs method
+- Support :fields option on list_programs and list_titles
+- Support multiple IDs and counts options on client methods
+
 ## 0.5.0
 
 - Refactor internal implementation
