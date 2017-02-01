@@ -7,7 +7,9 @@ module SyoboiCalendar
 
       # @return [String, nil]
       def ChID
-        options[:channel_id]
+        if options[:channel_id]
+          format_comma_separated_values(options[:channel_id])
+        end
       end
 
       # @note Override

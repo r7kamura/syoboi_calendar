@@ -12,9 +12,11 @@ module SyoboiCalendar
       property :Range
       property :StTime
 
-      # @return [Integer, nil]
+      # @return [String, nil]
       def ChID
-        options[:channel_id]
+        if options[:channel_id]
+          format_comma_separated_values(options[:channel_id])
+        end
       end
 
       # @note Override
@@ -22,9 +24,11 @@ module SyoboiCalendar
         COMMAND
       end
 
-      # @return [Integer, nil]
+      # @return [String, nil]
       def Count
-        options[:count]
+        if options[:count]
+          format_comma_separated_values(options[:count])
+        end
       end
 
       # @return [String]
@@ -32,9 +36,11 @@ module SyoboiCalendar
         JOIN
       end
 
-      # @return [Integer, nil]
+      # @return [String, nil]
       def PID
-        options[:program_id]
+        if options[:program_id]
+          format_comma_separated_values(options[:program_id])
+        end
       end
 
       # @return [String, nil]

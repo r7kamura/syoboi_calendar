@@ -10,9 +10,13 @@ module SyoboiCalendar
         COMMAND
       end
 
-      # @return [Integer, String]
+      # @return [String]
       def TID
-        options[:title_id] || "*"
+        if options[:title_id]
+          format_comma_separated_values(options[:title_id])
+        else
+          "*"
+        end
       end
     end
   end
