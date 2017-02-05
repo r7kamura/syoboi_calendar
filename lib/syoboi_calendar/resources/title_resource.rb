@@ -1,6 +1,17 @@
 module SyoboiCalendar
   module Resources
     class TitleResource < BaseResource
+      # @note
+      #    0: その他
+      #    1: アニメ
+      #    2: ラジオ
+      #    3: テレビ
+      #    4: 特撮
+      #    5: アニメ関連
+      #    6: メモ
+      #    7: OVA
+      #    8: 映画
+      #   10: アニメ(終了/再放送)
       # @return [Integer, nil]
       def category_id
         response.Cat.try(:to_i)
