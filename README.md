@@ -278,6 +278,21 @@ client.list_channels.first.iepg_name
 
 </details>
 
+### SyoboiCalendar::Resources::ChannelResource#name
+
+```ruby
+client.list_channels.first.name
+```
+
+<details>
+<summary>Result</summary>
+
+```ruby
+"NHK総合"
+```
+
+</details>
+
 ### SyoboiCalendar::Resources::ChannelResource#number
 
 ```ruby
