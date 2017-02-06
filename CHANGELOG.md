@@ -1,3 +1,7 @@
+## 0.6.1
+
+- Separate response and response parser
+
 ## 0.6.0
 
 - Support channel groups
