@@ -570,8 +570,8 @@ describe ::SyoboiCalendar::Client do
         titles.first.english_name.should == "DummyEnglishTitle"
         titles.first.flag.should == 0
         titles.first.kana.should == "ダミータイトル"
-        titles.first.point.should == 6
-        titles.first.rank.should == 1
+        titles.first.user_point.should == 6
+        titles.first.user_point_rank.should == 1
       end
     end
   end
