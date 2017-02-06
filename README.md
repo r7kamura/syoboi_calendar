@@ -790,21 +790,6 @@ client.list_titles(title_id: 1).first.name
 
 </details>
 
-### SyoboiCalendar::Resources::TitleResource#point
-
-```ruby
-client.list_titles(title_id: 1).first.point
-```
-
-<details>
-<summary>Result</summary>
-
-```ruby
-4
-```
-
-</details>
-
 ### SyoboiCalendar::Resources::TitleResource#rank
 
 ```ruby
@@ -846,6 +831,21 @@ client.list_titles(title_id: 1).first.sub_titles
 
 ```ruby
 "*001*夕焼けと鉄骨・前編\n*002*夕焼けと鉄骨・後編\n*003*最高のニュース\n*004*夏の夜と魔法遣い\n*005*エプロンとシャンパン\n*006*魔法遣いになりたい\n*007*魔法遣いになれなかっ た魔法遣い\n*008*恋のバカヂカラ\n*009*ユメと少女と夏の種\n*010*魔法の行方\n*011*折れてしまった虹\n*012*魔法遣いに大切なこと"
+```
+
+</details>
+
+### SyoboiCalendar::Resources::TitleResource#user_point
+
+```ruby
+client.list_titles(title_id: 1).first.user_point
+```
+
+<details>
+<summary>Result</summary>
+
+```ruby
+4
 ```
 
 </details>

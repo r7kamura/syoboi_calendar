@@ -13,10 +13,10 @@ module SyoboiCalendar
       property :id
       property :kana
       property :name
-      property :point
       property :rank
       property :short_title
       property :sub_titles
+      property :user_point
 
       # @note
       #    0: その他
@@ -109,13 +109,6 @@ module SyoboiCalendar
       end
 
       # @return [Integer, nil]
-      def point
-        if source["UserPoint"]
-          source["UserPoint"].to_i
-        end
-      end
-
-      # @return [Integer, nil]
       def rank
         if source["UserPointRank"]
           source["UserPointRank"].to_i
@@ -130,6 +123,13 @@ module SyoboiCalendar
       # @return [String, nil]
       def sub_titles
         source["SubTitles"]
+      end
+
+      # @return [Integer, nil]
+      def user_point
+        if source["UserPoint"]
+          source["UserPoint"].to_i
+        end
       end
     end
   end
