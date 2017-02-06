@@ -280,10 +280,10 @@ client.list_channel_groups.first.name
 
 </details>
 
-### SyoboiCalendar::Resources::ChannelGroupResource#order_score
+### SyoboiCalendar::Resources::ChannelGroupResource#order
 
 ```ruby
-client.list_channel_groups.first.order_score
+client.list_channel_groups.first.order
 ```
 
 <details>

@@ -4,7 +4,7 @@ module SyoboiCalendar
       property :comment
       property :id
       property :name
-      property :order_score
+      property :order
 
       # @return [String, nil]
       def comment
@@ -24,7 +24,7 @@ module SyoboiCalendar
       end
 
       # @return [Integer, nil]
-      def order_score
+      def order
         if source["ChGroupOrder"]
           source["ChGroupOrder"].to_i
         end
