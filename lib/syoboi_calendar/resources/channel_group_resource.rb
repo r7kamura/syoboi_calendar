@@ -3,22 +3,26 @@ module SyoboiCalendar
     class ChannelGroupResource < BaseResource
       # @return [String, nil]
       def comment
-        response.ChGroupComment
+        source["ChGroupComment"]
       end
 
       # @return [Integer, nil]
       def id
-        response.ChGID.try(:to_i)
+        if source["ChGID"]
+          source["ChGID"].to_i
+        end
       end
 
       # @return [String, nil]
       def name
-        response.ChGroupName
+        source["ChGroupName"]
       end
 
       # @return [Integer, nil]
       def order_score
-        response.ChGroupOrder.try(:to_i)
+        if source["ChGroupOrder"]
+          source["ChGroupOrder"].to_i
+        end
       end
     end
   end

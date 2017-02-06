@@ -49,10 +49,10 @@ module SyoboiCalendar
 
       private
 
-      # @param [Array, Integer, String]
+      # @param value_or_values [Array, Integer, String]
       # @return [String]
-      def format_comma_separated_values(values)
-        ::Array.wrap(values).join(",")
+      def format_comma_separated_values(value_or_values)
+        Array(value_or_values).join(",")
       end
 
       # @param [Time, nil]

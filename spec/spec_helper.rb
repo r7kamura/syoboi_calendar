@@ -1,8 +1,8 @@
-require "webmock/rspec"
-
-require "syoboi_calendar"
+require "active_support/core_ext/object/to_query"
+require "active_support/core_ext/string/strip"
 require "rack"
-require "active_support/all"
+require "syoboi_calendar"
+require "webmock/rspec"
 
 RSpec.configure do |config|
   config.treat_symbols_as_metadata_keys_with_true_values = true

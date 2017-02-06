@@ -1,11 +1,16 @@
 module SyoboiCalendar
   module Responses
     class ChannelsResponse < BaseResponse
+      private
+
       # @note Override
-      def resources
-        ::Array.wrap(faraday_response.body.ChLookupResponse.ChItems.ChItem).map do |element|
-          ::SyoboiCalendar::Resources::ChannelResource.new(element)
-        end
+      def source_or_sources
+        parsed_body["ChLookupResponse"]["ChItems"]["ChItem"]
+      end
+
+      # @note Override
+      def resource_class
+        ::SyoboiCalendar::Resources::ChannelResource
       end
     end
   end

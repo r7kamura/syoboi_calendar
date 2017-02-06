@@ -1,17 +1,23 @@
 module SyoboiCalendar
   module Resources
     class BaseResource
-      # @return [Hashie::Mash]
-      attr_reader :response
-
-      # @param response [Hashie::Mash]
-      def initialize(response)
-        @response = response
+      # @param source [Hash]
+      def initialize(source)
+        @source = source
       end
 
-      # @return [Time]
+      # @return [Time, nil]
       def updated_at
-        ::Time.parse(response.LastUpdate)
+        if source["LastUpdate"]
+          ::Time.parse(source["LastUpdate"])
+        end
+      end
+
+      private
+
+      # @return [Hash]
+      def source
+        @source
       end
     end
   end

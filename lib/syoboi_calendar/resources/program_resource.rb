@@ -1,75 +1,87 @@
 module SyoboiCalendar
   module Resources
     class ProgramResource < BaseResource
-      # @return [SyoboiCalendar::Resources::Channel, nil]
-      attr_accessor :channel
-
-      # @return [SyoboiCalendar::Resources::Title, nil]
-      attr_accessor :title
-
       # @return [Integer, nil]
       def channel_id
-        response.ChID.try(:to_i)
+        if source["ChID"]
+          source["ChID"].to_i
+        end
       end
 
       # @return [String, nil]
       def comment
-        response.ProgComment
+        source["ProgComment"]
       end
 
       # @return [Integer, nil]
       def count
-        response.Count.try(:to_i)
+        if source["Count"]
+          source["Count"].to_i
+        end
       end
 
       # @return [Boolean]
       def deleted?
-        response.Deleted != "0"
+        source["Deleted"] != "0"
       end
 
       # @return [Integer, nil]
       def flag
-        response.Flag.try(:to_i)
+        if source["Flag"]
+          source["Flag"].to_i
+        end
       end
 
       # @return [Integer, nil]
       def id
-        response.PID.try(:to_i)
+        if source["PID"]
+          source["PID"].to_i
+        end
       end
 
       # @return [String, nil]
       def iepg_name
-        response.ChiEPGName
+        source["ChiEPGName"]
       end
 
-      # @return [Time]
+      # @return [Time, nil]
       def finished_at
-        ::Time.parse(response.EdTime)
+        if source["EdTime"]
+          ::Time.parse(source["EdTime"])
+        end
       end
 
       # @return [Integer, nil]
       def revision
-        response.Revision.try(:to_i)
+        if source["Revision"]
+          source["Revision"].to_i
+        end
       end
 
-      # @return [Time]
+      # @return [Time, nil]
       def started_at
-        ::Time.parse(response.StTime)
+        if source["StTime"]
+          ::Time.parse(source["StTime"])
+        end
       end
 
       # @return [String, nil]
       def sub_title
-        response.STSubTitle
+        source["STSubTitle"]
       end
 
       # @return [Integer]
       def title_id
-        response.TID.try(:to_i)
+        if source["TID"]
+          source["TID"].to_i
+        end
       end
 
       # @return [Integer, nil]
       def warn
-        response.Warn.try(:to_i)
+        if source["Warn"]
+          source["Warn"].to_i
+        end
       end
     end
   end

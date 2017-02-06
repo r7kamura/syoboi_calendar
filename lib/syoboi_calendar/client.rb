@@ -7,8 +7,6 @@ module SyoboiCalendar
     def connection
       @connection ||= ::Faraday::Connection.new(url: ENDPOINT_BASE_URL) do |connection|
         connection.adapter :net_http
-        connection.response :mashify
-        connection.response :xml
         connection.response :raise_error
       end
     end

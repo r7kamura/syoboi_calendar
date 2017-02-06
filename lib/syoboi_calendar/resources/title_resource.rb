@@ -14,87 +14,105 @@ module SyoboiCalendar
       #   10: アニメ(終了/再放送)
       # @return [Integer, nil]
       def category_id
-        response.Cat.try(:to_i)
+        if source["Cat"]
+          source["Cat"].to_i
+        end
       end
 
       # @return [String, nil]
       def comment
-        response.Comment
+        source["Comment"]
       end
 
       # @return [String, nil]
       def english_name
-        response.TitleEN
+        source["TitleEN"]
       end
 
       # @return [String, nil]
       def first_channel
-        response.FirstCh
+        source["FirstCh"]
       end
 
       # @return [Integer, nil]
       def first_end_month
-        response.FirstEndMonth.try(:to_i)
+        if source["FirstEndMonth"]
+          source["FirstEndMonth"].to_i
+        end
       end
 
       # @return [Integer, nil]
       def first_end_year
-        response.FirstEndYear.try(:to_i)
+        if source["FirstEndYear"]
+          source["FirstEndYear"].to_i
+        end
       end
 
       # @return [Integer, nil]
       def first_month
-        response.FirstMonth.try(:to_i)
+        if source["FirstMonth"]
+          source["FirstMonth"].to_i
+        end
       end
 
       # @return [Integer, nil]
       def first_year
-        response.FirstYear.try(:to_i)
-      end
-
-      # @return [Integer, nil]
-      def id
-        response.TID.try(:to_i)
-      end
-
-      # @return [String, nil]
-      def name
-        response.Title
+        if source["FirstYear"]
+          source["FirstYear"].to_i
+        end
       end
 
       # @return [Integer, nil]
       def flag
-        response.TitleFlag.try(:to_i)
+        if source["TitleFlag"]
+          source["TitleFlag"].to_i
+        end
+      end
+
+      # @return [Integer, nil]
+      def id
+        if source["TID"]
+          source["TID"].to_i
+        end
       end
 
       # @return [String, nil]
       def kana
-        response.TitleYomi
+        source["TitleYomi"]
       end
 
       # @return [String, nil]
       def keywords
-        response.Keywords
+        source["Keywords"]
       end
 
       # @return [String, nil]
-      def short_title
-        response.ShortTitle
-      end
-
-      # @return [String, nil]
-      def sub_titles
-        response.SubTitles
+      def name
+        source["Title"]
       end
 
       # @return [Integer, nil]
       def point
-        response.UserPoint.try(:to_i)
+        if source["UserPoint"]
+          source["UserPoint"].to_i
+        end
       end
 
       # @return [Integer, nil]
       def rank
-        response.UserPointRank.try(:to_i)
+        if source["UserPointRank"]
+          source["UserPointRank"].to_i
+        end
+      end
+
+      # @return [String, nil]
+      def short_title
+        source["ShortTitle"]
+      end
+
+      # @return [String, nil]
+      def sub_titles
+        source["SubTitles"]
       end
     end
   end

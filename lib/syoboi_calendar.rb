@@ -1,8 +1,6 @@
-require "active_support/concern"
-require "active_support/core_ext/array/wrap"
-require "active_support/core_ext/object/try"
 require "faraday"
 require "faraday_middleware"
+require "multi_xml"
 
 require "syoboi_calendar/client"
 require "syoboi_calendar/queries/base_query"

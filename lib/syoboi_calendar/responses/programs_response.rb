@@ -1,11 +1,16 @@
 module SyoboiCalendar
   module Responses
     class ProgramsResponse < BaseResponse
+      private
+
       # @note Override
-      def resources
-        ::Array.wrap(faraday_response.body.ProgLookupResponse.ProgItems.ProgItem).map do |element|
-          ::SyoboiCalendar::Resources::ProgramResource.new(element)
-        end
+      def source_or_sources
+        parsed_body["ProgLookupResponse"]["ProgItems"]["ProgItem"]
+      end
+
+      # @note Override
+      def resource_class
+        ::SyoboiCalendar::Resources::ProgramResource
       end
     end
   end

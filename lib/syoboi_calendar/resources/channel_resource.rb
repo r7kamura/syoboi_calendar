@@ -3,42 +3,48 @@ module SyoboiCalendar
     class ChannelResource < BaseResource
       # @return [Integer, nil]
       def channel_group_id
-        response.ChGID.try(:to_i)
+        if source["ChGID"]
+          source["ChGID"].to_i
+        end
       end
 
       # @return [String, nil]
       def comment
-        response.ChComment
+        source["ChComment"]
       end
 
       # @return [String, nil]
       def epg_url
-        response.ChEPGURL
+        source["ChEPGURL"]
       end
 
       # @return [Integer, nil]
       def id
-        response.ChID.try(:to_i)
+        if source["ChID"]
+          source["ChID"].to_i
+        end
       end
 
       # @return [String, nil]
       def iepg_name
-        response.ChiEPGName
+        source["ChiEPGName"]
       end
 
       # @return [String, nil]
       def name
-        response.ChName
+        source["ChName"]
       end
 
       # @return [Integer, nil]
       def number
-        response.ChNumber.try(:to_i)
+        if source["ChNumber"]
+          source["ChNumber"].to_i
+        end
       end
 
       # @return [String, nil]
       def url
-        response.ChURL
+        source["ChURL"]
       end
     end
   end
