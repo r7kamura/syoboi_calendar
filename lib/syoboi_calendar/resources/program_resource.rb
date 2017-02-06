@@ -1,6 +1,20 @@
 module SyoboiCalendar
   module Resources
     class ProgramResource < BaseResource
+      property :channel_id
+      property :comment
+      property :count
+      property :deleted
+      property :finished_at
+      property :flag
+      property :id
+      property :iepg_name
+      property :revision
+      property :started_at
+      property :sub_title
+      property :title_id
+      property :warn
+
       # @return [Integer, nil]
       def channel_id
         if source["ChID"]
@@ -24,6 +38,14 @@ module SyoboiCalendar
       def deleted?
         source["Deleted"] != "0"
       end
+      alias_method :deleted, :deleted?
+
+      # @return [Time, nil]
+      def finished_at
+        if source["EdTime"]
+          ::Time.parse(source["EdTime"])
+        end
+      end
 
       # @return [Integer, nil]
       def flag
@@ -42,13 +64,6 @@ module SyoboiCalendar
       # @return [String, nil]
       def iepg_name
         source["ChiEPGName"]
-      end
-
-      # @return [Time, nil]
-      def finished_at
-        if source["EdTime"]
-          ::Time.parse(source["EdTime"])
-        end
       end
 
       # @return [Integer, nil]
