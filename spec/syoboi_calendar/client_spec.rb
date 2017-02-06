@@ -14,9 +14,9 @@ describe ::SyoboiCalendar::Client do
         </Result>
         <ChGroupItems>
           <ChGroupItem id="3">
-            <ChGroupComment>DummyComment</ChComment>
+            <ChGroupComment>DummyComment</ChGroupComment>
             <ChGID>1</ChGID>
-            <ChGroupName>DummyChannelName</ChName>
+            <ChGroupName>DummyChannelName</ChGroupName>
             <Order>1000</Order>
             <LastUpdate>2000-01-01 00:00:00</LastUpdate>
           </ChGroupItem>
@@ -202,7 +202,7 @@ describe ::SyoboiCalendar::Client do
         end
 
         it "sends an HTTP request to http://cal.syoboi.jp/db.php?#{example[:query].to_query}" do
-          stub = stub_request(:get, "http://cal.syoboi.jp/db.php?#{example[:query].to_query}")
+          stub = stub_request(:get, "http://cal.syoboi.jp/db.php?#{example[:query].to_query}").to_return(body: dummy_channel_groups_response)
           subject
           expect(stub).to have_been_made
         end
@@ -270,7 +270,7 @@ describe ::SyoboiCalendar::Client do
         end
 
         it "sends an HTTP request to http://cal.syoboi.jp/db.php?#{example[:query].to_query}" do
-          stub = stub_request(:get, "http://cal.syoboi.jp/db.php?#{example[:query].to_query}")
+          stub = stub_request(:get, "http://cal.syoboi.jp/db.php?#{example[:query].to_query}").to_return(body: dummy_channels_response)
           subject
           expect(stub).to have_been_made
         end
@@ -445,7 +445,7 @@ describe ::SyoboiCalendar::Client do
         end
 
         it "sends an HTTP request to http://cal.syoboi.jp/db.php?#{example[:query].to_query}" do
-          stub = stub_request(:get, "http://cal.syoboi.jp/db.php?#{example[:query].to_query}")
+          stub = stub_request(:get, "http://cal.syoboi.jp/db.php?#{example[:query].to_query}").to_return(body: dummy_programs_response)
           subject
           expect(stub).to have_been_made
         end
@@ -541,7 +541,7 @@ describe ::SyoboiCalendar::Client do
         end
 
         it "sends an HTTP request to http://cal.syoboi.jp/db.php?#{example[:query].to_query}" do
-          stub = stub_request(:get, "http://cal.syoboi.jp/db.php?#{example[:query].to_query}")
+          stub = stub_request(:get, "http://cal.syoboi.jp/db.php?#{example[:query].to_query}").to_return(body: dummy_titles_response)
           subject
           expect(stub).to have_been_made
         end
