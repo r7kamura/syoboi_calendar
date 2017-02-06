@@ -1,3 +1,8 @@
+## 0.6.0
+
+- Support channel groups
+- Change resource attribute name from `group_id` to `channel_group_id`
+
 ## 0.5.1
 
 - Support :title_id options on list_programs method
