@@ -1,3 +1,10 @@
+## 0.7.0
+
+- Reveal `BaseResource#source`
+- Rename `TitleResource#rank` to `TitleResource#user_point_rank`
+- Rename `TitleResource#point` to `TitleResource#user_point`
+- Rename `ChannelGroupResource#order_score` to `ChannelGroupResource#order`
+
 ## 0.6.1
 
 - Separate response and response parser
