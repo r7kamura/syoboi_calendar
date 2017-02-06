@@ -1,23 +1,6 @@
 module SyoboiCalendar
   module Resources
     class TitleResource < BaseResource
-      property :category_id
-      property :comment
-      property :english_name
-      property :first_channel
-      property :first_end_month
-      property :first_end_year
-      property :first_month
-      property :first_year
-      property :flag
-      property :id
-      property :kana
-      property :name
-      property :short_title
-      property :sub_titles
-      property :user_point
-      property :user_point_rank
-
       # @note
       #    0: その他
       #    1: アニメ

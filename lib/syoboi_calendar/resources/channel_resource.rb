@@ -1,15 +1,6 @@
 module SyoboiCalendar
   module Resources
     class ChannelResource < BaseResource
-      property :channel_group_id
-      property :comment
-      property :epg_url
-      property :id
-      property :iepg_name
-      property :name
-      property :number
-      property :url
-
       # @return [Integer, nil]
       def channel_group_id
         if source["ChGID"]

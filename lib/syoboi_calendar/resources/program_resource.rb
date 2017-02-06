@@ -1,20 +1,6 @@
 module SyoboiCalendar
   module Resources
     class ProgramResource < BaseResource
-      property :channel_id
-      property :comment
-      property :count
-      property :deleted
-      property :finished_at
-      property :flag
-      property :id
-      property :iepg_name
-      property :revision
-      property :started_at
-      property :sub_title
-      property :title_id
-      property :warn
-
       # @return [Integer, nil]
       def channel_id
         if source["ChID"]

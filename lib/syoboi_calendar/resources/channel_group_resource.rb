@@ -1,11 +1,6 @@
 module SyoboiCalendar
   module Resources
     class ChannelGroupResource < BaseResource
-      property :comment
-      property :id
-      property :name
-      property :order
-
       # @return [String, nil]
       def comment
         source["ChGroupComment"]
