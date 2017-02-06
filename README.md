@@ -41,6 +41,38 @@ require "syoboi_calendar"
 client = SyoboiCalendar::Client.new
 ```
 
+### SyoboiCalendar::Client#list_channel_groups
+
+Sends an HTTP request to `http://cal.syoboi.jp/db.php?Command=ChGroupLookup`.
+
+```ruby
+client.list_channel_groups
+```
+
+Sends an HTTP request to `http://cal.syoboi.jp/db.php?ChGID=1&Command=ChGroupLookup`.
+
+```ruby
+client.list_channel_groups(channel_group_id: 1)
+```
+
+Sends an HTTP request to `http://cal.syoboi.jp/db.php?Command=ChGroupLookup&LastUpdate=20000101_000000-`.
+
+```ruby
+client.list_channel_groups(updated_from: Time.new(2000, 1, 1))
+```
+
+Sends an HTTP request to `http://cal.syoboi.jp/db.php?Command=ChGroupLookup&LastUpdate=-20000101_000000`.
+
+```ruby
+client.list_channel_groups(updated_to: Time.new(2000, 1, 1))
+```
+
+Sends an HTTP request to `http://cal.syoboi.jp/db.php?Command=ChGroupLookup&LastUpdate=20000101_000000-20000201_000000`.
+
+```ruby
+client.list_channel_groups(updated_from: Time.new(2000, 1, 1), updated_to: Time.new(2000, 2, 1))
+```
+
 ### SyoboiCalendar::Client#list_channels
 
 Sends an HTTP request to `http://cal.syoboi.jp/db.php?Command=ChLookup`.
@@ -202,6 +234,66 @@ Sends an HTTP request to `http://cal.syoboi.jp/db.php?Command=TitleLookupp&TID=*
 ```ruby
 client.list_titles(updated_from: Time.new(2000, 1, 1), updated_to: Time.new(2000, 2, 1))
 ```
+
+### SyoboiCalendar::Resources::ChannelGroupResource#comment
+
+```ruby
+client.list_channel_groups.to_a[5].comment
+```
+
+<details>
+<summary>Result</summary>
+
+```ruby
+"aa"
+```
+
+</details>
+
+### SyoboiCalendar::Resources::ChannelGroupResource#id
+
+```ruby
+client.list_channel_groups.first.id
+```
+
+<details>
+<summary>Result</summary>
+
+```ruby
+1
+```
+
+</details>
+
+### SyoboiCalendar::Resources::ChannelGroupResource#name
+
+```ruby
+client.list_channel_groups.first.name
+```
+
+<details>
+<summary>Result</summary>
+
+```ruby
+"テレビ 関東"
+```
+
+</details>
+
+### SyoboiCalendar::Resources::ChannelGroupResource#order_score
+
+```ruby
+client.list_channel_groups.first.order_score
+```
+
+<details>
+<summary>Result</summary>
+
+```ruby
+1200
+```
+
+</details>
 
 ### SyoboiCalendar::Resources::ChannelResource#comment
 

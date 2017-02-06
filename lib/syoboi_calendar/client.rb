@@ -13,6 +13,13 @@ module SyoboiCalendar
       end
     end
 
+    # @return [Array<SyoboiCalendar::Resources::ChannelGroup>]
+    def list_channel_groups(options = {})
+      query = ::SyoboiCalendar::Queries::ChannelGroupQuery.new(options)
+      faraday_response = get(query.to_hash)
+      ::SyoboiCalendar::Responses::ChannelGroupsResponse.new(faraday_response)
+    end
+
     # @return [Array<SyoboiCalendar::Resources::Channel>]
     def list_channels(options = {})
       query = ::SyoboiCalendar::Queries::ChannelQuery.new(options)
