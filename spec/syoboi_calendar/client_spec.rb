@@ -3,6 +3,28 @@ describe ::SyoboiCalendar::Client do
     described_class.new
   end
 
+  let(:dummy_channel_groups_response) do
+    <<-EOS.strip_heredoc
+      <?xml version="1.0" encoding="UTF-8"?>
+      <ChGroupLookupResponse>
+        <Result>
+          <Code>200</Code>
+          <Message>
+          </Message>
+        </Result>
+        <ChGroupItems>
+          <ChGroupItem id="3">
+            <ChGroupComment>DummyComment</ChComment>
+            <ChGID>1</ChGID>
+            <ChGroupName>DummyChannelName</ChName>
+            <Order>1000</Order>
+            <LastUpdate>2000-01-01 00:00:00</LastUpdate>
+          </ChGroupItem>
+        </ChGroupItems>
+      </ChGroupLookupResponse>
+    EOS
+  end
+
   let(:dummy_channels_response) do
     <<-EOS.strip_heredoc
       <?xml version="1.0" encoding="UTF-8"?>
@@ -118,6 +140,74 @@ describe ::SyoboiCalendar::Client do
   subject do
     call
     request
+  end
+
+  describe "#list_channel_groups" do
+    subject do
+      client.list_channel_groups(options)
+    end
+
+    let(:options) do
+      {}
+    end
+
+    [
+      {
+        options: {},
+        query: {
+          Command: "ChGroupLookup",
+        },
+      },
+      {
+        options: {
+          channel_group_id: 1,
+        },
+        query: {
+          Command: "ChGroupLookup",
+          ChGID: 1,
+        },
+      },
+      {
+        options: {
+          updated_from: ::Time.new(2000, 1, 1),
+        },
+        query: {
+          Command: "ChGroupLookup",
+          LastUpdate: "20000101_000000-",
+        },
+      },
+      {
+        options: {
+          updated_to: ::Time.new(2000, 1, 1),
+        },
+        query: {
+          Command: "ChGroupLookup",
+          LastUpdate: "-20000101_000000",
+        },
+      },
+      {
+        options: {
+          updated_from: ::Time.new(2000, 1, 1),
+          updated_to: ::Time.new(2000, 1, 1),
+        },
+        query: {
+          Command: "ChGroupLookup",
+          LastUpdate: "20000101_000000-20000101_000000",
+        },
+      },
+    ].each do |example|
+      context "with options #{example[:options].inspect}" do
+        let(:options) do
+          example[:options]
+        end
+
+        it "sends an HTTP request to http://cal.syoboi.jp/db.php?#{example[:query].to_query}" do
+          stub = stub_request(:get, "http://cal.syoboi.jp/db.php?#{example[:query].to_query}")
+          subject
+          expect(stub).to have_been_made
+        end
+      end
+    end
   end
 
   describe "#list_channels" do
