@@ -295,6 +295,21 @@ client.list_channel_groups.first.order_score
 
 </details>
 
+### SyoboiCalendar::Resources::ChannelResource#channel_group_id
+
+```ruby
+client.list_channels.first.channel_group_id
+```
+
+<details>
+<summary>Result</summary>
+
+```ruby
+11
+```
+
+</details>
+
 ### SyoboiCalendar::Resources::ChannelResource#comment
 
 ```ruby
@@ -321,21 +336,6 @@ client.list_channels.first.epg_url
 
 ```ruby
 "http://www2.nhk.or.jp/hensei/program/wk.cgi?tz=all&ch=21"
-```
-
-</details>
-
-### SyoboiCalendar::Resources::ChannelResource#group_id
-
-```ruby
-client.list_channels.first.group_id
-```
-
-<details>
-<summary>Result</summary>
-
-```ruby
-11
 ```
 
 </details>

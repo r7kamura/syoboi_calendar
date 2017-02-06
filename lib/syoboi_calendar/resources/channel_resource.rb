@@ -1,6 +1,11 @@
 module SyoboiCalendar
   module Resources
     class ChannelResource < BaseResource
+      # @return [Integer, nil]
+      def channel_group_id
+        response.ChGID.try(:to_i)
+      end
+
       # @return [String, nil]
       def comment
         response.ChComment
@@ -9,11 +14,6 @@ module SyoboiCalendar
       # @return [String, nil]
       def epg_url
         response.ChEPGURL
-      end
-
-      # @return [Integer, nil]
-      def group_id
-        response.ChGID.try(:to_i)
       end
 
       # @return [Integer, nil]

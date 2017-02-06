@@ -194,9 +194,9 @@ describe ::SyoboiCalendar::Client do
 
       it "returns channels" do
         channels = subject
+        channels.first.channel_group_id.should == 1
         channels.first.comment.should == "DummyComment"
         channels.first.epg_url.should == "http://example.com/epg-url"
-        channels.first.group_id.should == 1
         channels.first.id.should == 3
         channels.first.iepg_name.should == "DummyiEPGName"
         channels.first.name.should == "DummyChannelName"
