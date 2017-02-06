@@ -20,6 +20,9 @@ module SyoboiCalendar
         end
       end
 
+      # @return [Hash]
+      attr_reader :source
+
       property :updated_at
 
       # @param source [Hash]
@@ -39,13 +42,6 @@ module SyoboiCalendar
         if source["LastUpdate"]
           ::Time.parse(source["LastUpdate"])
         end
-      end
-
-      private
-
-      # @return [Hash]
-      def source
-        @source
       end
     end
   end
