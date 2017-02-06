@@ -790,21 +790,6 @@ client.list_titles(title_id: 1).first.name
 
 </details>
 
-### SyoboiCalendar::Resources::TitleResource#rank
-
-```ruby
-client.list_titles(title_id: 1).first.rank
-```
-
-<details>
-<summary>Result</summary>
-
-```ruby
-2825
-```
-
-</details>
-
 ### SyoboiCalendar::Resources::TitleResource#short_title
 
 ```ruby
@@ -846,6 +831,21 @@ client.list_titles(title_id: 1).first.user_point
 
 ```ruby
 4
+```
+
+</details>
+
+### SyoboiCalendar::Resources::TitleResource#user_point_rank
+
+```ruby
+client.list_titles(title_id: 1).first.user_point_rank
+```
+
+<details>
+<summary>Result</summary>
+
+```ruby
+2825
 ```
 
 </details>
