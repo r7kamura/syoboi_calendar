@@ -1,5 +1,6 @@
 # SyoboiCalendar
 
+[![CircleCI](https://img.shields.io/circleci/project/github/RedSparr0w/node-csgo-parser.svg)](https://circleci.com/gh/r7kamura/syoboi_calendar)
 [![Gem Version](https://badge.fury.io/rb/syoboi_calendar.svg)](https://rubygems.org/gems/syoboi_calendar)
 [![Documentation](http://img.shields.io/badge/docs-rdoc.info-blue.svg)](http://www.rubydoc.info/github/r7kamura/syoboi_calendar)
 
