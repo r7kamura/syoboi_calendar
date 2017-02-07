@@ -1,6 +1,5 @@
 require "active_support/core_ext/object/to_query"
 require "active_support/core_ext/string/strip"
-require "rack"
 require "syoboi_calendar"
 require "webmock/rspec"
 
