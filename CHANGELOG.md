@@ -23,6 +23,7 @@
 ## 0.5.0
 
 - Refactor internal implementation
+- Remove `:include` option
 - Add `TID=*` query if no `:title_id` option given on `#list_titles`
 
 ## 0.4.0
@@ -31,7 +32,7 @@
 
 ## 0.3.1
 
-- Client#programs supports `:include` option for eage-loading related resources
+- Client#programs supports `:include` option for eager-loading related resources
 
 ## 0.3.0
 
