@@ -113,6 +113,19 @@ client.list_titles
 http://cal.syoboi.jp/db.php?Command=TitleLookup&TID=*
 ```
 
+### SyoboiCalendar::Responses::BaseResponse
+
+Available methods:
+
+- `#body`
+- `#code`
+- `#each`
+- `#has_error?`
+- `#headers`
+- `#message`
+- `#resources`
+- `#status`
+
 ### SyoboiCalendar::Resources::ChannelGroupResource
 
 Available attributes:

@@ -9,8 +9,13 @@ module SyoboiCalendar
       end
 
       # @note Override
+      def response_key
+        "ProgLookupResponse"
+      end
+
+      # @note Override
       def source_or_sources
-        body["ProgLookupResponse"]["ProgItems"]["ProgItem"]
+        body[response_key]["ProgItems"]["ProgItem"]
       end
     end
   end

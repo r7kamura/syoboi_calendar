@@ -9,8 +9,13 @@ module SyoboiCalendar
       end
 
       # @note Override
+      def response_key
+        "ChGroupLookupResponse"
+      end
+
+      # @note Override
       def source_or_sources
-        body["ChGroupLookupResponse"]["ChGroupItems"]["ChGroupItem"]
+        body[response_key]["ChGroupItems"]["ChGroupItem"]
       end
     end
   end
