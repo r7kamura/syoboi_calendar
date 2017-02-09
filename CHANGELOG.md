@@ -1,3 +1,10 @@
+## 0.8.0
+
+- Add some methods for error handling
+- Add response classes for each API
+- Rename query classes
+- Deprecate response parser classes
+
 ## 0.7.0
 
 - Reveal `BaseResource#source`
