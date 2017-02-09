@@ -1,3 +1,6 @@
+require "faraday"
+require "faraday_middleware"
+
 module SyoboiCalendar
   class Client
     ENDPOINT_BASE_URL = "http://cal.syoboi.jp"

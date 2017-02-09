@@ -1,3 +1,5 @@
+require "time"
+
 module SyoboiCalendar
   module Resources
     class BaseResource

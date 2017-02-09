@@ -1,7 +1,3 @@
-require "faraday"
-require "faraday_middleware"
-require "multi_xml"
-
 require "syoboi_calendar/client"
 require "syoboi_calendar/queries/base_query"
 require "syoboi_calendar/queries/channel_group_query"
