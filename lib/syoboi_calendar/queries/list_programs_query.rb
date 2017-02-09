@@ -1,6 +1,6 @@
 module SyoboiCalendar
   module Queries
-    class ProgramQuery < BaseQuery
+    class ListProgramsQuery < BaseQuery
       COMMAND = "ProgLookup"
 
       JOIN = "SubTitles"

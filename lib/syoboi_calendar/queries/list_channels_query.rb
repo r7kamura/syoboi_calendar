@@ -1,6 +1,6 @@
 module SyoboiCalendar
   module Queries
-    class ChannelQuery < BaseQuery
+    class ListChannelsQuery < BaseQuery
       COMMAND = "ChLookup"
 
       property :ChID

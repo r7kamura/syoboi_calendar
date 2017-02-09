@@ -1,6 +1,6 @@
 module SyoboiCalendar
   module Queries
-    class TitleQuery < BaseQuery
+    class ListTitlesQuery < BaseQuery
       COMMAND = "TitleLookup"
 
       property :Fields

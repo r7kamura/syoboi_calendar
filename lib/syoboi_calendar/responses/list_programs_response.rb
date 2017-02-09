@@ -1,6 +1,6 @@
 module SyoboiCalendar
   module Responses
-    class ProgramsResponse < BaseResponse
+    class ListProgramsResponse < BaseResponse
       private
 
       # @note Override

@@ -1,6 +1,6 @@
 module SyoboiCalendar
   module Queries
-    class ChannelGroupQuery < BaseQuery
+    class ListChannelGroupsQuery < BaseQuery
       COMMAND = "ChGroupLookup"
 
       property :ChGID

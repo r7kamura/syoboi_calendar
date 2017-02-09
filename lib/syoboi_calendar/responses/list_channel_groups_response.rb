@@ -1,6 +1,6 @@
 module SyoboiCalendar
   module Responses
-    class ChannelGroupsResponse < BaseResponse
+    class ListChannelGroupsResponse < BaseResponse
       private
 
       # @note Override

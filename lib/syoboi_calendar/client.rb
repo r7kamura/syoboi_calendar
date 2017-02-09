@@ -20,8 +20,8 @@ module SyoboiCalendar
     def list_channel_groups(options = {})
       list(
         options: options,
-        query_class: ::SyoboiCalendar::Queries::ChannelGroupQuery,
-        response_class: ::SyoboiCalendar::Responses::ChannelGroupsResponse,
+        query_class: ::SyoboiCalendar::Queries::ListChannelGroupsQuery,
+        response_class: ::SyoboiCalendar::Responses::ListChannelGroupsResponse,
       )
     end
 
@@ -30,8 +30,8 @@ module SyoboiCalendar
     def list_channels(options = {})
       list(
         options: options,
-        query_class: ::SyoboiCalendar::Queries::ChannelQuery,
-        response_class: ::SyoboiCalendar::Responses::ChannelsResponse,
+        query_class: ::SyoboiCalendar::Queries::ListChannelsQuery,
+        response_class: ::SyoboiCalendar::Responses::ListChannelsResponse,
       )
     end
 
@@ -40,8 +40,8 @@ module SyoboiCalendar
     def list_programs(options = {})
       list(
         options: options,
-        query_class: ::SyoboiCalendar::Queries::ProgramQuery,
-        response_class: ::SyoboiCalendar::Responses::ProgramsResponse,
+        query_class: ::SyoboiCalendar::Queries::ListProgramsQuery,
+        response_class: ::SyoboiCalendar::Responses::ListProgramsResponse,
       )
     end
 
@@ -50,8 +50,8 @@ module SyoboiCalendar
     def list_titles(options = {})
       list(
         options: options,
-        query_class: ::SyoboiCalendar::Queries::TitleQuery,
-        response_class: ::SyoboiCalendar::Responses::TitlesResponse,
+        query_class: ::SyoboiCalendar::Queries::ListTitlesQuery,
+        response_class: ::SyoboiCalendar::Responses::ListTitlesResponse,
       )
     end
 
@@ -68,7 +68,7 @@ module SyoboiCalendar
     # @param options [Hash]
     # @param query_class [Class]
     # @param response_class [Class]
-    # @return [SyoboiCalendar::Responses::BaseResponse]
+    # @return [SyoboiCalendar::Responses::ListBaseResponse]
     def list(options:, query_class:, response_class:)
       query = query_class.new(options)
       faraday_response = get(query.to_hash)
