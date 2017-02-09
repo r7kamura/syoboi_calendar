@@ -1,6 +1,6 @@
 module SyoboiCalendar
-  module ResponseParsers
-    class ProgramsResponseParser < BaseResponseParser
+  module Responses
+    class ProgramsResponse < BaseResponse
       private
 
       # @note Override
@@ -10,7 +10,7 @@ module SyoboiCalendar
 
       # @note Override
       def source_or_sources
-        parsed_body["ProgLookupResponse"]["ProgItems"]["ProgItem"]
+        body["ProgLookupResponse"]["ProgItems"]["ProgItem"]
       end
     end
   end

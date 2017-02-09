@@ -1,6 +1,6 @@
 module SyoboiCalendar
-  module ResponseParsers
-    class ChannelsResponseParser < BaseResponseParser
+  module Responses
+    class ChannelsResponse < BaseResponse
       private
 
       # @note Override
@@ -10,7 +10,7 @@ module SyoboiCalendar
 
       # @note Override
       def source_or_sources
-        parsed_body["ChLookupResponse"]["ChItems"]["ChItem"]
+        body["ChLookupResponse"]["ChItems"]["ChItem"]
       end
     end
   end

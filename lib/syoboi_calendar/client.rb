@@ -7,6 +7,7 @@ module SyoboiCalendar
     def connection
       @connection ||= ::Faraday::Connection.new(url: ENDPOINT_BASE_URL) do |connection|
         connection.adapter :net_http
+        connection.response :xml
         connection.response :raise_error
       end
     end
@@ -17,7 +18,7 @@ module SyoboiCalendar
       list(
         options: options,
         query_class: ::SyoboiCalendar::Queries::ChannelGroupQuery,
-        response_parser_class: ::SyoboiCalendar::ResponseParsers::ChannelGroupsResponseParser,
+        response_class: ::SyoboiCalendar::Responses::ChannelGroupsResponse,
       )
     end
 
@@ -27,7 +28,7 @@ module SyoboiCalendar
       list(
         options: options,
         query_class: ::SyoboiCalendar::Queries::ChannelQuery,
-        response_parser_class: ::SyoboiCalendar::ResponseParsers::ChannelsResponseParser,
+        response_class: ::SyoboiCalendar::Responses::ChannelsResponse,
       )
     end
 
@@ -37,7 +38,7 @@ module SyoboiCalendar
       list(
         options: options,
         query_class: ::SyoboiCalendar::Queries::ProgramQuery,
-        response_parser_class: ::SyoboiCalendar::ResponseParsers::ProgramsResponseParser,
+        response_class: ::SyoboiCalendar::Responses::ProgramsResponse,
       )
     end
 
@@ -47,7 +48,7 @@ module SyoboiCalendar
       list(
         options: options,
         query_class: ::SyoboiCalendar::Queries::TitleQuery,
-        response_parser_class: ::SyoboiCalendar::ResponseParsers::TitlesResponseParser,
+        response_class: ::SyoboiCalendar::Responses::TitlesResponse,
       )
     end
 
@@ -63,15 +64,12 @@ module SyoboiCalendar
     # @private
     # @param options [Hash]
     # @param query_class [Class]
-    # @param response_parser_class [Class]
-    # @return [SyoboiCalendar::Response]
-    def list(options:, query_class:, response_parser_class:)
+    # @param response_class [Class]
+    # @return [SyoboiCalendar::Responses::BaseResponse]
+    def list(options:, query_class:, response_class:)
       query = query_class.new(options)
       faraday_response = get(query.to_hash)
-      ::SyoboiCalendar::Response.new(
-        faraday_response: faraday_response,
-        response_parser_class: response_parser_class,
-      )
+      response_class.new(faraday_response)
     end
   end
 end
