@@ -14,10 +14,9 @@ module SyoboiCalendar
     # @param options [Hash]
     # @return [SyoboiCalendar::Response]
     def list_channel_groups(options = {})
-      query = ::SyoboiCalendar::Queries::ChannelGroupQuery.new(options)
-      faraday_response = get(query.to_hash)
-      ::SyoboiCalendar::Response.new(
-        faraday_response: faraday_response,
+      list(
+        options: options,
+        query_class: ::SyoboiCalendar::Queries::ChannelGroupQuery,
         response_parser_class: ::SyoboiCalendar::ResponseParsers::ChannelGroupsResponseParser,
       )
     end
@@ -25,10 +24,9 @@ module SyoboiCalendar
     # @param options [Hash]
     # @return [SyoboiCalendar::Response]
     def list_channels(options = {})
-      query = ::SyoboiCalendar::Queries::ChannelQuery.new(options)
-      faraday_response = get(query.to_hash)
-      ::SyoboiCalendar::Response.new(
-        faraday_response: faraday_response,
+      list(
+        options: options,
+        query_class: ::SyoboiCalendar::Queries::ChannelQuery,
         response_parser_class: ::SyoboiCalendar::ResponseParsers::ChannelsResponseParser,
       )
     end
@@ -36,10 +34,9 @@ module SyoboiCalendar
     # @param options [Hash]
     # @return [SyoboiCalendar::Response]
     def list_programs(options = {})
-      query = ::SyoboiCalendar::Queries::ProgramQuery.new(options)
-      faraday_response = get(query.to_hash)
-      ::SyoboiCalendar::Response.new(
-        faraday_response: faraday_response,
+      list(
+        options: options,
+        query_class: ::SyoboiCalendar::Queries::ProgramQuery,
         response_parser_class: ::SyoboiCalendar::ResponseParsers::ProgramsResponseParser,
       )
     end
@@ -47,10 +44,9 @@ module SyoboiCalendar
     # @param options [Hash]
     # @return [SyoboiCalendar::Response]
     def list_titles(options = {})
-      query = ::SyoboiCalendar::Queries::TitleQuery.new(options)
-      faraday_response = get(query.to_hash)
-      ::SyoboiCalendar::Response.new(
-        faraday_response: faraday_response,
+      list(
+        options: options,
+        query_class: ::SyoboiCalendar::Queries::TitleQuery,
         response_parser_class: ::SyoboiCalendar::ResponseParsers::TitlesResponseParser,
       )
     end
@@ -62,6 +58,20 @@ module SyoboiCalendar
     # @return [Faraday::Response]
     def get(query)
       connection.get(ENDPOINT_PATH, query)
+    end
+
+    # @private
+    # @param options [Hash]
+    # @param query_class [Class]
+    # @param response_parser_class [Class]
+    # @return [SyoboiCalendar::Response]
+    def list(options:, query_class:, response_parser_class:)
+      query = query_class.new(options)
+      faraday_response = get(query.to_hash)
+      ::SyoboiCalendar::Response.new(
+        faraday_response: faraday_response,
+        response_parser_class: response_parser_class,
+      )
     end
   end
 end
