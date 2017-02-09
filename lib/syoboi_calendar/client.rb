@@ -11,7 +11,8 @@ module SyoboiCalendar
       end
     end
 
-    # @return [Array<SyoboiCalendar::Resources::ChannelGroup>]
+    # @param options [Hash]
+    # @return [SyoboiCalendar::Response]
     def list_channel_groups(options = {})
       query = ::SyoboiCalendar::Queries::ChannelGroupQuery.new(options)
       faraday_response = get(query.to_hash)
@@ -21,7 +22,8 @@ module SyoboiCalendar
       )
     end
 
-    # @return [Array<SyoboiCalendar::Resources::Channel>]
+    # @param options [Hash]
+    # @return [SyoboiCalendar::Response]
     def list_channels(options = {})
       query = ::SyoboiCalendar::Queries::ChannelQuery.new(options)
       faraday_response = get(query.to_hash)
@@ -31,7 +33,8 @@ module SyoboiCalendar
       )
     end
 
-    # @return [Array<SyoboiCalendar::Resources::Program>]
+    # @param options [Hash]
+    # @return [SyoboiCalendar::Response]
     def list_programs(options = {})
       query = ::SyoboiCalendar::Queries::ProgramQuery.new(options)
       faraday_response = get(query.to_hash)
@@ -41,7 +44,8 @@ module SyoboiCalendar
       )
     end
 
-    # @return [Array<SyoboiCalendar::Resources::Title>]
+    # @param options [Hash]
+    # @return [SyoboiCalendar::Response]
     def list_titles(options = {})
       query = ::SyoboiCalendar::Queries::TitleQuery.new(options)
       faraday_response = get(query.to_hash)

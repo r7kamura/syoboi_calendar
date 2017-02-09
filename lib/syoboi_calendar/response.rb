@@ -19,7 +19,7 @@ module SyoboiCalendar
       resources.each(&block)
     end
 
-    # @return [Hash]
+    # @return [Faraday::Utils::Headers]
     def headers
       faraday_response.headers
     end
