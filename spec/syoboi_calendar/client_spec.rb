@@ -532,7 +532,7 @@ describe ::SyoboiCalendar::Client do
       it "returns titles" do
         titles = subject
         titles.first.category_id.should == 4
-        titles.first.comment.should == "DummyComment"
+        titles.first.comment.should be_a ::SyoboiCalendar::Comment
         titles.first.first_channel.should == "DummyChannel"
         titles.first.first_end_month.should == 1
         titles.first.first_end_year.should == 2000

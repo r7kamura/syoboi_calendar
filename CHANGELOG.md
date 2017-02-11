@@ -1,3 +1,13 @@
+## 0.9.0
+
+- Add `SyoboiCalendar::Resources::TitleResource#casts`
+- Add `SyoboiCalendar::Resources::TitleResource#staffs`
+- Add `SyoboiCalendar::Resources::TitleResource#songs_ending`
+- Add `SyoboiCalendar::Resources::TitleResource#songs_inserted`
+- Add `SyoboiCalendar::Resources::TitleResource#songs_opening`
+- Add `SyoboiCalendar::Resources::TitleResource#songs_theme`
+- Change `SyoboiCalendar::Resources::TitleResource#comment` returned value
+
 ## 0.8.0
 
 - Add some methods for error handling

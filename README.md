@@ -170,6 +170,7 @@ Available attributes:
 
 Available attributes:
 
+- `#casts`
 - `#category_id`
 - `#comment`
 - `#english_name`
@@ -184,6 +185,11 @@ Available attributes:
 - `#keywords`
 - `#name`
 - `#short_title`
+- `#songs_ending`
+- `#songs_inserted`
+- `#songs_opening`
+- `#songs_theme`
+- `#staffs`
 - `#sub_titles`
-- `#user_point`
 - `#user_point_rank`
+- `#user_point`

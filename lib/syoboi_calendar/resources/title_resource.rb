@@ -19,9 +19,20 @@ module SyoboiCalendar
         end
       end
 
-      # @return [String, nil]
+      # @return [Array<SyoboiCalendar::Personality>]
+      def casts
+        if comment
+          comment.casts
+        else
+          []
+        end
+      end
+
+      # @return [SyoboiCalendar::Comment, nil]
       def comment
-        source["Comment"]
+        if source["Comment"]
+          ::SyoboiCalendar::Comment.new(source["Comment"])
+        end
       end
 
       # @return [String, nil]
@@ -91,9 +102,54 @@ module SyoboiCalendar
         source["Title"]
       end
 
+    # @return [Array<SyoboiCalendar::Song>]
+      def songs_ending
+        if comment
+          comment.songs_ending
+        else
+          []
+        end
+      end
+
+    # @return [Array<SyoboiCalendar::Song>]
+      def songs_inserted
+        if comment
+          comment.songs_inserted
+        else
+          []
+        end
+      end
+
+    # @return [Array<SyoboiCalendar::Song>]
+      def songs_opening
+        if comment
+          comment.songs_opening
+        else
+          []
+        end
+      end
+
+    # @return [Array<SyoboiCalendar::Song>]
+      def songs_theme
+        if comment
+          comment.songs_theme
+        else
+          []
+        end
+      end
+
       # @return [String, nil]
       def short_title
         source["ShortTitle"]
+      end
+
+      # @return [Array<SyoboiCalendar::Personality>]
+      def staffs
+        if comment
+          comment.staffs
+        else
+          []
+        end
       end
 
       # @return [String, nil]
