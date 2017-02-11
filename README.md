@@ -128,7 +128,7 @@ Available methods:
 
 ### SyoboiCalendar::Resources::ChannelGroupResource
 
-Available attributes:
+Available methods:
 
 - `#comment`
 - `#id`
@@ -137,7 +137,7 @@ Available attributes:
 
 ### SyoboiCalendar::Resources::ChannelResource
 
-Available attributes:
+Available methods:
 
 - `#channel_group_id`
 - `#comment`
@@ -150,7 +150,7 @@ Available attributes:
 
 ### SyoboiCalendar::Resources::ProgramResource
 
-Available attributes:
+Available methods:
 
 - `#channel_id`
 - `#comment`
@@ -168,7 +168,7 @@ Available attributes:
 
 ### SyoboiCalendar::Resources::TitleResource
 
-Available attributes:
+Available methods:
 
 - `#casts`
 - `#category_id`
