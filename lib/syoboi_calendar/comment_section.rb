@@ -1,17 +1,32 @@
 module SyoboiCalendar
   class CommentSection
-    NAME_CASTS = "キャスト"
-    NAME_STAFFS = "スタッフ"
+    PATTERN_NAME_CASTS = "キャスト"
+    PATTERN_NAME_STAFFS = "スタッフ"
     PATTERN_NAME_SONG_ENDING = /\Aエンディング\d*\s*「(.+)」\z/
     PATTERN_NAME_SONG_INSERTED = /\A挿入歌\d*\s*「(.+)」\z/
     PATTERN_NAME_SONG_OPENING = /\Aオープニング\d*\s*「(.+)」\z/
     PATTERN_NAME_SONG_THEME = /\A主題歌\d*\s*「(.+)」\z/
+    PATTERN_SONG_NAME = /「(.+)」/
+    PATTERN_SONG_ROLE = /(\S+)\s*「.+」/
 
     attr_reader :source
 
     # @param source [String]
     def initialize(source)
       @source = source
+    end
+
+    # @return [Boolean]
+    def about_casts?
+      PATTERN_NAME_CASTS === name
+    end
+
+    # @return [Boolean]
+    def about_song?
+      about_song_ending? ||
+        about_song_inserted? ||
+        about_song_opening? ||
+        about_song_theme?
     end
 
     # @return [Boolean]
@@ -35,18 +50,15 @@ module SyoboiCalendar
     end
 
     # @return [Boolean]
-    def about_casts?
-      name == NAME_CASTS
-    end
-
-    # @return [Boolean]
     def about_personalities?
-      about_casts? || about_staffs?
+      about_casts? ||
+        about_song? ||
+        about_staffs?
     end
 
     # @return [Boolean]
     def about_staffs?
-      name == NAME_STAFFS
+      PATTERN_NAME_STAFFS === name
     end
 
     # @return [Array<String>]
@@ -68,10 +80,8 @@ module SyoboiCalendar
     # @return [Hash{String => String}]
     def hash
       lines[1..-1].grep(/\A:/).each_with_object({}) do |line, result|
-        key_or_keys, value = line[1..-1].split(":", 2)
-        key_or_keys.split("・").each do |key|
-          result[key] = value.split("、")
-        end
+        key, value = line[1..-1].split(":", 2)
+        result[key] = value.split("、")
       end
     end
 
@@ -99,9 +109,22 @@ module SyoboiCalendar
     # @return [Hash]
     def song_attributes
       {
-        name: name,
-        source: hash,
+        name: song_name,
+        role: song_role,
+        personalities: personalities,
       }
+    end
+
+    # @return [String, nil]
+    def song_name
+      if about_song?
+        name[PATTERN_SONG_NAME, 1]
+      end
+    end
+
+    # @return [String, nil]
+    def song_role
+        name[PATTERN_SONG_ROLE, 1]
     end
   end
 end

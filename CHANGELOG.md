@@ -1,3 +1,8 @@
+## 0.9.1
+
+- Fix bug on personality role name splitting
+- Change `SyoboiCalendar::Song` interface
+
 ## 0.9.0
 
 - Add `SyoboiCalendar::Resources::TitleResource#casts`
