@@ -1,4 +1,4 @@
-## Unreleased
+## 0.9.2
 
 - Add `SyoboiCalendar::Resources::ProgramResource#rerun?`
 
