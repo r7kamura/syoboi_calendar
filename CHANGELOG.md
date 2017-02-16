@@ -1,3 +1,7 @@
+## Unreleased
+
+- Add `SyoboiCalendar::Resources::ProgramResource#rerun?`
+
 ## 0.9.1
 
 - Fix bug on personality role name splitting

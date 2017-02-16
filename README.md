@@ -160,6 +160,7 @@ Available methods:
 - `#flag`
 - `#id`
 - `#iepg_name`
+- `#rerun?`
 - `#revision`
 - `#started_at`
 - `#sub_title`

@@ -54,6 +54,11 @@ module SyoboiCalendar
         source["ChiEPGName"]
       end
 
+      # @return [Boolean]
+      def rerun?
+        !flag.nil? && flag & 0b1000 != 0
+      end
+
       # @return [Integer, nil]
       def revision
         if source["Revision"]
