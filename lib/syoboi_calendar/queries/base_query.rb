@@ -23,6 +23,7 @@ module SyoboiCalendar
       property :Command
       property :LastUpdate
 
+      # @param options [Hash]
       def initialize(options = {})
         @options = options
       end
@@ -49,12 +50,14 @@ module SyoboiCalendar
 
       private
 
+      # @private
       # @param value_or_values [Array, Integer, String]
       # @return [String]
       def format_comma_separated_values(value_or_values)
         Array(value_or_values).join(",")
       end
 
+      # @private
       # @param [Time, nil]
       # @return [String]
       def format_time(time)
@@ -63,6 +66,7 @@ module SyoboiCalendar
         end
       end
 
+      # @private
       # @param started_at [Time, nil]
       # @param finished_at [Time, nil]
       def format_time_range(started_at, finished_at)
@@ -74,6 +78,7 @@ module SyoboiCalendar
         end
       end
 
+      # @private
       # @return [Hash]
       def options
         @options
