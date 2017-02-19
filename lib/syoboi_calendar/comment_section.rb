@@ -80,8 +80,10 @@ module SyoboiCalendar
     # @return [Hash{String => String}]
     def hash
       lines[1..-1].grep(/\A:/).each_with_object({}) do |line, result|
-        key, value = line[1..-1].split(":", 2)
-        result[key] = value.split("、")
+        key, value = line[1..-1].split(/[:：]/, 2)
+        if value
+          result[key] = value.split("、")
+        end
       end
     end
 

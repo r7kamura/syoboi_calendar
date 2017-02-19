@@ -1,3 +1,7 @@
+## Unreleased
+
+- Fix comment parser logic
+
 ## 0.9.2
 
 - Add `SyoboiCalendar::Resources::ProgramResource#rerun?`
