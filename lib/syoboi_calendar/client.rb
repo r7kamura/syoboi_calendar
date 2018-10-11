@@ -9,8 +9,8 @@ module SyoboiCalendar
     # @return [Faraday::Connection]
     def connection
       @connection ||= ::Faraday::Connection.new(url: ENDPOINT_BASE_URL) do |connection|
-        connection.adapter :net_http
         connection.response :xml
+        connection.adapter :net_http
       end
     end
 
