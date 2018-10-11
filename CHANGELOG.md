@@ -1,3 +1,9 @@
+## [0.9.4] - 2018-10-12
+
+### Fixed
+
+- Fixed deprecation warning from Faraday.
+
 ## 0.9.3
 
 - Fix comment parser logic
