@@ -2,7 +2,7 @@
 
 ### Fixed
 
-- Fixed deprecation warning from Faraday.
+- Fix deprecation warning from Faraday.
 
 ## 0.9.3
 
