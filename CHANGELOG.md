@@ -64,7 +64,7 @@
 
 ## 0.4.0
 
-- Change client method names (e..g `#programs` to `#list_programs`).
+- Change client method names (e.g. `#programs` to `#list_programs`).
 
 ## 0.3.1
 
