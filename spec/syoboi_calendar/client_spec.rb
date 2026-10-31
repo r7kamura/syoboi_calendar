@@ -193,14 +193,14 @@ describe ::SyoboiCalendar::Client do
 
       it "returns channels" do
         channels = subject
-        channels.first.channel_group_id.should == 1
-        channels.first.comment.should == "DummyComment"
-        channels.first.epg_url.should == "http://example.com/epg-url"
-        channels.first.id.should == 3
-        channels.first.iepg_name.should == "DummyiEPGName"
-        channels.first.name.should == "DummyChannelName"
-        channels.first.number.should == 3
-        channels.first.url.should == "http://example.com/"
+        expect(channels.first.channel_group_id).to eq(1)
+        expect(channels.first.comment).to eq("DummyComment")
+        expect(channels.first.epg_url).to eq("http://example.com/epg-url")
+        expect(channels.first.id).to eq(3)
+        expect(channels.first.iepg_name).to eq("DummyiEPGName")
+        expect(channels.first.name).to eq("DummyChannelName")
+        expect(channels.first.number).to eq(3)
+        expect(channels.first.url).to eq("http://example.com/")
       end
     end
   end
@@ -400,19 +400,19 @@ describe ::SyoboiCalendar::Client do
 
       it "returns programs" do
         programs = subject
-        programs.first.channel_id.should == 3
-        programs.first.comment.should == "DummyComment"
-        programs.first.count.should == 1
-        programs.first.deleted?.should == false
-        programs.first.finished_at.should == Time.parse("2000-01-01 00:00:00")
-        programs.first.flag.should == 9
-        programs.first.id.should == 1
-        programs.first.revision.should == 2
-        programs.first.started_at.should == Time.parse("2000-01-01 00:00:00")
-        programs.first.sub_title.should == "DummySubTitle"
-        programs.first.title_id.should == 2
-        programs.first.updated_at.should == Time.parse("2000-01-01 00:00:00")
-        programs.first.warn.should == 1
+        expect(programs.first.channel_id).to eq(3)
+        expect(programs.first.comment).to eq("DummyComment")
+        expect(programs.first.count).to eq(1)
+        expect(programs.first.deleted?).to eq(false)
+        expect(programs.first.finished_at).to eq(Time.parse("2000-01-01 00:00:00"))
+        expect(programs.first.flag).to eq(9)
+        expect(programs.first.id).to eq(1)
+        expect(programs.first.revision).to eq(2)
+        expect(programs.first.started_at).to eq(Time.parse("2000-01-01 00:00:00"))
+        expect(programs.first.sub_title).to eq("DummySubTitle")
+        expect(programs.first.title_id).to eq(2)
+        expect(programs.first.updated_at).to eq(Time.parse("2000-01-01 00:00:00"))
+        expect(programs.first.warn).to eq(1)
       end
     end
   end
@@ -531,23 +531,23 @@ describe ::SyoboiCalendar::Client do
 
       it "returns titles" do
         titles = subject
-        titles.first.category_id.should == 4
-        titles.first.comment.should be_a ::SyoboiCalendar::Comment
-        titles.first.first_channel.should == "DummyChannel"
-        titles.first.first_end_month.should == 1
-        titles.first.first_end_year.should == 2000
-        titles.first.first_month.should == 1
-        titles.first.first_year.should == 2000
-        titles.first.keywords.should == "DummyKeywords"
-        titles.first.short_title.should == "DummyShortTitle"
-        titles.first.sub_titles.should == "DummySubTitles"
-        titles.first.id.should == 2
-        titles.first.name.should == "DummyTitle"
-        titles.first.english_name.should == "DummyEnglishTitle"
-        titles.first.flag.should == 0
-        titles.first.kana.should == "ダミータイトル"
-        titles.first.user_point.should == 6
-        titles.first.user_point_rank.should == 1
+        expect(titles.first.category_id).to eq(4)
+        expect(titles.first.comment).to be_a(::SyoboiCalendar::Comment)
+        expect(titles.first.first_channel).to eq("DummyChannel")
+        expect(titles.first.first_end_month).to eq(1)
+        expect(titles.first.first_end_year).to eq(2000)
+        expect(titles.first.first_month).to eq(1)
+        expect(titles.first.first_year).to eq(2000)
+        expect(titles.first.keywords).to eq("DummyKeywords")
+        expect(titles.first.short_title).to eq("DummyShortTitle")
+        expect(titles.first.sub_titles).to eq("DummySubTitles")
+        expect(titles.first.id).to eq(2)
+        expect(titles.first.name).to eq("DummyTitle")
+        expect(titles.first.english_name).to eq("DummyEnglishTitle")
+        expect(titles.first.flag).to eq(0)
+        expect(titles.first.kana).to eq("ダミータイトル")
+        expect(titles.first.user_point).to eq(6)
+        expect(titles.first.user_point_rank).to eq(1)
       end
     end
   end
