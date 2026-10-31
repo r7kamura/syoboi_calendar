@@ -7,7 +7,7 @@ An API Client library for http://cal.syoboi.jp/ written in Ruby.
 
 ## Requirements
 
-- Ruby 2.2.2 or higher
+- Ruby 3.3 or higher
 
 ## Installation
 
